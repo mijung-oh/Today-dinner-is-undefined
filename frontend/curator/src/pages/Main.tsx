@@ -57,12 +57,13 @@ const Main: React.FC<MainProps> = (props, { match }) => {
       console.log("trimmed", trimmedCode);
       const onGoCode = trimmedCode?.substring(5);
       console.log("onGoCode", onGoCode);
-      const LOGIN_URL = "http://127.0.0.1:9000/curation/google/auth";
+      const LOGIN_URL =
+        "http://127.0.0.1:9000/curation/google/auth?code=" + onGoCode;
       const config = {
         withCredentials: true,
-        params: {
-          code: onGoCode,
-        },
+        // params: {
+        //   code: onGoCode,
+        // },
       };
       try {
         const res = axios.get(LOGIN_URL, config).then((data) => {
@@ -70,7 +71,7 @@ const Main: React.FC<MainProps> = (props, { match }) => {
           console.log(data);
         });
       } catch (err) {
-        console.log(err);
+        console.log("err", err);
       }
     }
   }, []);
