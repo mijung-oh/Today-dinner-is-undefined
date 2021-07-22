@@ -1,6 +1,8 @@
-import React, { SyntheticEvent } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
+import axios from "axios";
+import { withRouter, RouteComponentProps } from "react-router";
 
 const useStyles = makeStyles({
   Container: {
@@ -23,6 +25,14 @@ const useStyles = makeStyles({
 
 const onClickGoogle = (e: any) => {
   console.log("Google");
+  var url =
+    "https://accounts.google.com/o/oauth2/auth?" +
+    "client_id=5927178749-au1h5ohkehsiq21enpd5l5pl0scnkp03.apps.googleusercontent.com" +
+    "&redirect_uri=http://127.0.0.1:3000/" +
+    "&response_type=code" +
+    "&scope=email%20profile%20openid" +
+    "&access_type=offline";
+  window.location.href = `${url}`;
 };
 const onClickNaver = (e: any) => {
   console.log("Naver");
@@ -31,9 +41,39 @@ const onClickKakao = (e: any) => {
   console.log("Kakao");
 };
 
-interface MainProps {}
+interface MainProps {
+  code: string;
+}
 
-const Main: React.FC<MainProps> = (props) => {
+const Main: React.FC<MainProps> = (props, { match }) => {
+  useEffect(() => {
+    const test = window.location.href;
+    if (test.includes("code")) {
+      console.log(test);
+      const regex = /code=[0-9\%A-Za-z_-]*/g;
+      const code = test.match(regex);
+      console.log("code", code);
+      const trimmedCode = code?.join();
+      console.log("trimmed", trimmedCode);
+      const onGoCode = trimmedCode?.substring(5);
+      console.log("onGoCode", onGoCode);
+      const LOGIN_URL = "http://127.0.0.1:9000/curation/google/auth";
+      const config = {
+        withCredentials: true,
+        params: {
+          code: onGoCode,
+        },
+      };
+      try {
+        const res = axios.get(LOGIN_URL, config).then((data) => {
+          console.log("res", res);
+          console.log(data);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, []);
   const classes = useStyles(props);
   return (
     <section className={classes.Container}>
