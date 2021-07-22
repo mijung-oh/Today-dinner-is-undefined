@@ -1,23 +1,17 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import TestPage from "@pages/TestPage";
-import TestCompo from "@components/TestCompo";
-import { Container, Button } from "@material-ui/core";
 
+import { Container, Button } from "@material-ui/core";
+// import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import BRouter from "./routes/Router";
 function App() {
   return (
-    <Container>
-      <TestPage></TestPage>
-      <TestCompo></TestCompo>
-      <Button variant="contained">Default</Button>
-      <Button variant="contained" color="primary">
-        Primary
-      </Button>
-      <Button variant="contained" color="secondary">
-        Secondary
-      </Button>
-    </Container>
+    <>
+      <Container>
+        <BRouter></BRouter>
+      </Container>
+    </>
   );
 }
 
