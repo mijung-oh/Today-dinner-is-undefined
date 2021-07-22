@@ -1,8 +1,8 @@
-import React, { SyntheticEvent, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
+import { useHistory } from "react-router";
 import axios from "axios";
-import { withRouter, RouteComponentProps } from "react-router";
 
 const useStyles = makeStyles({
   Container: {
@@ -45,12 +45,12 @@ interface MainProps {
   code: string;
 }
 
-const Main: React.FC<MainProps> = (props, { match }) => {
+const Main: React.FC<MainProps> = (props) => {
   useEffect(() => {
     const test = window.location.href;
     if (test.includes("code")) {
       console.log(test);
-      const regex = /code=[0-9\%A-Za-z_-]*/g;
+      const regex = /code=[0-9%A-Za-z_-]*/g;
       const code = test.match(regex);
       console.log("code", code);
       const trimmedCode = code?.join();
@@ -66,9 +66,11 @@ const Main: React.FC<MainProps> = (props, { match }) => {
         // },
       };
       try {
-        const res = axios.get(LOGIN_URL, config).then((data) => {
-          console.log("res", res);
-          console.log(data);
+        const res = axios.get(LOGIN_URL, config).then((res) => {
+          console.log("res", res.data);
+          const userData = res.data.response;
+          localStorage.setItem("userData", JSON.stringify(userData));
+          window.location.href = "/";
         });
       } catch (err) {
         console.log("err", err);
