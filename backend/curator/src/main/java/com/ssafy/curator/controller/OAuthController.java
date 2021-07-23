@@ -52,7 +52,7 @@ public class OAuthController {
         googleOAuthRequestParam.setClientId("5927178749-au1h5ohkehsiq21enpd5l5pl0scnkp03.apps.googleusercontent.com");
         googleOAuthRequestParam.setClientSecret("VfCPndT-sxz9dBNuaTz482jP");
         googleOAuthRequestParam.setCode(authCode);
-        googleOAuthRequestParam.setRedirectUri("http://127.0.0.1:8080/");
+        googleOAuthRequestParam.setRedirectUri("http://127.0.0.1:3000/");
         googleOAuthRequestParam.setGrantType("authorization_code");
 
         //JSON 파싱을 위한 기본값 세팅
