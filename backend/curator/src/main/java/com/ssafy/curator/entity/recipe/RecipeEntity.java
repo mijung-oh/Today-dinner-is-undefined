@@ -1,18 +1,12 @@
 package com.ssafy.curator.entity.recipe;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "recipe")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class RecipeEntity {
     @Id
     private Long RECIPE_ID;
@@ -30,8 +24,6 @@ public class RecipeEntity {
     private String PC_NM;
     private String IMG_URL;
     private String DET_URL;
-
-
 }
 
 
