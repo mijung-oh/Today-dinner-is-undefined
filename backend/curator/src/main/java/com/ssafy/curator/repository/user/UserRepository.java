@@ -2,6 +2,7 @@ package com.ssafy.curator.repository.user;
 
 
 import com.ssafy.curator.entity.user.UserEntity;
+import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
