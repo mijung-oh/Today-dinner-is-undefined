@@ -19,10 +19,14 @@ spring:
     url: jdbc:mariadb://127.0.0.1:3306/curation?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
 <<<<<<< HEAD
+<<<<<<< HEAD
     password: 12341234
 =======
     password: 1234
 >>>>>>> 1467c301c8e71d2d5afd2fdf3c8688f57a557a2b
+=======
+    password: 1234
+>>>>>>> df692ee5d864054d4f08e99b9de9ac70688c7ff1
 
   redis:
     host: 127.0.0.1
