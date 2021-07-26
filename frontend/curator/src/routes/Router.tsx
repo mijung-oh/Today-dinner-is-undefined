@@ -18,7 +18,7 @@ const BRouter: React.FC<BRouterProps> = ({ name }) => {
       </nav>
       <Switch>
         <Route path="/" exact component={Main} />
-        <Route path="/123" exact component={TestPage} />
+        <Route path="/test" exact component={TestPage} />
       </Switch>
     </Router>
   );

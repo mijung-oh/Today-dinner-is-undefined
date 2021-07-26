@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "modules/clientLogin";
 
 const useStyles = makeStyles({
   Container: {
@@ -46,6 +48,8 @@ interface MainProps {
 }
 
 const Main: React.FC<MainProps> = (props) => {
+  const dispatch = useDispatch();
+  // const onSetUser = (name:string,email:string) =>dispatch(getUserInfo(name,email))
   useEffect(() => {
     const test = window.location.href;
     if (test.includes("code")) {
@@ -61,14 +65,15 @@ const Main: React.FC<MainProps> = (props) => {
         "http://127.0.0.1:9000/curation/google/auth?code=" + onGoCode;
       const config = {
         withCredentials: true,
-        // params: {
-        //   code: onGoCode,
-        // },
       };
       try {
         const res = axios.get(LOGIN_URL, config).then((res) => {
           console.log("res", res.data);
           const userData = res.data.response;
+          const { name, email } = userData;
+          ///////////////////////////////////////
+          // dispatch(getUserInfo(name, email));
+          /////////////////////////////////////
           localStorage.setItem("userData", JSON.stringify(userData));
           window.location.href = "/";
         });
