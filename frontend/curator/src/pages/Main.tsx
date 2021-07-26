@@ -1,8 +1,12 @@
-import React, { SyntheticEvent, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
+import { useHistory } from "react-router";
 import axios from "axios";
-import { withRouter, RouteComponentProps } from "react-router";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "../modules/clientLogin";
+import { codeExtractor } from "@components/lib/helper";
+import { googleURL } from "@components/lib/constants";
 
 const useStyles = makeStyles({
   Container: {
@@ -25,14 +29,7 @@ const useStyles = makeStyles({
 
 const onClickGoogle = (e: any) => {
   console.log("Google");
-  var url =
-    "https://accounts.google.com/o/oauth2/auth?" +
-    "client_id=5927178749-au1h5ohkehsiq21enpd5l5pl0scnkp03.apps.googleusercontent.com" +
-    "&redirect_uri=http://127.0.0.1:3000/" +
-    "&response_type=code" +
-    "&scope=email%20profile%20openid" +
-    "&access_type=offline";
-  window.location.href = `${url}`;
+  window.location.href = `${googleURL}`;
 };
 const onClickNaver = (e: any) => {
   console.log("Naver");
@@ -41,40 +38,35 @@ const onClickKakao = (e: any) => {
   console.log("Kakao");
 };
 
-interface MainProps {
-  code: string;
-}
+interface MainProps {}
 
-const Main: React.FC<MainProps> = (props, { match }) => {
+const Main: React.FC<MainProps> = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   useEffect(() => {
-    const test = window.location.href;
-    if (test.includes("code")) {
-      console.log(test);
-      const regex = /code=[0-9\%A-Za-z_-]*/g;
-      const code = test.match(regex);
-      console.log("code", code);
-      const trimmedCode = code?.join();
-      console.log("trimmed", trimmedCode);
-      const onGoCode = trimmedCode?.substring(5);
-      console.log("onGoCode", onGoCode);
+    const authURL = history.location.search;
+    if (authURL.includes("code")) {
+      const code = codeExtractor(authURL);
       const LOGIN_URL =
-        "http://127.0.0.1:9000/curation/google/auth?code=" + onGoCode;
+        "http://127.0.0.1:9000/curation/google/auth?code=" + code;
       const config = {
         withCredentials: true,
-        // params: {
-        //   code: onGoCode,
-        // },
       };
       try {
-        const res = axios.get(LOGIN_URL, config).then((data) => {
-          console.log("res", res);
-          console.log(data);
+        axios.get(LOGIN_URL, config).then((res) => {
+          const userData = res.data.response;
+          const { name, email } = userData;
+          dispatch(getUserInfo(name, email));
+          localStorage.setItem("userData", JSON.stringify(userData));
+          history.push("/");
         });
       } catch (err) {
         console.log("err", err);
       }
     }
-  }, []);
+  }, [dispatch, history]);
+
   const classes = useStyles(props);
   return (
     <section className={classes.Container}>
@@ -86,7 +78,7 @@ const Main: React.FC<MainProps> = (props, { match }) => {
           height="100%"
         />
       </div>
-      {/* <div className={classes.ButtonBox}> */}
+
       <Button variant="outlined" name="google" onClick={onClickGoogle}>
         구글로 로그인
       </Button>
