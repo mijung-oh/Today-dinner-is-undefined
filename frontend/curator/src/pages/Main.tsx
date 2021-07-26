@@ -8,10 +8,14 @@ import { getUserInfo } from "../modules/clientLogin";
 import { codeExtractor } from "@components/lib/helper";
 import { googleURL } from "@components/lib/constants";
 
+import DeleteIcon from "@material-ui/icons/Delete";
+import Glogo from "@static/logos/G-logo";
+import Nlogo from "@static/logos/N-logo";
+import Klogo from "@static/logos/K-logo";
+
 const useStyles = makeStyles({
   Container: {
     textAlign: "center",
-    // padding: "5% 5%",
     width: "100%",
   },
   ImageBox: {
@@ -20,10 +24,19 @@ const useStyles = makeStyles({
     margin: "3% auto",
     // position: "relative",
   },
-  ButtonBox: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
+  Button: {
+    width: "12rem",
+    height: "2.5rem",
+    padding: "0 0",
+  },
+  GoogleBtn: {
+    backgroundColor: "#FFF",
+  },
+  NaverBtn: {
+    backgroundColor: "#3EAF0E",
+  },
+  KakaoBtn: {
+    backgroundColor: "#FEE500",
   },
 });
 
@@ -78,19 +91,35 @@ const Main: React.FC<MainProps> = (props) => {
           height="100%"
         />
       </div>
-
-      <Button variant="outlined" name="google" onClick={onClickGoogle}>
+      <Button
+        className={`${classes.Button} ${classes.GoogleBtn}`}
+        variant="outlined"
+        name="google"
+        onClick={onClickGoogle}
+        startIcon={<Glogo />}
+      >
         구글로 로그인
       </Button>
       <br></br>
-      <Button variant="outlined" name="naver" onClick={onClickNaver}>
+      <Button
+        className={`${classes.Button} ${classes.NaverBtn}`}
+        variant="outlined"
+        name="naver"
+        onClick={onClickNaver}
+        startIcon={<Nlogo />}
+      >
         네이버로 로그인
       </Button>
       <br></br>
-      <Button variant="outlined" name="kakao" onClick={onClickKakao}>
+      <Button
+        className={`${classes.Button} ${classes.KakaoBtn}`}
+        variant="outlined"
+        name="kakao"
+        onClick={onClickKakao}
+        startIcon={<Klogo />}
+      >
         카카오톡으로 로그인
       </Button>
-      {/* </div> */}
       <p>TODO: 각 회사에 맞는 버튼들로 교체</p>
     </section>
   );
