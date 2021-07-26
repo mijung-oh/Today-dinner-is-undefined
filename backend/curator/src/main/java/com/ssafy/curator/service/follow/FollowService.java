@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 public interface FollowService {
-    String follow(String username, String followingName);
-    List<UserDto> showFollowings(String username);
-    List<UserDto> showFollowers(String username);
-    String deleteFollow(String username, String followingName);
+    String follow(String username, String followingEmail);
+    List<UserDto> showFollowings(String followingEmail);
+    List<UserDto> showFollowers(String followingEmail);
+    String deleteFollow(String username, String followingEmail);
 
 }

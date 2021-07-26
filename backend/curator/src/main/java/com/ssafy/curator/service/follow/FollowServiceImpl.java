@@ -31,9 +31,9 @@ public class FollowServiceImpl implements FollowService {
 
 
     @Override
-    public String follow(String username, String followingName) {
+    public String follow(String username, String followingEmail) {
         UserEntity currentUser = userRepository.findByName(username);
-        UserEntity followingUser = userRepository.findByName(followingName);
+        UserEntity followingUser = userRepository.findByEmail(followingEmail);
 
         if (currentUser == null) {
             return "현재 유저가 존재하지 않습니다.";
@@ -59,9 +59,9 @@ public class FollowServiceImpl implements FollowService {
 
 
     @Override
-    public List<UserDto> showFollowings(String username) {
+    public List<UserDto> showFollowings(String followingEmail) {
         List<UserDto> userDtos = new ArrayList<>();
-        UserEntity userEntity = userRepository.findByName(username);
+        UserEntity userEntity = userRepository.findByEmail(followingEmail);
         if (userEntity == null) {
             return null;
         }
@@ -74,9 +74,9 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public List<UserDto> showFollowers(String username) {
+    public List<UserDto> showFollowers(String followingEmail) {
         List<UserDto> userDtos = new ArrayList<>();
-        UserEntity userEntity = userRepository.findByName(username);
+        UserEntity userEntity = userRepository.findByEmail(followingEmail);
         if (userEntity == null) {
             return null;
         }
@@ -90,9 +90,9 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public String deleteFollow(@RequestParam String username, @PathVariable String followingName) {
+    public String deleteFollow(@RequestParam String username, @PathVariable String followingEmail) {
         UserEntity currentUser = userRepository.findByName(username);
-        UserEntity followingUser = userRepository.findByName(followingName);
+        UserEntity followingUser = userRepository.findByEmail(followingEmail);
 
         if (currentUser == null) {
             return "현재 유저가 존재하지 않습니다.";
