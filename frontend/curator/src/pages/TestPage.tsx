@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "modules/clientLogin";
+import { RootState } from "modules";
 
 const TestPage: React.FC = () => {
-  const { name, email } = useSelector((state) => ({
-    name: state,
-    email: state,
+  const { name, email } = useSelector((state: RootState) => ({
+    name: state.clientLogin.name,
+    email: state.clientLogin.email,
   }));
 
   console.log("name", name);

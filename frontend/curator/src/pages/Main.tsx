@@ -4,7 +4,7 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { getUserInfo } from "modules/clientLogin";
+import { getUserInfo } from "../modules/clientLogin";
 
 const useStyles = makeStyles({
   Container: {
@@ -71,11 +71,13 @@ const Main: React.FC<MainProps> = (props) => {
           console.log("res", res.data);
           const userData = res.data.response;
           const { name, email } = userData;
+          console.log("name", name);
+          console.log("email", email);
           ///////////////////////////////////////
-          // dispatch(getUserInfo(name, email));
+          dispatch(getUserInfo(name, email));
           /////////////////////////////////////
           localStorage.setItem("userData", JSON.stringify(userData));
-          window.location.href = "/";
+          // window.location.href = "/";
         });
       } catch (err) {
         console.log("err", err);

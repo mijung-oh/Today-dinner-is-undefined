@@ -2,7 +2,7 @@ import React from "react";
 
 // 액션 타입을 정한다
 
-const GET_USER_INFO = "clientLogin/GETUSERINFO" as const;
+const GET_USER_INFO = "GETUSERINFO/clientLogin" as const;
 
 // 상태 타입
 export type UserState = {
