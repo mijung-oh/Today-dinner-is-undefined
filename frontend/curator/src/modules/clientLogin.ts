@@ -1,5 +1,3 @@
-import React from "react";
-
 // 액션 타입을 정한다
 
 const GET_USER_INFO = "GETUSERINFO/clientLogin" as const;
