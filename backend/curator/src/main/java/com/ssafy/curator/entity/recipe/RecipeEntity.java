@@ -1,10 +1,13 @@
 package com.ssafy.curator.entity.recipe;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Data
+@Getter @Setter
 @Entity
 @Table(name = "recipe")
 public class RecipeEntity {
@@ -24,6 +27,15 @@ public class RecipeEntity {
     private String PC_NM;
     private String IMG_URL;
     private String DET_URL;
+
+    @OneToMany(mappedBy = "recipeEntity")
+    @JsonBackReference
+    private List<RecipeIngredientEntity> ingredientEntities;
+
+    @OneToMany(mappedBy = "recipeEntity")
+    @JsonBackReference
+    private List<RecipeProcessEntity> processEntities;
+
 }
 
 

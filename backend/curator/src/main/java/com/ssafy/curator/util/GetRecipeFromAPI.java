@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 public class GetRecipeFromAPI {
@@ -117,10 +118,14 @@ public class GetRecipeFromAPI {
 
                     RecipeProcessEntity recipeProcessEntity = new RecipeProcessEntity();
                     recipeProcessEntity.setROW_NUM(Long.parseLong(ROW_NUM));
-                    recipeProcessEntity.setRECIPE_ID(Integer.parseInt(RECIPE_ID));
                     recipeProcessEntity.setCOOKING_NO(Integer.parseInt(COOKING_NO));
                     recipeProcessEntity.setCOOKING_DC(COOKING_DC);
                     recipeProcessEntity.setSTRE_STEP_IMAGE_URL(STRE_STEP_IMAGE_URL);
+                    Optional<RecipeEntity> recipe = recipeRepository.findById(Long.parseLong(RECIPE_ID));
+
+                    if(recipe.isPresent()){
+                        recipeProcessEntity.setRecipe(recipe.get());
+                    }
                     recipeProcessRepository.save(recipeProcessEntity);
                 }
             }
@@ -156,12 +161,18 @@ public class GetRecipeFromAPI {
 
                     RecipeIngredientEntity recipeIngredientEntity = new RecipeIngredientEntity();
                     recipeIngredientEntity.setROW_NUM(Long.parseLong(ROW_NUM));
-                    recipeIngredientEntity.setRECIPE_ID(Integer.parseInt(RECIPE_ID));
+//                    recipeIngredientEntity.setRECIPE_ID(Integer.parseInt(RECIPE_ID));
                     recipeIngredientEntity.setIRDNT_SN(Integer.parseInt(IRDNT_SN));
                     recipeIngredientEntity.setIRDNT_NM(IRDNT_NM);
                     recipeIngredientEntity.setIRDNT_CPCTY(IRDNT_CPCTY);
                     recipeIngredientEntity.setIRDNT_TY_CODE(Integer.parseInt(IRDNT_TY_CODE));
                     recipeIngredientEntity.setIRDNT_TY_NM(IRDNT_TY_NM);
+
+                    Optional<RecipeEntity> recipe = recipeRepository.findById(Long.parseLong(RECIPE_ID));
+
+                    if(recipe.isPresent()){
+                        recipeIngredientEntity.setRecipe(recipe.get());
+                    }
                     recipeIngredientRepository.save(recipeIngredientEntity);
 
                 }
