@@ -18,7 +18,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://127.0.0.1:3306/curation?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: 12341234
+    password: 1234
 
   redis:
     host: 127.0.0.1
