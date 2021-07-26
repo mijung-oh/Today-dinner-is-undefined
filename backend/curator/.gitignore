@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 제외 폴더 ###
+images/
+
