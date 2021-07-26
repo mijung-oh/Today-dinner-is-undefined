@@ -16,26 +16,26 @@ public class FollowController {
     private FollowService followService;
 
     // 팔로우하기
-    @PostMapping("/{followingName}")
-    public String follow(@RequestParam String username, @PathVariable String followingName) {
-        return followService.follow(username, followingName);
+    @PostMapping("/{followingEmail}")
+    public String follow(@RequestParam String username, @PathVariable String followingEmail) {
+        return followService.follow(username, followingEmail);
     }
 
     // 나를 팔로우한 사람들 리스트
-    @GetMapping("/{username}/followers")
-    List<UserDto> showFollowers(@PathVariable String username) throws Exception{
-        return followService.showFollowers(username);
+    @GetMapping("/{followingEmail}/followers")
+    List<UserDto> showFollowers(@PathVariable String followingEmail) {
+        return followService.showFollowers(followingEmail);
     }
 
     // 내가 팔로우한 사람들 리스트
-    @GetMapping("/{username}/followings")
-    List<UserDto> showFollowings(@PathVariable String username) {
-        return followService.showFollowings(username);
+    @GetMapping("/{followingEmail}/followings")
+    List<UserDto> showFollowings(@PathVariable String followingEmail) {
+        return followService.showFollowings(followingEmail);
     }
 
     // 팔로우 취소
-    @DeleteMapping("/{followingName}/delete")
-    String deleteFollow(@RequestParam String username, @PathVariable String followingName) {
-        return followService.deleteFollow(username, followingName);
+    @DeleteMapping("/{followingEmail}/delete")
+    String deleteFollow(@RequestParam String username, @PathVariable String followingEmail) {
+        return followService.deleteFollow(username, followingEmail);
     }
 }
