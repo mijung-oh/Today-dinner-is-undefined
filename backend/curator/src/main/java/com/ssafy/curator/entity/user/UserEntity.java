@@ -5,6 +5,7 @@ import com.ssafy.curator.dto.Platform;
 import com.ssafy.curator.dto.Role;
 import com.ssafy.curator.entity.BaseTimeEntity;
 import com.ssafy.curator.entity.follow.FollowingsEntity;
+import com.ssafy.curator.entity.post.PostLikeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -61,4 +63,13 @@ public class UserEntity extends BaseTimeEntity {
     @JoinColumn(name = "following_id")
     private List<UserEntity> followers = new ArrayList<>();
 
+
+    @OneToMany
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private List<PostLikeEntity> postLikeEntities = new ArrayList<>();
+
+    public void addPostLikeEntity(PostLikeEntity... likeEntities) {
+        Collections.addAll(this.postLikeEntities, likeEntities);
+    }
 }
