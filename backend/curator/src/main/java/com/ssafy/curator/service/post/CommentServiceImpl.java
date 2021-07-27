@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService{
         PostEntity post = postRepository.findById(postId);
         String content = request.getParameter("content");
         comment.setUser(user);
-        comment.setPost(post);
+//        comment.setPost(post);
         comment.setContent(content);
 
         commentRepository.save(comment);
