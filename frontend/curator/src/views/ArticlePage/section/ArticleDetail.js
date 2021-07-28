@@ -6,7 +6,7 @@ function ArticleDetail(props) {
   return (
     <div>
       <div style={{ margin: "2rem auto" }}>
-        <a href="/">
+        <a href="/Board">
           <Button
             style={{
               backgroundColor: "indigo",
