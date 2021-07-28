@@ -96,5 +96,6 @@ public class PostController {
         return postService.getLists(email);
     }
 
+
 }
 

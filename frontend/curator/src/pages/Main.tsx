@@ -8,7 +8,6 @@ import { getUserInfo } from "../modules/clientLogin";
 import { codeExtractor } from "@components/lib/helper";
 import { googleURL } from "@components/lib/constants";
 
-import DeleteIcon from "@material-ui/icons/Delete";
 import Glogo from "@static/logos/G-logo";
 import Nlogo from "@static/logos/N-logo";
 import Klogo from "@static/logos/K-logo";
