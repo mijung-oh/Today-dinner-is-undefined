@@ -21,4 +21,5 @@ public class UserPageController {
     UserPageDto getUserInfo(@RequestParam String email) {
         return userPageService.getUserInfo(email);
     }
+
 }

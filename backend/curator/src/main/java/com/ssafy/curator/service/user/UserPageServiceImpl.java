@@ -42,4 +42,5 @@ public class UserPageServiceImpl implements UserPageService{
         UserPageDto userPageDto = new ModelMapper().map(userPageEntity, UserPageDto.class);
         return userPageDto;
     }
+
 }
