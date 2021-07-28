@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import TestPage from "@pages/TestPage";
 import Main from "@pages/Main";
+import Article from "@pages/Article";
+import ArticlePage from "../views/ArticlePage/ArticlePage";
+import BoardPage from "../views/BoaedPage/BoardPage";
+import RegisterPage from "@components/views/RegisterPage/RegisterPage";
 
 //App.tsx에서 내려주는 props들의 타입 여기서 지정
 interface BRouterProps {}
@@ -29,6 +33,8 @@ const BRouter: React.FC<BRouterProps> = () => {
       <nav>
         <Link to="/">메인 화면</Link>
         <Link to="/test">테스트 화면</Link>
+
+        <Link to="/Board">게시판페이지</Link>
         <div>
           <span>사용자 : {userName} ||</span>
           <span>&nbsp;이메일 : {userEmail}</span>
@@ -37,6 +43,11 @@ const BRouter: React.FC<BRouterProps> = () => {
       <Switch>
         <Route path="/" exact component={Main} />
         <Route path="/test" exact component={TestPage} />
+
+        <Route path="/Board" exact component={BoardPage}></Route>
+        <Route path="/article/:articleId" exact component={ArticlePage}></Route>
+        <Route path="/register" exact component={RegisterPage}></Route>
+        <Route path="/edit/:articleId" exact component={RegisterPage}></Route>
       </Switch>
     </Router>
   );
