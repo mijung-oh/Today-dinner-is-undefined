@@ -37,7 +37,7 @@ public class UserPageServiceImpl implements UserPageService{
     @Override
     public UserPageDto getUserInfo(String email) {
         UserEntity userEntity = userRepository.findByEmail(email);
-        UserPageEntity userPageEntity = userPageRepository.fingByUser(userEntity);
+        UserPageEntity userPageEntity = userPageRepository.findByUser(userEntity);
 
         UserPageDto userPageDto = new ModelMapper().map(userPageEntity, UserPageDto.class);
         return userPageDto;

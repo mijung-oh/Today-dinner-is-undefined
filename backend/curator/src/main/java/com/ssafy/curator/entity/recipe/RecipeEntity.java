@@ -1,10 +1,14 @@
 package com.ssafy.curator.entity.recipe;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssafy.curator.entity.post.PostLikeEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter @Setter
@@ -35,6 +39,16 @@ public class RecipeEntity {
     @OneToMany(mappedBy = "recipeEntity")
     @JsonBackReference
     private List<RecipeProcessEntity> processEntities;
+
+    // 스크랩
+    @OneToMany
+    @JsonIgnore
+    @JoinColumn(name = "recipe_id")
+    private List<RecipeScrapEntity> recipeScrapEntities = new ArrayList<>();
+
+    public void addRecipeScrapEntity(RecipeScrapEntity... scrapEntities) {
+        Collections.addAll(this.recipeScrapEntities, scrapEntities);
+    }
 
 }
 
