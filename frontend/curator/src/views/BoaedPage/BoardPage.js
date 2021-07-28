@@ -5,7 +5,7 @@ import { Button, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { boardActions } from "../../slice/boardSlice";
 const { Title } = Typography;
-function BoadrdPage() {
+function BoardPage() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(boardActions.getBoard());
@@ -47,4 +47,4 @@ function BoadrdPage() {
   );
 }
 
-export default BoadrdPage;
+export default BoardPage;

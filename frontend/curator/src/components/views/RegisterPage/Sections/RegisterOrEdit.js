@@ -19,11 +19,13 @@ function RegisterOrEdit(props) {
           name="title"
           maxLength="30"
           placeholder="30자이하"
+          width="100%"
         />
         <hr></hr>
         <div>
           <TextArea
             rows="20"
+            cols="100"
             onChange={props.handleContentChange}
             value={props.contentValue}
             name="content"
@@ -37,7 +39,7 @@ function RegisterOrEdit(props) {
           }}
           onClick={props.handleSubmit}
         >
-          {props.updateRequest ? "수정" : "등록"}{" "}
+          {props.updateRequest ? "수정" : "등록"}
         </Button>
       </form>
     </div>

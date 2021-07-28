@@ -2,6 +2,7 @@ import { call, put, getContext } from "redux-saga/effects";
 import Axios from "axios";
 import { articleActions } from "../slice/articleSlice";
 import history from "../utils/history";
+import { Link } from "react-router-dom";
 
 export function* registerArticleAsync(action) {
   const data = action.payload;
@@ -49,5 +50,5 @@ export function* deleteArticleAsync(action) {
   const id = action.payload;
   yield Axios.delete(`http://localhost:4000/board/${id}`);
   alert("게시글이 삭제되었습니다.");
-  history.push(`/`);
+  history.push(`/Board`);
 }
