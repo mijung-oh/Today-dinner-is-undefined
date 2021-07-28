@@ -1,16 +1,17 @@
 import React from "react";
-import "./App.css";
 
 import { Container } from "@material-ui/core";
 import BRouter from "./routes/Router";
-import history from "utils/history";
+import Appbar from "@components/Appbar";
+
 function App() {
   return (
-    <div className="root">
+    <>
+      <Appbar />
       <Container>
         <BRouter></BRouter>
       </Container>
-    </div>
+    </>
   );
 }
 
