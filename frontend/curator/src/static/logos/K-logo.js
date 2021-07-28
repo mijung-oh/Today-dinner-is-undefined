@@ -19,7 +19,7 @@ class kakaoLogo extends Component {
             </clipPath>
           </defs>
           <g id="g686" transform="matrix(1,0,0,-1,-362.26358,234.09895)">
-            <g clip-path="url(#clipPath692)" id="g688">
+            <g clipPath="url(#clipPath692)" id="g688">
               <g transform="translate(163.2612,376.6777)" id="g694">
                 <path
                   id="path696"

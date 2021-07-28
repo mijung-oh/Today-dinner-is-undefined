@@ -6,11 +6,11 @@ import BRouter from "./routes/Router";
 
 function App() {
   return (
-    <>
+    <div className="root">
       <Container>
         <BRouter></BRouter>
       </Container>
-    </>
+    </div>
   );
 }
 
