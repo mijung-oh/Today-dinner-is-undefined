@@ -58,6 +58,8 @@ public class UserPageServiceImpl implements UserPageService{
 
         UserEntity userEntity = userRepository.findByEmail(email);
         UserPageEntity userPageEntity = userPageRepository.findByUser(userEntity);
+<<<<<<< HEAD
+=======
         UserPageDto userPageDto = new UserPageDto();
 
         userPageDto.setIntroduction(userPageEntity.getIntroduction());
@@ -69,6 +71,7 @@ public class UserPageServiceImpl implements UserPageService{
             userDtos.add(o);
         }
         userPageDto.setFollowers(userDtos);
+>>>>>>> 2f62e1200521173230b7ac2ea07c3a648b7b879b
 
         List<UserDto> userDtos2 = new ArrayList<>();
         for (UserEntity userEntity1 : userEntity.getFollowings()) {
