@@ -14,7 +14,9 @@ public class UserPageEntity {
     Long id;
     String nickName;
     String introduction;
-    
+    String profileImg;
+    String bgImg;
+
     @OneToOne
     UserEntity user;
 
