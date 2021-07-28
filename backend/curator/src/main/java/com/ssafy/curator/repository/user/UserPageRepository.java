@@ -5,5 +5,5 @@ import com.ssafy.curator.entity.user.UserPageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserPageRepository extends JpaRepository<UserPageEntity, Long> {
-    UserPageEntity findByUser(UserEntity userEntity);
+        UserPageEntity findByUser(UserEntity userEntity);
 }
