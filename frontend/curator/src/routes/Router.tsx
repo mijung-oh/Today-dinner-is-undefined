@@ -12,7 +12,7 @@ const BRouter: React.FC<BRouterProps> = () => {
   // const name1 = useSelector((state: RootState) => state.clientLogin.name);
 
   const [userName, setUserName] = useState<string>("test");
-  const [userEmail, setUserEmail] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("test@gmail.com");
   //새로고침되면 폐기된다...XX..결국 localStorage를 활용해서 끝
   useEffect(() => {
     const data = localStorage.getItem("userData");
