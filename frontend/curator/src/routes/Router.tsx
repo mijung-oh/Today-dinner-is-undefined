@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import TestPage from "@pages/TestPage";
 import Main from "@pages/Main";
 import Profile from "@pages/Profile";
+import Appbar from "@components/Appbar";
 
 //App.tsx에서 내려주는 props들의 타입 여기서 지정
 interface BRouterProps {}
 
 const BRouter: React.FC<BRouterProps> = () => {
   // // useSelector 훅을 이용해서 state의 clientLogin store의 name을 getter 했다.
-  // const name1 = useSelector((state: RootState) => state.clientLogin.name);
 
   const [userName, setUserName] = useState<string>("test");
   const [userEmail, setUserEmail] = useState<string>("test@gmail.com");
@@ -42,6 +42,7 @@ const BRouter: React.FC<BRouterProps> = () => {
           <span>&nbsp;이메일 : {userEmail}</span>
         </div>
       </nav>
+      <Appbar></Appbar>
       <Switch>
         <Route path="/" exact component={Main} />
         <Route path="/test" exact component={TestPage} />
