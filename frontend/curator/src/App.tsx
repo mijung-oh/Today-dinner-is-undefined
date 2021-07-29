@@ -2,8 +2,6 @@ import React from "react";
 
 import { Container } from "@material-ui/core";
 import BRouter from "./routes/Router";
-import { BrowserRouter as Router } from "react-router-dom";
-import Appbar from "@components/Appbar";
 import { useEffect } from "react";
 import { useState } from "react";
 const App: React.FC = () => {
@@ -17,7 +15,6 @@ const App: React.FC = () => {
 
   return (
     <>
-      {/* <Router>{isAuth ? <Appbar /> : <div>ㄴㄴ</div>}</Router> */}
       <Container>
         <BRouter></BRouter>
       </Container>

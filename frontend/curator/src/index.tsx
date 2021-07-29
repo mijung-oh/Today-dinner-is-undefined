@@ -3,21 +3,25 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { rootReducer } from "./modules/index";
-import { composeWithDevTools } from "redux-devtools-extension";
-import storage from "./store";
-const store = createStore(rootReducer, composeWithDevTools());
+import { PersistGate } from "redux-persist/integration/react";
+import TestCompo from "@components/TestCompo";
+import configureStore from "./modules/index";
 
-ReactDOM.render(
-  // <React.StrictMode>
-  <Provider store={storage}>
-    <App />
-  </Provider>,
-  // </React.StrictMode>
-  document.getElementById("root")
+// const store = createStore(rootReducer, composeWithDevTools());
+// const persistor = persistStore(store);
+
+const { store, persistor } = configureStore();
+
+const Root = () => (
+  <Provider store={store}>
+    <PersistGate loading={<TestCompo />} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>
 );
+
+ReactDOM.render(<Root />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
