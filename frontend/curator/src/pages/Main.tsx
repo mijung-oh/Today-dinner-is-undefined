@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../modules/clientLogin";
@@ -76,7 +76,8 @@ const Main: React.FC<MainProps> = (props) => {
           const { name, email } = userData;
           dispatch(getUserInfo(name, email));
           localStorage.setItem("userData", JSON.stringify(userData));
-          history.push("/");
+          // history.push("/");
+          window.location.href = "/";
         });
       } catch (err) {
         console.log("err", err);
