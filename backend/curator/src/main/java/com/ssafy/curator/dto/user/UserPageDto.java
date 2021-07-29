@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class UserPageDto {
-    String nickName;
+    String nickname;
     String introduction;
     List<UserDto> followings;
     List<UserDto> followers;

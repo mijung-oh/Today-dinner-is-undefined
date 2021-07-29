@@ -33,12 +33,12 @@ public class UserPageServiceImpl implements UserPageService{
     PostRepository postRepository;
 
     @Override
-    public String createUserInfo(String email, String nickName, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) {
+    public String createUserInfo(String email, String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) {
         UserPageEntity userPageEntity = new UserPageEntity();
         UserEntity userEntity = userRepository.findByEmail(email);
 
         userPageEntity.setUser(userEntity);
-        userPageEntity.setNickName(nickName);
+        userPageEntity.setNickname(nickname);
         userPageEntity.setIntroduction(introduction);
 
         MultipartFile multipartFile = multipartHttpServletRequest.getFile("profileImg");
@@ -46,7 +46,7 @@ public class UserPageServiceImpl implements UserPageService{
         userPageEntity.setProfileImg(profileImg);
 
         MultipartFile multipartFile2 = multipartHttpServletRequest.getFile("bgImg");
-        String bgImg = multipartFile.getOriginalFilename();
+        String bgImg = multipartFile2.getOriginalFilename();
         userPageEntity.setBgImg(bgImg);
         userPageRepository.save(userPageEntity);
 
@@ -54,14 +54,14 @@ public class UserPageServiceImpl implements UserPageService{
     }
 
     @Override
-    public UserPageDto getUserInfo(String email) {
+    public UserPageDto getUserInfo(String nickname) {
 
-        UserEntity userEntity = userRepository.findByEmail(email);
+        UserEntity userEntity = userRepository.findByNickname(nickname);
         UserPageEntity userPageEntity = userPageRepository.findByUser(userEntity);
         UserPageDto userPageDto = new UserPageDto();
 
         userPageDto.setIntroduction(userPageEntity.getIntroduction());
-        userPageDto.setNickName(userPageEntity.getNickName());
+        userPageDto.setNickname(userPageEntity.getNickname());
 
         List<UserDto> userDtos = new ArrayList<>();
         for (UserEntity userEntity1 : userEntity.getFollowers()) {
@@ -101,4 +101,63 @@ public class UserPageServiceImpl implements UserPageService{
         return userPageDto;
     }
 
+    @Override
+    public String createNickname(String email, String nickname) {
+        UserEntity userEntity = userRepository.findByEmail(email);
+
+        // 처음 유저 닉네임 설정할 때 사진, 한줄소개 등등은 null값으로 일단 저장해놓기
+        UserPageEntity userPageEntity = new UserPageEntity();
+
+        userPageEntity.setUser(userEntity);
+        userPageEntity.setNickname(nickname);
+        userPageEntity.setIntroduction(null);
+        userPageEntity.setProfileImg(null);
+        userPageEntity.setBgImg(null);
+
+        userPageRepository.save(userPageEntity);
+        return "success";
+    }
+
+    @Override
+    public String checkNickname(String nickname) {
+        UserPageEntity userPageEntity = userPageRepository.findByNickname(nickname);
+
+        // 닉네임을 가진 유저가 존재하지 않을 경우 success를 보내줌
+        if (userPageEntity == null) return "success";
+        else return "fail";
+    }
+
+    @Override
+    public String updateUserInfo(String email, String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2){
+        UserEntity userEntity = userRepository.findByEmail(email);
+        UserPageEntity userPageEntity = userPageRepository.findByUser(userEntity);
+
+
+        if (nickName == "") {
+            userPageEntity.setNickname(userPageEntity.getNickname());
+        } else {
+            userPageEntity.setNickname(nickName);
+        }
+
+        if (introduction == "") {
+            userPageEntity.setIntroduction(userPageEntity.getIntroduction());
+        } else {
+            userPageEntity.setIntroduction(introduction);
+        }
+
+        if (multipartFile1 == null) {
+            userPageEntity.setProfileImg(userPageEntity.getProfileImg());
+        } else {
+            userPageEntity.setProfileImg(multipartFile1.getOriginalFilename());
+        }
+
+        if (multipartFile2 == null) {
+            userPageEntity.setBgImg(userPageEntity.getBgImg());
+        } else {
+            userPageEntity.setBgImg(multipartFile2.getOriginalFilename());
+        }
+        userPageRepository.save(userPageEntity);
+
+        return "success";
+    }
 }

@@ -53,6 +53,8 @@ public class UserEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private Platform platform;
 
+    private String nickname;
+
     @OneToMany
     @JsonIgnore
     @JoinColumn(name = "follower_id")
