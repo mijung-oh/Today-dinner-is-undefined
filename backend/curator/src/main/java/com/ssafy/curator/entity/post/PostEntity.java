@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,8 +30,13 @@ public class PostEntity {
     @JoinColumn(name = "userId")
     UserEntity user;
 
+    @NotNull
     String title;
+
+    @NotNull
     String description;
+
+    @NotNull
     String ingredients;
 
     @CreationTimestamp

@@ -1,6 +1,8 @@
 package com.ssafy.curator.service.post;
 
+import com.ssafy.curator.dto.post.CommentDto;
 import com.ssafy.curator.dto.post.PostWithImageDto;
+import com.ssafy.curator.dto.user.UserDto;
 import com.ssafy.curator.entity.post.CommentEntity;
 import com.ssafy.curator.entity.post.PostEntity;
 import com.ssafy.curator.entity.post.PostImageEntity;
@@ -9,6 +11,7 @@ import com.ssafy.curator.repository.post.CommentRepository;
 import com.ssafy.curator.repository.post.PostImageRepository;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -55,7 +58,8 @@ public class PostServiceImpl implements PostService {
 
             List comments = new ArrayList();
             for (CommentEntity c : Comments) {
-                comments.add(c);
+                CommentDto commentDto = new ModelMapper().map(c, CommentDto.class);
+                comments.add(commentDto);
             }
 
             pp.setTitle(p.getTitle());

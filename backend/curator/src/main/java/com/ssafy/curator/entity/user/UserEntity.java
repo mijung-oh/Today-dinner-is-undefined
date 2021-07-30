@@ -6,6 +6,7 @@ import com.ssafy.curator.dto.Role;
 import com.ssafy.curator.entity.BaseTimeEntity;
 import com.ssafy.curator.entity.follow.FollowingsEntity;
 import com.ssafy.curator.entity.post.PostLikeEntity;
+import com.ssafy.curator.entity.recipe.RecipeScrapEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -65,7 +66,7 @@ public class UserEntity extends BaseTimeEntity {
     @JoinColumn(name = "followers")
     private List<UserEntity> followers = new ArrayList<>();
 
-
+    // 좋아요 유저
     @OneToMany
     @JsonIgnore
     @JoinColumn(name = "user_id")
@@ -73,5 +74,15 @@ public class UserEntity extends BaseTimeEntity {
 
     public void addPostLikeEntity(PostLikeEntity... likeEntities) {
         Collections.addAll(this.postLikeEntities, likeEntities);
+    }
+
+    // 스크랩 유저
+    @OneToMany
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private List<RecipeScrapEntity> recipeScrapEntities = new ArrayList<>();
+
+    public void addRecipeScrapEntity(RecipeScrapEntity... scrapEntities) {
+        Collections.addAll(this.recipeScrapEntities, scrapEntities);
     }
 }

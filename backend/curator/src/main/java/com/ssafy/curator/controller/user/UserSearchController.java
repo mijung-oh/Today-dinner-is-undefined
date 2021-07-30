@@ -2,9 +2,7 @@ package com.ssafy.curator.controller.user;
 
 
 import com.ssafy.curator.dto.user.UserDto;
-import com.ssafy.curator.repository.user.UserRepository;
 import com.ssafy.curator.service.user.UserSearchService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

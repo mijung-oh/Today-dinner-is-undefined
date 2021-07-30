@@ -49,13 +49,4 @@ public class PostLikeController {
         return postLikeService.deleteLike(email, postId);
     }
 
-    // 유저가 받은 모든 게시물의 좋아요 수
-//    @GetMapping("/{userId}/likeCounts")
-//    Integer getLikeCount(@PathVariable int userId){
-//        int likeCounts = 0;
-//
-//        // 유저가 작성한 모든 게시글 불러와서
-//        boardRepository.findAllById(userId)
-//        // 그 게시글의 좋아요를 더해서 반환
-//    }
 }

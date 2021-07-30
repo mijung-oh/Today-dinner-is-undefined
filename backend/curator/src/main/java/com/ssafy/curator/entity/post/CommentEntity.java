@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
@@ -25,10 +26,12 @@ public class CommentEntity {
     @JoinColumn(name = "userId")
     UserEntity user;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "postId")
     PostEntity post;
 
+    @NotNull
     String content;
 
     @CreationTimestamp

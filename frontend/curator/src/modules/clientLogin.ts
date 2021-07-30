@@ -1,5 +1,7 @@
 // 액션 타입을 정한다
 
+import { AnyAction } from "redux";
+
 const GET_USER_INFO = "GETUSERINFO/clientLogin" as const;
 
 // 상태 타입
@@ -21,10 +23,11 @@ export const getUserInfo = (name: string, email: string) => ({
   email,
 });
 //액션 타입
-type LoginAction = ReturnType<typeof getUserInfo>;
+// type LoginAction = ReturnType<typeof getUserInfo>; 미안하다....persist 쓰려니까
+// dispatch에서 타입 충돌 나서 AnyAction으로 했다ㅏ...
 
 //리듀서 생성
-function reducer(state: UserState = InitialState, action: LoginAction) {
+function reducer(state: UserState = InitialState, action: AnyAction) {
   // 상태 업데이트 로직을 구현
   switch (action.type) {
     case GET_USER_INFO:
