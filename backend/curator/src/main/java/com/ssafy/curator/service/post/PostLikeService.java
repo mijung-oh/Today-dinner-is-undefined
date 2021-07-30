@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface PostLikeService {
-    String like(String username, int postId);
+    String like(String email, int postId);
 
     // 좋아요 한 사람들 리스트
     List<UserDto> likeUserList(int postId);
 
     // 좋아요 취소
-    String deleteLike(String username, int postId);
+    String deleteLike(String email, int postId);
 }

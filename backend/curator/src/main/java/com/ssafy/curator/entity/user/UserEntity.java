@@ -54,14 +54,16 @@ public class UserEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private Platform platform;
 
+    private String nickname;
+
     @OneToMany
     @JsonIgnore
-    @JoinColumn(name = "follower_id")
+    @JoinColumn(name = "followings")
     private List<UserEntity> followings = new ArrayList<>();
 
     @OneToMany
     @JsonIgnore
-    @JoinColumn(name = "following_id")
+    @JoinColumn(name = "followers")
     private List<UserEntity> followers = new ArrayList<>();
 
     // 좋아요 유저

@@ -1,14 +1,10 @@
 package com.ssafy.curator.service.follow;
 
 import com.ssafy.curator.dto.user.UserDto;
-import com.ssafy.curator.entity.follow.FollowingsEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
 
 public interface FollowService {
-    String follow(String username, String followingEmail);
+    String follow(String email, String followingEmail);
     List<UserDto> showFollowings(String followingEmail);
     List<UserDto> showFollowers(String followingEmail);
     String deleteFollow(String username, String followingEmail);

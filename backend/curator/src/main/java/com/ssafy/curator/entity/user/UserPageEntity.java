@@ -4,6 +4,7 @@ package com.ssafy.curator.entity.user;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "user_page")
 @Data
@@ -12,7 +13,9 @@ public class UserPageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String nickName;
+
+    String nickname;
+
     String introduction;
     String profileImg;
     String bgImg;

@@ -1,7 +1,6 @@
 package com.ssafy.curator.controller.follow;
 
 import com.ssafy.curator.dto.user.UserDto;
-import com.ssafy.curator.entity.follow.FollowingsEntity;
 import com.ssafy.curator.service.follow.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +16,8 @@ public class FollowController {
 
     // 팔로우하기
     @PostMapping("/{followingEmail}")
-    public String follow(@RequestParam String username, @PathVariable String followingEmail) {
-        return followService.follow(username, followingEmail);
+    public String follow(@RequestParam String email, @PathVariable String followingEmail) {
+        return followService.follow(email, followingEmail);
     }
 
     // 나를 팔로우한 사람들 리스트
@@ -34,8 +33,8 @@ public class FollowController {
     }
 
     // 팔로우 취소
-    @DeleteMapping("/{followingEmail}/delete")
-    String deleteFollow(@RequestParam String username, @PathVariable String followingEmail) {
-        return followService.deleteFollow(username, followingEmail);
+    @DeleteMapping("/{followingEmail}")
+    String deleteFollow(@RequestParam String email, @PathVariable String followingEmail) {
+        return followService.deleteFollow(email, followingEmail);
     }
 }

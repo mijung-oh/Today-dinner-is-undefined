@@ -6,7 +6,6 @@ import com.ssafy.curator.entity.user.UserEntity;
 import com.ssafy.curator.repository.follow.FollowRepository;
 import com.ssafy.curator.repository.user.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,15 +23,9 @@ public class FollowServiceImpl implements FollowService {
     @Autowired
     FollowRepository followRepository;
 
-//    @Autowired
-//    public FollowServiceImpl(FollowRepository followRepository) {
-//        this.followRepository = followRepository;
-//    }
-
-
     @Override
-    public String follow(String username, String followingEmail) {
-        UserEntity currentUser = userRepository.findByName(username);
+    public String follow(String email, String followingEmail) {
+        UserEntity currentUser = userRepository.findByEmail(email);
         UserEntity followingUser = userRepository.findByEmail(followingEmail);
 
         if (currentUser == null) {
@@ -73,6 +66,7 @@ public class FollowServiceImpl implements FollowService {
         return userDtos;
     }
 
+
     @Override
     public List<UserDto> showFollowers(String followingEmail) {
         List<UserDto> userDtos = new ArrayList<>();
@@ -90,8 +84,8 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public String deleteFollow(@RequestParam String username, @PathVariable String followingEmail) {
-        UserEntity currentUser = userRepository.findByName(username);
+    public String deleteFollow(@RequestParam String email, @PathVariable String followingEmail) {
+        UserEntity currentUser = userRepository.findByEmail(email);
         UserEntity followingUser = userRepository.findByEmail(followingEmail);
 
         if (currentUser == null) {
