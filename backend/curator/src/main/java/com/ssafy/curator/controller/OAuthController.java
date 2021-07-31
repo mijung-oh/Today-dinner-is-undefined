@@ -10,11 +10,8 @@ import com.ssafy.curator.dto.user.UserSessionDto;
 import com.ssafy.curator.service.LoginService;
 import com.ssafy.curator.service.LoginSessionService;
 import com.ssafy.curator.service.user.UserService;
-import com.ssafy.curator.vo.oauth.GoogleOAuthRequest;
-import com.ssafy.curator.vo.oauth.GoogleOAuthResponse;
+import com.ssafy.curator.vo.oauth.*;
 import com.ssafy.curator.vo.ResponseLogin;
-import com.ssafy.curator.vo.oauth.KakaoOAuthRequest;
-import com.ssafy.curator.vo.oauth.KakaoOAuthResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -48,7 +45,7 @@ public class OAuthController {
     }
 
     @GetMapping(value = "/google/auth")
-    public ResponseEntity<Object> googleAuth(@RequestParam(value = "code") String authCode, HttpServletResponse response)
+    public ResponseEntity<Object> googleAuth(@RequestParam(value = "code") String authCode)
             throws Exception {
 
         //HTTP Request
@@ -59,7 +56,7 @@ public class OAuthController {
         googleOAuthRequestParam.setClientId("5927178749-au1h5ohkehsiq21enpd5l5pl0scnkp03.apps.googleusercontent.com");
         googleOAuthRequestParam.setClientSecret("VfCPndT-sxz9dBNuaTz482jP");
         googleOAuthRequestParam.setCode(authCode);
-        googleOAuthRequestParam.setRedirectUri("http://127.0.0.1:3000/");
+        googleOAuthRequestParam.setRedirectUri("http://127.0.0.1:3000/oauth/google");
         googleOAuthRequestParam.setGrantType("authorization_code");
 
         //JSON 파싱을 위한 기본값 세팅
@@ -96,16 +93,13 @@ public class OAuthController {
         }
         UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
         loginSessionService.setSession(sessionDto);
-        Cookie cookie = new Cookie("id_token", jwtToken);
-        cookie.setMaxAge(60 * 60);
-        response.addCookie(cookie);
         ResponseLogin responseLogin = new ResponseLogin(200, "로그인 성공", true, sessionDto);
         return new ResponseEntity<>(responseLogin, HttpStatus.OK);
 
     }
 
     @GetMapping(value = "/kakao/auth")
-    public ResponseEntity<Object> kakaoAuth(@RequestParam(value = "code") String authCode, HttpServletResponse response)
+    public ResponseEntity<Object> kakaoAuth(@RequestParam(value = "code") String authCode)
             throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -114,7 +108,7 @@ public class OAuthController {
         params.add("client_id", "4f445ad5411d2c6c022fbd8101999e07");
         params.add("client_secret", "RNMA2iMdTojasvVPW6Mx9y3B353OS1LZ");
         params.add("code", authCode);
-        params.add("redirect_uri", "http://127.0.0.1:3000/");
+        params.add("redirect_uri", "http://127.0.0.1:3000/oauth/kakao");
         params.add("grant_type", "authorization_code");
 
         HttpHeaders header = new HttpHeaders();
@@ -152,7 +146,63 @@ public class OAuthController {
             userDto = new UserDto();
             userDto.setName(name);
             userDto.setEmail(email);
-            userService.createPlatformUser(userDto, "GOOGLE");
+            userService.createPlatformUser(userDto, "KAKAO");
+        }
+        UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
+        loginSessionService.setSession(sessionDto);
+        ResponseLogin responseLogin = new ResponseLogin(200, "로그인 성공", true, sessionDto);
+        return new ResponseEntity<>(responseLogin, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/naver/auth")
+    public ResponseEntity<Object> naverAuth(@RequestParam(value = "code") String authCode)
+            throws Exception {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("client_id", "fUgFgzRaWuRXh8piK5n8");
+        params.add("client_secret", "Fi40eSrtrM");
+        params.add("code", authCode);
+        params.add("redirect_uri", "http://127.0.0.1:3000/oauth/naver");
+        params.add("grant_type", "authorization_code");
+
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity formEntity = new HttpEntity<>(params, header);
+
+        ResponseEntity<String> resultEntity = restTemplate.postForEntity("https://nid.naver.com/oauth2.0/token", formEntity, String.class);
+        System.out.println(resultEntity.getBody());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        NaverOAuthResponse result = mapper.readValue(resultEntity.getBody(), new TypeReference<NaverOAuthResponse>() {});
+        String access_token = "Bearer " + result.getAccess_token();
+
+        header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        header.set("Authorization", access_token);
+        formEntity = new HttpEntity<>(header);
+
+        ResponseEntity<String> userRequest = restTemplate.postForEntity("https://openapi.naver.com/v1/nid/me", formEntity, String.class);
+        System.out.println(userRequest.getBody());
+
+        JsonNode jsonNode = mapper.readTree(userRequest.getBody());
+        JsonNode response = jsonNode.path("response");
+        String email = response.path("email").asText();
+        String name = response.path("name").asText();
+
+        UserDto userDto = null;
+        if (userService.existUser(email)) {
+            userDto = userService.getUserByUserEmail(email);
+        } else {
+            userDto = new UserDto();
+            userDto.setName(name);
+            userDto.setEmail(email);
+            userService.createPlatformUser(userDto, "NAVER");
         }
         UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
         loginSessionService.setSession(sessionDto);
