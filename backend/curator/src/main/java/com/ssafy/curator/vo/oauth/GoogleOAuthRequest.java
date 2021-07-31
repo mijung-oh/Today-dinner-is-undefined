@@ -1,4 +1,4 @@
-package com.ssafy.curator.vo;
+package com.ssafy.curator.vo.oauth;
 import lombok.Data;
 
 @Data
