@@ -15,17 +15,17 @@ const Authlogin: React.FC<RouteComponentProps<paramsProps>> = ({
   useEffect(() => {
     const socialCompany = match.params.socialCompany;
     const authURL = history.location.search;
+    const config = {
+      withCredentials: true,
+    };
     switch (socialCompany) {
       case "google":
         console.log("google!!!");
-        const code = codeExtractor(authURL);
-        console.log(code);
-        const LOGIN_URL =
-          "http://127.0.0.1:9000/curation/google/auth?code=" + code;
-        const config = {
-          withCredentials: true,
-        };
-        axios.get(LOGIN_URL, config).then((res) => {
+        const googleCode = codeExtractor(authURL);
+        console.log(googleCode);
+        const GOOGLE_LOGIN_URL =
+          "http://127.0.0.1:9000/curation/google/auth?code=" + googleCode;
+        axios.get(GOOGLE_LOGIN_URL, config).then((res) => {
           const userData = res.data.response;
           console.log(userData);
           const { email, nickname } = userData;
@@ -41,6 +41,20 @@ const Authlogin: React.FC<RouteComponentProps<paramsProps>> = ({
         break;
       case "kakao":
         console.log("kakao!!");
+        const kakaoCode = codeExtractor(authURL);
+        console.log(kakaoCode);
+        const KAKAO_LOGIN_URL =
+          "http://127.0.0.1:9000/curation/kakao/auth?code=" + kakaoCode;
+        axios.get(KAKAO_LOGIN_URL, config).then((res) => {
+          const userData = res.data.response;
+          console.log(userData);
+          const { email, nickname } = userData;
+          if (!nickname) {
+            nicknameCheck(email);
+          } else {
+            history.push("/");
+          }
+        });
         break;
       default:
         console.log("error");
