@@ -59,25 +59,18 @@ public class UserEntity extends BaseTimeEntity {
     @Column(nullable = false)
     private Platform platform;
 
-    @OneToMany
+    @OneToMany(mappedBy = "follower")
     @JsonIgnore
-    @JoinColumn(name = "followings")
-    private List<UserEntity> followings = new ArrayList<>();
+    private List<FollowingsEntity> followings = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "following")
     @JsonIgnore
-    @JoinColumn(name = "followers")
-    private List<UserEntity> followers = new ArrayList<>();
+    private List<FollowingsEntity> followers = new ArrayList<>();
 
     // 좋아요 유저
-    @OneToMany
+    @OneToMany(mappedBy = "userEntity")
     @JsonIgnore
-    @JoinColumn(name = "user_id")
     private List<PostLikeEntity> postLikeEntities = new ArrayList<>();
-
-    public void addPostLikeEntity(PostLikeEntity... likeEntities) {
-        Collections.addAll(this.postLikeEntities, likeEntities);
-    }
 
     // 스크랩 유저
     @OneToMany

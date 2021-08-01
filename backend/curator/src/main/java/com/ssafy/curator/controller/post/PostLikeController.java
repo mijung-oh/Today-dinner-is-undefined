@@ -33,8 +33,8 @@ public class PostLikeController {
 
     // 좋아요 누르기
     @PostMapping("/{postId}")
-    String like(@RequestParam String email, @PathVariable int postId) {
-        return postLikeService.like(email, postId);
+    String like(@RequestParam String userNickname, @PathVariable int postId) {
+        return postLikeService.like(userNickname, postId);
     }
 
     // 좋아요 한 사람들 리스트
@@ -45,8 +45,8 @@ public class PostLikeController {
 
     // 좋아요 취소
     @DeleteMapping("/{postId}")
-    String deleteLike(@RequestParam String email, @PathVariable int postId) {
-        return postLikeService.deleteLike(email, postId);
+    String deleteLike(@RequestParam String userNickname, @PathVariable int postId) {
+        return postLikeService.deleteLike(userNickname, postId);
     }
 
 }

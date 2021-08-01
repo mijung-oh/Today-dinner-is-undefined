@@ -24,9 +24,9 @@ public class FollowServiceImpl implements FollowService {
     FollowRepository followRepository;
 
     @Override
-    public String follow(String email, String followingEmail) {
-        UserEntity currentUser = userRepository.findByEmail(email);
-        UserEntity followingUser = userRepository.findByEmail(followingEmail);
+    public String follow(String userNickname, String followingNickname) {
+        UserEntity currentUser = userRepository.findByNickname(userNickname);
+        UserEntity followingUser = userRepository.findByNickname(followingNickname);
 
         if (currentUser == null) {
             return "현재 유저가 존재하지 않습니다.";
@@ -41,24 +41,19 @@ public class FollowServiceImpl implements FollowService {
         followingsEntity.setFollowing(followingUser);
         followRepository.save(followingsEntity);
 
-        currentUser.getFollowings().add(followingUser);
-        followingUser.getFollowers().add(currentUser);
-
-        userRepository.save(currentUser);
-        userRepository.save(followingUser);
-
         return "success";
     }
 
 
     @Override
-    public List<UserDto> showFollowings(String followingEmail) {
+    public List<UserDto> showFollowings(String followingNickname) {
+
         List<UserDto> userDtos = new ArrayList<>();
-        UserEntity userEntity = userRepository.findByEmail(followingEmail);
+        UserEntity userEntity = userRepository.findByNickname(followingNickname);
         if (userEntity == null) {
             return null;
         }
-        for (FollowingsEntity o : followRepository.findByFollowerId(userEntity.getId())) {
+        for (FollowingsEntity o : userEntity.getFollowings()) {
             UserDto userDto = new ModelMapper().map(o.getFollowing(), UserDto.class);
             userDtos.add(userDto);
         }
@@ -68,14 +63,13 @@ public class FollowServiceImpl implements FollowService {
 
 
     @Override
-    public List<UserDto> showFollowers(String followingEmail) {
+    public List<UserDto> showFollowers(String followingNickname) {
         List<UserDto> userDtos = new ArrayList<>();
-        UserEntity userEntity = userRepository.findByEmail(followingEmail);
+        UserEntity userEntity = userRepository.findByNickname(followingNickname);
         if (userEntity == null) {
             return null;
         }
-
-        for (FollowingsEntity o : followRepository.findByFollowingId(userEntity.getId())) {
+        for (FollowingsEntity o : userEntity.getFollowers()) {
             UserDto userDto = new ModelMapper().map(o.getFollower(), UserDto.class);
             userDtos.add(userDto);
         }
@@ -84,9 +78,9 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public String deleteFollow(@RequestParam String email, @PathVariable String followingEmail) {
-        UserEntity currentUser = userRepository.findByEmail(email);
-        UserEntity followingUser = userRepository.findByEmail(followingEmail);
+    public String deleteFollow(@RequestParam String userNickname, @PathVariable String followingNickname) {
+        UserEntity currentUser = userRepository.findByNickname(userNickname);
+        UserEntity followingUser = userRepository.findByNickname(followingNickname);
 
         if (currentUser == null) {
             return "현재 유저가 존재하지 않습니다.";
@@ -98,12 +92,6 @@ public class FollowServiceImpl implements FollowService {
         FollowingsEntity followingsEntity = followRepository.findByFollowerAndFollowing(currentUser, followingUser);
         followRepository.deleteById(followingsEntity.getId());
 
-        // UserEntity에서 삭제
-        currentUser.getFollowings().remove(followingUser);
-        followingUser.getFollowers().remove(currentUser);
-
-        userRepository.save(currentUser);
-        userRepository.save(followingUser);
         return "success";
     }
 
