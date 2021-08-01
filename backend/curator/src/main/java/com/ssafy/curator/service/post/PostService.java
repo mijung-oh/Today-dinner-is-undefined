@@ -14,7 +14,7 @@ public interface PostService {
     List<PostWithImageDto> getAllLists();
     String createPost(HttpServletRequest request, MultipartHttpServletRequest mtfRequest) throws Exception;
     PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception;
-    PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails) throws Exception;
+    PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception;
     ResponseEntity<?> deletePost(@PathVariable("post_id") Long postId) throws Exception;
 
 }

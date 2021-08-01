@@ -48,8 +48,8 @@ public class PostController {
 
 
     @PutMapping("/{id}")
-    public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails) throws Exception{
-        return postService.updatePost(postId, postDetails);
+    public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception{
+        return postService.updatePost(postId, postDetails, mtfRequest);
     }
 
 
