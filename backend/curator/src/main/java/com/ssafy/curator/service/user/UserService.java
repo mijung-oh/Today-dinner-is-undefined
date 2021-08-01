@@ -6,4 +6,6 @@ public interface UserService {
     UserDto getUserByUserEmail(String email);
     void createPlatformUser(UserDto userDto, String platform);
     boolean existUser(String email);
+
+    boolean existUserNickname(String nickname);
 }

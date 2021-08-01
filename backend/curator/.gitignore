@@ -35,4 +35,4 @@ build/
 ### 제외 폴더 ###
 images/
 application.yml
-
+**/src/main/**/application.yml

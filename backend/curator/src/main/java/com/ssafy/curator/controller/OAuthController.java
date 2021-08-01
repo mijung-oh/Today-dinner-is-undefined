@@ -45,7 +45,7 @@ public class OAuthController {
     }
 
     @GetMapping(value = "/google/auth")
-    public ResponseEntity<Object> googleAuth(@RequestParam(value = "code") String authCode)
+    public ResponseEntity<Object> googleAuth(@RequestParam(value = "code") String authCode, @RequestParam(value = "nickname") String nickname)
             throws Exception {
 
         //HTTP Request
@@ -89,6 +89,7 @@ public class OAuthController {
             userDto = new UserDto();
             userDto.setName(userName);
             userDto.setEmail(userEmail);
+            userDto.setNickname(nickname);
             userService.createPlatformUser(userDto, "GOOGLE");
         }
         UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
@@ -99,7 +100,7 @@ public class OAuthController {
     }
 
     @GetMapping(value = "/kakao/auth")
-    public ResponseEntity<Object> kakaoAuth(@RequestParam(value = "code") String authCode)
+    public ResponseEntity<Object> kakaoAuth(@RequestParam(value = "code") String authCode, @RequestParam(value = "nickname") String nickname)
             throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -146,6 +147,7 @@ public class OAuthController {
             userDto = new UserDto();
             userDto.setName(name);
             userDto.setEmail(email);
+            userDto.setNickname(nickname);
             userService.createPlatformUser(userDto, "KAKAO");
         }
         UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
@@ -155,7 +157,7 @@ public class OAuthController {
     }
 
     @GetMapping(value = "/naver/auth")
-    public ResponseEntity<Object> naverAuth(@RequestParam(value = "code") String authCode)
+    public ResponseEntity<Object> naverAuth(@RequestParam(value = "code") String authCode, @RequestParam(value = "nickname") String nickname)
             throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -202,6 +204,7 @@ public class OAuthController {
             userDto = new UserDto();
             userDto.setName(name);
             userDto.setEmail(email);
+            userDto.setNickname(nickname);
             userService.createPlatformUser(userDto, "NAVER");
         }
         UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
