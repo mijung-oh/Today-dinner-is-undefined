@@ -16,16 +16,16 @@ interface BRouterProps {}
 
 const BRouter: React.FC<BRouterProps> = () => {
   // // useSelector 훅을 이용해서 state의 clientLogin store의 name을 getter 했다.
-  const name = useSelector((state: UserState) => state.name);
-  const Email = useSelector((state: UserState) => state.email);
+  // const name = useSelector((state: UserState) => state.name);
+  // const Email = useSelector((state: UserState) => state.email);
 
-  const [userName, setUserName] = useState<string>("");
-  const [userEmail, setUserEmail] = useState<string>("");
-  //새로고침되면 폐기된다...XX..결국 localStorage를 활용해서 끝
-  useEffect(() => {
-    setUserName(name);
-    setUserEmail(Email);
-  }, [name, Email]);
+  // const [userName, setUserName] = useState<string>("");
+  // const [userEmail, setUserEmail] = useState<string>("");
+  // //새로고침되면 폐기된다...XX..결국 localStorage를 활용해서 끝
+  // useEffect(() => {
+  //   setUserName(name);
+  //   setUserEmail(Email);
+  // }, [name, Email]);
 
   return (
     <Router>
@@ -36,7 +36,6 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/test" exact component={TestPage} />
         <Route path="/profile/:username" component={Profile} />
         <Route path="/oauth/:socialCompany" component={Authlogin} />
-
         <Route path="/Board" exact component={BoardPage}></Route>
         <Route path="/article/:articleId" exact component={ArticlePage}></Route>
         <Route path="/register" exact component={RegisterPage}></Route>

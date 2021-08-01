@@ -11,6 +11,8 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import SearchIcon from "@material-ui/icons/Search";
 import CreateIcon from "@material-ui/icons/Create";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -18,6 +20,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
 import { Link, withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
+import MoreIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -77,9 +80,17 @@ const useStyles = makeStyles((theme: any) => ({
   grow: {
     flexGrow: 1,
   },
-  iconSection: {
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  sectionMobile: {
     display: "flex",
-    // justifyContent: "space-around",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
   },
 }));
 
@@ -93,7 +104,30 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   match,
 }) => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const menuId = "primary-search-account-menu";
+
+  const isMenuOpen = Boolean(anchorEl);
+
   console.log("history form appbar", history);
+
+  const handleProfileMenuOpen = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+  const handleMobileMenuOpen = (event: any) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
 
   function ScrollTop(props: any) {
     const { children, window } = props;
@@ -127,9 +161,58 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
     console.log(history);
     history.push("/profile/이동윤");
   };
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton color="inherit">
+          <CreateIcon />
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton color="inherit">
+          <NotificationsIcon />
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircleIcon />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
 
   return (
-    <div>
+    <div className={classes.grow}>
       <AppBar>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
@@ -149,7 +232,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          <div className={classes.iconSection}>
+          <div className={classes.sectionDesktop}>
             <IconButton color="inherit">
               <CreateIcon />
             </IconButton>
@@ -160,8 +243,21 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
               <AccountCircleIcon />
             </IconButton>
           </div>
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
       <Toolbar id="back-to-top-anchor" />
       <ScrollTop>
         <Fab color="secondary" size="small" aria-label="scroll back to top">

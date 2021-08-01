@@ -75,11 +75,9 @@ const Main: React.FC<MainProps> = (props) => {
       try {
         axios.get(LOGIN_URL, config).then((res) => {
           const userData = res.data.response;
-          const { name, email } = userData;
-          dispatch(getUserInfo(name, email));
-          // localStorage.setItem("userData", JSON.stringify(userData));
+          const { name, email, nickname } = userData;
+          dispatch(getUserInfo(name, email, nickname));
           history.push("/");
-          // window.location.href = "/";
         });
       } catch (err) {
         console.log("err", err);
