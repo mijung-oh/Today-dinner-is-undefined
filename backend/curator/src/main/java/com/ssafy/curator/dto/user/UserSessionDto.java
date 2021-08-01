@@ -8,4 +8,5 @@ import java.io.Serializable;
 public class UserSessionDto implements Serializable {
     private String name;
     private String email;
+    private String nickname;
 }
