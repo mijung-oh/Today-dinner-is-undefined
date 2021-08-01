@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class CommentDto {
 
-    int id;
+    Long id;
     String content;
     UserEntity user;
     String createDate;

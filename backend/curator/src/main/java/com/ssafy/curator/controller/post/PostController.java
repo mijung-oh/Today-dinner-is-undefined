@@ -79,11 +79,6 @@ public class PostController {
         return commentService.deleteComment(postId, commentId);
     }
 
-    @GetMapping("/by/{user_email}")
-    public List<PostEntity> getLists(@PathVariable("user_email") String email) {
-        return postService.getLists(email);
-    }
-
 
 }
 

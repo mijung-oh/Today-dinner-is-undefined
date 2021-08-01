@@ -35,9 +35,9 @@ public class CommentServiceImpl implements CommentService{
 
         String e = request.getParameter("email");
         String p = request.getParameter("postId");
-        int postId = Integer.parseInt(p);
+
         UserEntity user = userRepository.findByEmail(e);
-        PostEntity post = postRepository.findById(postId);
+        PostEntity post = postRepository.findById(Long.parseLong(p));
         String content = request.getParameter("content");
         comment.setUser(user);
         comment.setPost(post);
@@ -49,7 +49,8 @@ public class CommentServiceImpl implements CommentService{
     }
 
     public CommentDto getCommentById(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId) throws Exception {
-        CommentEntity comment = commentRepository.findById(Math.toIntExact(commentId));
+        Long c = Long.parseLong(String.valueOf(commentId));
+        CommentEntity comment = commentRepository.findById(c);
 
         CommentDto commentDto = new CommentDto();
         commentDto.setContent(comment.getContent());
@@ -65,7 +66,8 @@ public class CommentServiceImpl implements CommentService{
     }
 
     public CommentEntity updateComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId, CommentEntity commentDetails) throws Exception {
-        CommentEntity comment = commentRepository.findById(Math.toIntExact(commentId));
+        Long c = Long.parseLong(String.valueOf(commentId));
+        CommentEntity comment = commentRepository.findById(c);
         comment.setContent(commentDetails.getContent());
 
         CommentEntity updateComment = commentRepository.save(comment);
@@ -73,7 +75,8 @@ public class CommentServiceImpl implements CommentService{
     }
 
     public ResponseEntity deleteComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId) throws Exception {
-        CommentEntity comment = commentRepository.findById(Math.toIntExact(commentId));
+        Long c = Long.parseLong(String.valueOf(commentId));
+        CommentEntity comment = commentRepository.findById(c);
         commentRepository.delete(comment);
         return ResponseEntity.ok().build();
     }
