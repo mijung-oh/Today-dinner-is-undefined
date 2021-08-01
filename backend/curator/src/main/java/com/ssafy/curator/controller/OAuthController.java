@@ -11,7 +11,7 @@ import com.ssafy.curator.service.LoginService;
 import com.ssafy.curator.service.LoginSessionService;
 import com.ssafy.curator.service.user.UserService;
 import com.ssafy.curator.vo.oauth.*;
-import com.ssafy.curator.vo.ResponseLogin;
+import com.ssafy.curator.vo.user.ResponseLogin;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Map;
 
@@ -45,7 +43,7 @@ public class OAuthController {
     }
 
     @GetMapping(value = "/google/auth")
-    public ResponseEntity<Object> googleAuth(@RequestParam(value = "code") String authCode, @RequestParam(value = "nickname") String nickname)
+    public ResponseEntity<Object> googleAuth(@RequestParam(value = "code") String authCode)
             throws Exception {
 
         //HTTP Request
@@ -89,7 +87,6 @@ public class OAuthController {
             userDto = new UserDto();
             userDto.setName(userName);
             userDto.setEmail(userEmail);
-            userDto.setNickname(nickname);
             userService.createPlatformUser(userDto, "GOOGLE");
         }
         UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
@@ -100,7 +97,7 @@ public class OAuthController {
     }
 
     @GetMapping(value = "/kakao/auth")
-    public ResponseEntity<Object> kakaoAuth(@RequestParam(value = "code") String authCode, @RequestParam(value = "nickname") String nickname)
+    public ResponseEntity<Object> kakaoAuth(@RequestParam(value = "code") String authCode)
             throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -147,7 +144,6 @@ public class OAuthController {
             userDto = new UserDto();
             userDto.setName(name);
             userDto.setEmail(email);
-            userDto.setNickname(nickname);
             userService.createPlatformUser(userDto, "KAKAO");
         }
         UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
@@ -157,7 +153,7 @@ public class OAuthController {
     }
 
     @GetMapping(value = "/naver/auth")
-    public ResponseEntity<Object> naverAuth(@RequestParam(value = "code") String authCode, @RequestParam(value = "nickname") String nickname)
+    public ResponseEntity<Object> naverAuth(@RequestParam(value = "code") String authCode)
             throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -204,7 +200,6 @@ public class OAuthController {
             userDto = new UserDto();
             userDto.setName(name);
             userDto.setEmail(email);
-            userDto.setNickname(nickname);
             userService.createPlatformUser(userDto, "NAVER");
         }
         UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);

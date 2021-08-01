@@ -1,4 +1,4 @@
-package com.ssafy.curator.vo;
+package com.ssafy.curator.vo.user;
 
 import lombok.Data;
 

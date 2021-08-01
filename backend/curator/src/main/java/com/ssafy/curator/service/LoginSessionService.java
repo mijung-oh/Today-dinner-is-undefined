@@ -23,6 +23,9 @@ public class LoginSessionService implements LoginService {
     public void setSession(UserSessionDto sessionDto){
         session.setAttribute(USER, sessionDto);
     }
+    public void removeSession(){
+        session.removeAttribute(USER);
+    }
     @Override
     public String getSessionId() {
         return session.getId();
