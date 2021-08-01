@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class PostWithImageDto {
 
-    int id;
+    Long id;
     String title;
     String ingredients;
     String description;

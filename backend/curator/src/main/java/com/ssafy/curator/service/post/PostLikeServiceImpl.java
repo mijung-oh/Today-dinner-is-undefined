@@ -27,7 +27,7 @@ public class PostLikeServiceImpl implements PostLikeService{
     UserRepository userRepository;
 
 
-    public String like(String userNickname, int postId) {
+    public String like(String userNickname, Long postId) {
         PostEntity postEntity = postRepository.findById(postId);
         UserEntity userEntity = userRepository.findByNickname(userNickname);
 
@@ -46,7 +46,7 @@ public class PostLikeServiceImpl implements PostLikeService{
     }
 
     // 좋아요 한 사람들 리스트
-    public List<UserDto> likeUserList(int postId) {
+    public List<UserDto> likeUserList(Long postId) {
         List<UserDto> userDtos = new ArrayList<>();
 
         PostEntity postEntity = postRepository.findById(postId);
@@ -60,7 +60,7 @@ public class PostLikeServiceImpl implements PostLikeService{
     }
 
     // 좋아요 취소
-    public String deleteLike(String userNickname, int postId) {
+    public String deleteLike(String userNickname, Long postId) {
         PostEntity postEntity = postRepository.findById(postId);
         UserEntity userEntity = userRepository.findByNickname(userNickname);
 

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface PostService {
-    List<PostEntity> getLists(String email);
     List<PostWithImageDto> getAllLists();
     String createPost(HttpServletRequest request, MultipartHttpServletRequest mtfRequest) throws Exception;
     PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception;

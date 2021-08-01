@@ -33,19 +33,19 @@ public class PostLikeController {
 
     // 좋아요 누르기
     @PostMapping("/{postId}")
-    String like(@RequestParam String userNickname, @PathVariable int postId) {
+    String like(@RequestParam String userNickname, @PathVariable Long postId) {
         return postLikeService.like(userNickname, postId);
     }
 
     // 좋아요 한 사람들 리스트
     @GetMapping("/{postId}/list")
-    List<UserDto> likeUserList(@PathVariable int postId) {
+    List<UserDto> likeUserList(@PathVariable Long postId) {
         return postLikeService.likeUserList(postId);
     }
 
     // 좋아요 취소
     @DeleteMapping("/{postId}")
-    String deleteLike(@RequestParam String userNickname, @PathVariable int postId) {
+    String deleteLike(@RequestParam String userNickname, @PathVariable Long postId) {
         return postLikeService.deleteLike(userNickname, postId);
     }
 

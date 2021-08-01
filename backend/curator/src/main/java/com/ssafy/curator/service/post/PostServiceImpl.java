@@ -41,11 +41,6 @@ public class PostServiceImpl implements PostService {
     @Autowired
     CommentRepository commentRepository;
 
-    @Override
-    public List<PostEntity> getLists(String email) {
-        UserEntity userEntity = userRepository.findByEmail(email);
-        return postRepository.findByUser(userEntity);
-    }
 
     public List<PostWithImageDto> getAllLists() {
         List<PostEntity> posts = postRepository.findAll();
@@ -129,7 +124,8 @@ public class PostServiceImpl implements PostService {
     }
 
     public PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception {
-        PostEntity post = postRepository.findById(Math.toIntExact(postId));
+        Long p = Long.parseLong(String.valueOf(postId));
+        PostEntity post = postRepository.findById(p);
 
         PostWithImageDto postWithImageDto = new PostWithImageDto();
         postWithImageDto.setTitle(post.getTitle());
@@ -144,7 +140,7 @@ public class PostServiceImpl implements PostService {
         postWithImageDto.setUpdateDate(updateDate);
         postWithImageDto.setImagePath(post.getImagePaths());
 
-        List<CommentEntity> Comments = commentRepository.findByPostId(Math.toIntExact(postId));
+        List<CommentEntity> Comments = commentRepository.findByPostId(p);
 
         List comments = new ArrayList();
         for (CommentEntity c : Comments) {
@@ -158,7 +154,8 @@ public class PostServiceImpl implements PostService {
     }
 
     public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception {
-        PostEntity post = postRepository.findById(Math.toIntExact(postId));
+        Long p = Long.parseLong(String.valueOf(postId));
+        PostEntity post = postRepository.findById(p);
         post.setTitle(postDetails.getTitle());
         post.setDescription(postDetails.getDescription());
         post.setIngredients(postDetails.getIngredients());
@@ -188,9 +185,10 @@ public class PostServiceImpl implements PostService {
     }
 
     public ResponseEntity deletePost(@PathVariable("post_id") Long postId) {
-        PostEntity post = postRepository.findById(Math.toIntExact(postId));
-        List<PostImageEntity> postImages = postImageRepository.findByPostId(Math.toIntExact(postId));
-        List<CommentEntity> comments = commentRepository.findByPostId(Math.toIntExact(postId));
+        Long p = Long.parseLong(String.valueOf(postId));
+        PostEntity post = postRepository.findById(p);
+        List<PostImageEntity> postImages = postImageRepository.findByPostId(p);
+        List<CommentEntity> comments = commentRepository.findByPostId(p);
         commentRepository.deleteAll(comments);
         postImageRepository.deleteAll(postImages);
         postRepository.delete(post);
