@@ -157,11 +157,31 @@ public class PostServiceImpl implements PostService {
         return postWithImageDto;
     }
 
-    public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails) throws Exception {
+    public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception {
         PostEntity post = postRepository.findById(Math.toIntExact(postId));
         post.setTitle(postDetails.getTitle());
         post.setDescription(postDetails.getDescription());
         post.setIngredients(postDetails.getIngredients());
+
+        List<MultipartFile> fileList = mtfRequest.getFiles("files");
+        List<String> paths = new ArrayList();
+
+        for (MultipartFile f : fileList) {
+
+            PostImageEntity pi = new PostImageEntity();
+            String originalName = f.getOriginalFilename();
+            pi.setFileOriName(originalName);
+
+            String path = "src/main/resources/static/images/";
+            String newFileName = rnd(originalName, f.getBytes(), path);
+            String newPath = path+newFileName;
+            paths.add(newPath);
+
+            pi.setFilename(newFileName);
+            pi.setPost(post);
+            postImageRepository.save(pi);
+        }
+        post.setImagePaths(paths);
 
         PostEntity updatePost = postRepository.save(post);
         return updatePost;
