@@ -73,12 +73,8 @@ public class UserEntity extends BaseTimeEntity {
     private List<PostLikeEntity> postLikeEntities = new ArrayList<>();
 
     // 스크랩 유저
-    @OneToMany
+    @OneToMany(mappedBy = "userEntity")
     @JsonIgnore
-    @JoinColumn(name = "user_id")
     private List<RecipeScrapEntity> recipeScrapEntities = new ArrayList<>();
 
-    public void addRecipeScrapEntity(RecipeScrapEntity... scrapEntities) {
-        Collections.addAll(this.recipeScrapEntities, scrapEntities);
-    }
 }
