@@ -18,7 +18,7 @@ public class RecipeScrapController {
     @Autowired
     RecipeScrapService recipeScrapService;
 
-    @PostMapping("{recipeId}")
+    @PostMapping("/{recipeId}")
     String scrap(HttpServletRequest request, @PathVariable Long recipeId) {
         return recipeScrapService.scrap(request, recipeId);
     }
