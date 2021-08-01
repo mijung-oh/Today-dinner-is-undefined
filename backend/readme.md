@@ -5,6 +5,7 @@
 |REST|Description|URL|form-data|Parameter|Return Type / Return Value|
 |:------:|:------:|:---:|:---:|:----:|--------|
 |**GET**|현재 로그인 유저|http://127.0.0.1:9000/curation/currentLogin|||String: name<br>String: email|
+|**GET**|로그아웃|http://127.0.0.1:9000/curation/user/logout||||
 |**GET**|소셜 로그인|http://127.0.0.1:9000/curation/google/auth||code|Int: code<br>String: message<br>Boolean: check<br>String: email<br>String: name|
 |**POST**|팔로우하기|http://localhost:9000/curation/follow/{followingEmail}|email|followingEmail|String:message("success")|
 |**GET**|팔로워 리스트|http://localhost:9000/curation/follow/{followingEmail}/followers||followingEmail|List [<br>String: userId<br> String: email<br> String: name<br> LocalDateTime createdDate ]|
