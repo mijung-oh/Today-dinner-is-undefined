@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +31,12 @@ public class RecipeScrapServiceImpl implements RecipeScrapService {
     @Autowired
     RecipeScrapRepository recipeScrapRepository;
 
-    public String scrap(String username, Long id) {
+    public String scrap(HttpServletRequest request, Long id) {
+        String nickname = request.getParameter("nickname");
         RecipeEntity recipeEntity = recipeRepository.findById(id).orElseThrow(RuntimeException::new);
-        UserEntity userEntity = userRepository.findByName(username);
+        UserEntity userEntity = userRepository.findByNickname(nickname);
 
-        if (recipeScrapRepository.countByUserEntityAndRecipeEntity(userEntity,recipeEntity) != 0) {
+        if (recipeScrapRepository.existsByUserEntityAndRecipeEntity(userEntity,recipeEntity)) {
             recipeScrapRepository.deleteByUserEntityAndRecipeEntity(userEntity, recipeEntity);
             return "delete success";
         }
@@ -44,12 +46,6 @@ public class RecipeScrapServiceImpl implements RecipeScrapService {
             recipeScrapEntity.setUserEntity(userEntity);
 
             recipeScrapRepository.save(recipeScrapEntity);
-
-            recipeEntity.addRecipeScrapEntity(recipeScrapEntity);
-            userEntity.addRecipeScrapEntity(recipeScrapEntity);
-
-            recipeRepository.save(recipeEntity);
-            userRepository.save(userEntity);
 
             return "success";
 
@@ -69,9 +65,9 @@ public class RecipeScrapServiceImpl implements RecipeScrapService {
         return userDtos;
     }
 
-    public List<RecipeDto> scrapRecipeList(String username) {
+    public List<RecipeDto> scrapRecipeList(String nickname) {
         List<RecipeDto> recipeDtos = new ArrayList<>();
-        UserEntity userEntity = userRepository.findByName(username);
+        UserEntity userEntity = userRepository.findByNickname(nickname);
         List<RecipeScrapEntity> scrapEntities = userEntity.getRecipeScrapEntities();
         for (RecipeScrapEntity s : scrapEntities) {
             RecipeDto recipeDto = new ModelMapper().map(s.getRecipeEntity(), RecipeDto.class);

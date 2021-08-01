@@ -7,19 +7,20 @@ import com.ssafy.curator.service.recipe.RecipeScrapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/recipe")
+@RequestMapping("/scrap")
 public class RecipeScrapController {
 
     @Autowired
     RecipeScrapService recipeScrapService;
 
-    @PostMapping("/{recipeId}")
-    String scrap(@RequestParam String username, @PathVariable Long recipeId) {
-        return recipeScrapService.scrap(username, recipeId);
+    @PostMapping("{recipeId}")
+    String scrap(HttpServletRequest request, @PathVariable Long recipeId) {
+        return recipeScrapService.scrap(request, recipeId);
     }
 
     @GetMapping("/{recipeId}/userList")
@@ -27,8 +28,8 @@ public class RecipeScrapController {
         return recipeScrapService.scrapUserList(recipeId);
     }
 
-    @GetMapping("/{username}/recipeList")
-    List<RecipeDto> scrapRecipeList(@PathVariable String username) {
-        return recipeScrapService.scrapRecipeList(username);
+    @GetMapping("/{nickname}/recipeList")
+    List<RecipeDto> scrapRecipeList(@PathVariable String nickname) {
+        return recipeScrapService.scrapRecipeList(nickname);
     }
 }

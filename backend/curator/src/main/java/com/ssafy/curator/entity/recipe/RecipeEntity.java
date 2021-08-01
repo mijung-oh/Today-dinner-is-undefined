@@ -41,14 +41,9 @@ public class RecipeEntity {
     private List<RecipeProcessEntity> processEntities;
 
     // 스크랩
-    @OneToMany
+    @OneToMany(mappedBy = "recipeEntity")
     @JsonIgnore
-    @JoinColumn(name = "recipe_id")
     private List<RecipeScrapEntity> recipeScrapEntities = new ArrayList<>();
-
-    public void addRecipeScrapEntity(RecipeScrapEntity... scrapEntities) {
-        Collections.addAll(this.recipeScrapEntities, scrapEntities);
-    }
 
 }
 
