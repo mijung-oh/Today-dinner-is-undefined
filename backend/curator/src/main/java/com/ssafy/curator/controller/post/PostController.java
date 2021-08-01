@@ -24,19 +24,7 @@ import java.util.List;
 public class PostController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private PostServiceImpl postService;
-
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private PostImageRepository postImageRepository;
 
     @Autowired
     private CommentServiceImpl commentService;

@@ -5,11 +5,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface UserPageService {
-    String createUserInfo(String email, String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest);
+    UserPageDto createUserInfo(String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest);
     UserPageDto getUserInfo(String nickname);
 
     String createNickname(String email, String nickname);
 
     String checkNickname(String nickname);
-    String updateUserInfo(String email, String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2);
+    String updateUserInfo(String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2);
+
+    boolean existsByNickname(String nickname);
 }

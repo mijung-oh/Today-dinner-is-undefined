@@ -27,21 +27,20 @@ public class PostLikeServiceImpl implements PostLikeService{
     UserRepository userRepository;
 
 
-    public String like(String email, int postId) {
+    public String like(String userNickname, int postId) {
         PostEntity postEntity = postRepository.findById(postId);
-        UserEntity userEntity = userRepository.findByEmail(email);
+        UserEntity userEntity = userRepository.findByNickname(userNickname);
 
+        if (postEntity == null) {
+            return "게시물이 존재하지 않습니다.";
+        } else if (userEntity == null) {
+            return "현재 유저가 존재하지 않습니다";
+        }
         PostLikeEntity postLikeEntity = new PostLikeEntity();
         postLikeEntity.setPostEntity(postEntity);
         postLikeEntity.setUserEntity(userEntity);
 
         postLikeRepository.save(postLikeEntity);
-
-        postEntity.addPostLikeEntity(postLikeEntity);
-        userEntity.addPostLikeEntity(postLikeEntity);
-
-        postRepository.save(postEntity);
-        userRepository.save(userEntity);
 
         return "success";
     }
@@ -51,8 +50,8 @@ public class PostLikeServiceImpl implements PostLikeService{
         List<UserDto> userDtos = new ArrayList<>();
 
         PostEntity postEntity = postRepository.findById(postId);
-        List<PostLikeEntity> likeEntities = postEntity.getPostLikeEntities();
-        for (PostLikeEntity o : likeEntities) {
+
+        for (PostLikeEntity o : postEntity.getPostLikeEntities()) {
             UserDto userDto = new ModelMapper().map(o.getUserEntity(), UserDto.class);
             userDtos.add(userDto);
         }
@@ -61,9 +60,9 @@ public class PostLikeServiceImpl implements PostLikeService{
     }
 
     // 좋아요 취소
-    public String deleteLike(String email, int postId) {
+    public String deleteLike(String userNickname, int postId) {
         PostEntity postEntity = postRepository.findById(postId);
-        UserEntity userEntity = userRepository.findByEmail(email);
+        UserEntity userEntity = userRepository.findByNickname(userNickname);
 
         postLikeRepository.deleteByUserEntityAndPostEntity(userEntity, postEntity);
 

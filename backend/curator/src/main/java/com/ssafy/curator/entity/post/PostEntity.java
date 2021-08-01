@@ -53,12 +53,8 @@ public class PostEntity {
 
 
     // 게시글 좋아요
-    @OneToMany
+    @OneToMany(mappedBy = "postEntity")
     @JsonIgnore
-    @JoinColumn(name = "post_id")
     private List<PostLikeEntity> postLikeEntities = new ArrayList<>();
 
-    public void addPostLikeEntity(PostLikeEntity... likeEntities) {
-        Collections.addAll(this.postLikeEntities, likeEntities);
-    }
 }
