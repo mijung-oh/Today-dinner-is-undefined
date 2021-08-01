@@ -1,5 +1,4 @@
 import React from "react";
-
 const TestCompo: React.FC = () => {
   return (
     <div>

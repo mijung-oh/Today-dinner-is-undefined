@@ -16,7 +16,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 
 const useStyles = makeStyles((theme: any) => ({
@@ -133,8 +133,9 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
       <AppBar>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            프로젝트 이름입니다
+            <Link to="/">프로젝트</Link>
           </Typography>
+          <Link to="/test">테스트 페이지</Link>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
