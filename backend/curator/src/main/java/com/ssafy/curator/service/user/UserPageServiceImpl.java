@@ -34,30 +34,54 @@ public class UserPageServiceImpl implements UserPageService{
     PostRepository postRepository;
 
     @Override
-    public String createUserInfo(String email, String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) {
+    public UserPageDto createUserInfo(String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) {
         UserPageEntity userPageEntity = new UserPageEntity();
-        UserEntity userEntity = userRepository.findByEmail(email);
+        UserEntity userEntity = userRepository.findByNickname(nickname);
 
         userPageEntity.setUser(userEntity);
         userPageEntity.setNickname(nickname);
         userPageEntity.setIntroduction(introduction);
 
-        MultipartFile multipartFile = multipartHttpServletRequest.getFile("profileImg");
-        String profileImg = multipartFile.getOriginalFilename();
-        userPageEntity.setProfileImg(profileImg);
+        if (multipartHttpServletRequest == null) {
+            userPageEntity.setProfileImg(null);
+            userPageEntity.setBgImg(null);
+        } else {
+            MultipartFile multipartFile = multipartHttpServletRequest.getFile("profileImg");
+            String profileImg = multipartFile.getOriginalFilename();
+            userPageEntity.setProfileImg(profileImg);
 
-        MultipartFile multipartFile2 = multipartHttpServletRequest.getFile("bgImg");
-        String bgImg = multipartFile2.getOriginalFilename();
-        userPageEntity.setBgImg(bgImg);
+            MultipartFile multipartFile2 = multipartHttpServletRequest.getFile("bgImg");
+            String bgImg = multipartFile2.getOriginalFilename();
+            userPageEntity.setBgImg(bgImg);
+        }
+
+
         userPageRepository.save(userPageEntity);
 
-        return "success";
+        UserPageDto userPageDto = new ModelMapper().map(userPageEntity, UserPageDto.class);
+
+        List<UserDto> userDtos = new ArrayList<>();
+        for (FollowingsEntity userEntity1 : userEntity.getFollowers()) {
+            UserDto o = new ModelMapper().map(userEntity1.getFollower(), UserDto.class);
+            userDtos.add(o);
+        }
+        userPageDto.setFollowers(userDtos);
+
+        List<UserDto> userDtos2 = new ArrayList<>();
+        for (FollowingsEntity userEntity1 : userEntity.getFollowings()) {
+            UserDto o = new ModelMapper().map(userEntity1.getFollowing(), UserDto.class);
+            userDtos2.add(o);
+        }
+        userPageDto.setFollowings(userDtos2);
+
+        return userPageDto;
     }
 
     @Override
     public UserPageDto getUserInfo(String nickname) {
 
         UserEntity userEntity = userRepository.findByNickname(nickname);
+
         UserPageEntity userPageEntity = userPageRepository.findByUser(userEntity);
         UserPageDto userPageDto = new UserPageDto();
 
@@ -102,10 +126,10 @@ public class UserPageServiceImpl implements UserPageService{
         return userPageDto;
     }
 
+
     @Override
     public String createNickname(String email, String nickname) {
         UserEntity userEntity = userRepository.findByEmail(email);
-        userEntity.setNickname(nickname);
 
         // 처음 유저 닉네임 설정할 때 사진, 한줄소개 등등은 null값으로 일단 저장해놓기
         UserPageEntity userPageEntity = new UserPageEntity();
@@ -120,6 +144,7 @@ public class UserPageServiceImpl implements UserPageService{
         return "success";
     }
 
+
     @Override
     public String checkNickname(String nickname) {
         UserPageEntity userPageEntity = userPageRepository.findByNickname(nickname);
@@ -128,6 +153,7 @@ public class UserPageServiceImpl implements UserPageService{
         if (userPageEntity == null) return "success";
         else return "fail";
     }
+
 
     @Override
     public String updateUserInfo(String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2){
@@ -161,5 +187,10 @@ public class UserPageServiceImpl implements UserPageService{
         userPageRepository.save(userPageEntity);
 
         return "success";
+    }
+
+    @Override
+    public boolean existsByNickname(String nickname) {
+        return userPageRepository.existsByNickname(nickname);
     }
 }

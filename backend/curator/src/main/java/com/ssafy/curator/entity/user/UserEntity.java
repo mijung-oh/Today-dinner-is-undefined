@@ -43,8 +43,13 @@ public class UserEntity extends BaseTimeEntity {
 
     @Size(min = 2, message = "닉네임은 2자 이상입니다.")
     @Column
-    @ApiModelProperty(value = "사용자 닉네임", required = true)
+    @ApiModelProperty(value = "사용자 이름", required = true)
     private String name;
+
+    @Size(min = 2, message = "닉네임은 2자 이상입니다.")
+    @Column
+    @ApiModelProperty(value = "사용자 닉네임", required = true)
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -53,8 +58,6 @@ public class UserEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Platform platform;
-
-    private String nickname;
 
     @OneToMany(mappedBy = "follower")
     @JsonIgnore
