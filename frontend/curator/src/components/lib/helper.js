@@ -18,6 +18,8 @@ export const testalert = () => {
   });
 };
 
+// TODO: nicknameCheck 순수성 확보
+// 지금 닉네임 중복체크, 닉네임 설정 2가지 기능을 동시에 하는데, 이걸 분리해야함
 export const nicknameCheck = (email) => {
   Swal.fire({
     title: "만나서 반가워요!",
@@ -29,7 +31,6 @@ export const nicknameCheck = (email) => {
       } else {
         const nicknameCheckURL = `http://127.0.0.1:9000/curation/user/userNicknameCheck?nickname=${nickname}`;
         const isExist = await axios.get(nicknameCheckURL);
-        console.log(isExist);
         if (isExist.data) {
           return "이미 존재하는 닉네임입니다.";
         } else {

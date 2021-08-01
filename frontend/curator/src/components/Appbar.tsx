@@ -93,7 +93,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   match,
 }) => {
   const classes = useStyles();
-  console.log("h", history);
+  console.log("history form appbar", history);
 
   function ScrollTop(props: any) {
     const { children, window } = props;
