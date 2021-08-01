@@ -30,10 +30,10 @@ public class UserPageController {
 
 
     // 마이페이지 등록
-   @PostMapping("/userInfo")
-    String createUserInfo(@RequestParam String email, @RequestParam String nickname, @RequestParam String introduction
+    @PostMapping("/userInfo")
+    String createUserInfo(@RequestParam String userNickname, @RequestParam String nickname, @RequestParam String introduction
     , MultipartHttpServletRequest multipartHttpServletRequest) {
-        return userPageService.createUserInfo(email, nickname, introduction, multipartHttpServletRequest);
+        return userPageService.createUserInfo(userNickname, nickname, introduction, multipartHttpServletRequest);
     }
 
 
@@ -46,12 +46,11 @@ public class UserPageController {
 
     // 마이페이지 수정
     @PutMapping("/userInfo")
-    String updateUserInfo(@RequestParam String email,
-                          @RequestParam String nickname,
+    String updateUserInfo(@RequestParam String nickname,
                           @RequestParam String introduction,
                           @RequestParam(name = "profileImg") MultipartFile multipartFile1,
                           @RequestParam(name = "bgImg") MultipartFile multipartFile2) {
-        return userPageService.updateUserInfo(email, nickname, introduction, multipartFile1, multipartFile2);
+        return userPageService.updateUserInfo(nickname, introduction, multipartFile1, multipartFile2);
     }
 
 }

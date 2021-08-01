@@ -4,6 +4,7 @@ package com.ssafy.curator.service.user;
 import com.ssafy.curator.dto.post.MyPagePostDto;
 import com.ssafy.curator.dto.user.UserDto;
 import com.ssafy.curator.dto.user.UserPageDto;
+import com.ssafy.curator.entity.follow.FollowingsEntity;
 import com.ssafy.curator.entity.post.PostEntity;
 import com.ssafy.curator.entity.user.UserEntity;
 import com.ssafy.curator.entity.user.UserPageEntity;
@@ -64,15 +65,15 @@ public class UserPageServiceImpl implements UserPageService{
         userPageDto.setNickname(userPageEntity.getNickname());
 
         List<UserDto> userDtos = new ArrayList<>();
-        for (UserEntity userEntity1 : userEntity.getFollowers()) {
-            UserDto o = new ModelMapper().map(userEntity1, UserDto.class);
+        for (FollowingsEntity userEntity1 : userEntity.getFollowers()) {
+            UserDto o = new ModelMapper().map(userEntity1.getFollower(), UserDto.class);
             userDtos.add(o);
         }
         userPageDto.setFollowers(userDtos);
 
         List<UserDto> userDtos2 = new ArrayList<>();
-        for (UserEntity userEntity1 : userEntity.getFollowings()) {
-            UserDto o = new ModelMapper().map(userEntity1, UserDto.class);
+        for (FollowingsEntity userEntity1 : userEntity.getFollowings()) {
+            UserDto o = new ModelMapper().map(userEntity1.getFollowing(), UserDto.class);
             userDtos2.add(o);
         }
         userPageDto.setFollowings(userDtos2);
@@ -104,6 +105,7 @@ public class UserPageServiceImpl implements UserPageService{
     @Override
     public String createNickname(String email, String nickname) {
         UserEntity userEntity = userRepository.findByEmail(email);
+        userEntity.setNickname(nickname);
 
         // 처음 유저 닉네임 설정할 때 사진, 한줄소개 등등은 null값으로 일단 저장해놓기
         UserPageEntity userPageEntity = new UserPageEntity();
@@ -128,8 +130,8 @@ public class UserPageServiceImpl implements UserPageService{
     }
 
     @Override
-    public String updateUserInfo(String email, String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2){
-        UserEntity userEntity = userRepository.findByEmail(email);
+    public String updateUserInfo(String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2){
+        UserEntity userEntity = userRepository.findByNickname(nickName);
         UserPageEntity userPageEntity = userPageRepository.findByUser(userEntity);
 
 

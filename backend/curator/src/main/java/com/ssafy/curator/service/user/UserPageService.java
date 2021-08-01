@@ -11,5 +11,5 @@ public interface UserPageService {
     String createNickname(String email, String nickname);
 
     String checkNickname(String nickname);
-    String updateUserInfo(String email, String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2);
+    String updateUserInfo(String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2);
 }
