@@ -11,7 +11,7 @@ import com.ssafy.curator.service.LoginService;
 import com.ssafy.curator.service.LoginSessionService;
 import com.ssafy.curator.service.user.UserService;
 import com.ssafy.curator.vo.oauth.*;
-import com.ssafy.curator.vo.ResponseLogin;
+import com.ssafy.curator.vo.user.ResponseLogin;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Map;
 

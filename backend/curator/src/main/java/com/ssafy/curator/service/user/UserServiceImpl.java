@@ -3,8 +3,11 @@ package com.ssafy.curator.service.user;
 import com.ssafy.curator.dto.Platform;
 import com.ssafy.curator.dto.Role;
 import com.ssafy.curator.dto.user.UserDto;
+import com.ssafy.curator.dto.user.UserSessionDto;
 import com.ssafy.curator.entity.user.UserEntity;
 import com.ssafy.curator.repository.user.UserRepository;
+import com.ssafy.curator.service.LoginSessionService;
+import com.ssafy.curator.vo.user.ResponseLogin;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,12 @@ public class UserServiceImpl implements UserService{
 
     ModelMapper mapper = new ModelMapper();
     UserRepository userRepository;
+    LoginSessionService sessionService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, LoginSessionService sessionService) {
         this.userRepository = userRepository;
+        this.sessionService = sessionService;
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
     }
 
@@ -59,5 +64,20 @@ public class UserServiceImpl implements UserService{
         return userRepository.existsByEmail(email);
     }
 
+    @Override
+    public boolean existUserNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    @Override
+    public ResponseLogin addUserNickname(String nickname, String email) {
+        UserEntity byEmail = userRepository.findByEmail(email);
+        byEmail.setNickname(nickname);
+        userRepository.save(byEmail);
+        UserSessionDto sessionDto = mapper.map(byEmail, UserSessionDto.class);
+        sessionService.setSession(sessionDto);
+        ResponseLogin responseLogin = new ResponseLogin(200, "닉네임 입력 성공", true, sessionDto);
+        return responseLogin;
+    }
 
 }

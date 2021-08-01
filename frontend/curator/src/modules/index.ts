@@ -9,7 +9,7 @@ import clientLogin from "./clientLogin";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["clientLogin"],
+  whitelist: ["clientLogin"], // required인지 모르겠당..
 };
 
 export const rootReducer = combineReducers({ clientLogin: clientLogin });
@@ -18,7 +18,9 @@ export const rootReducer = combineReducers({ clientLogin: clientLogin });
 // export type RootState = ReturnType<typeof rootReducer>;
 
 // //persistReducer에 감싸서 보낸다
+
 // export default persistReducer(persistConfig, rootReducer);
+// 정상 코드
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export default function configureStore() {

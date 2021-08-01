@@ -10,5 +10,6 @@ public class UserDto implements Serializable {
     private String userId;
     private String email;
     private String name;
+    private String nickname;
     private LocalDateTime createdDate;
 }
