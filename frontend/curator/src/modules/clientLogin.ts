@@ -32,7 +32,6 @@ export const getUserInfo = (name: string, email: string, nickname: string) => ({
 //리듀서 생성
 function reducer(state: UserState = InitialState, action: AnyAction) {
   // 상태 업데이트 로직을 구현
-  console.log(action);
   switch (action.type) {
     case GET_USER_INFO:
       return {
