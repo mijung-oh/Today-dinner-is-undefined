@@ -85,12 +85,9 @@ public class PostController {
         return commentService.deleteComment(postId, commentId);
     }
 
-    @GetMapping(value = "/image1", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> userSearch() throws IOException {
-        InputStream imageStream = new FileInputStream("src/main/resources/static/images/test.jpg");
-        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-        imageStream.close();
-        return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
+    @PostMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
+    String getPostImage(HttpServletRequest request) throws IOException {
+        return postService.getPostImage(request);
     }
 
 }
