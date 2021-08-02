@@ -1,6 +1,5 @@
 package com.ssafy.curator.controller.post;
 
-
 import com.ssafy.curator.dto.post.CommentDto;
 import com.ssafy.curator.dto.post.PostWithImageDto;
 import com.ssafy.curator.entity.post.CommentEntity;
@@ -10,12 +9,19 @@ import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserRepository;
 import com.ssafy.curator.service.post.*;
 import com.ssafy.curator.service.user.UserService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -79,6 +85,13 @@ public class PostController {
         return commentService.deleteComment(postId, commentId);
     }
 
+    @GetMapping(value = "/image1", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> userSearch() throws IOException {
+        InputStream imageStream = new FileInputStream("src/main/resources/static/images/test.jpg");
+        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+        imageStream.close();
+        return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
+    }
 
 }
 
