@@ -31,12 +31,11 @@ const BRouter: React.FC<BRouterProps> = () => {
 
   return (
     <Router>
-      {/* XXX : Appbar를 마지막에 Boolean(userName)으로 감싸서 로그인 되었을때만 랜더링 되도록해라 */}
-      {isAuth ? <Appbar></Appbar> : null}
+      {isAuth ? <Appbar /> : null}
       <Switch>
         <Route path="/" exact component={Main} />
         <Route path="/test" exact component={TestPage} />
-        <Route path="/profile/:username" component={Profile} />
+        <Route path="/profile/:nickname" component={Profile} />
         <Route path="/oauth/:socialCompany" component={Authlogin} />
         <Route path="/Board" exact component={BoardPage}></Route>
         <Route path="/article/:articleId" exact component={ArticlePage}></Route>
