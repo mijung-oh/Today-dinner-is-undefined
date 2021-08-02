@@ -14,8 +14,8 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({ clientLogin: clientLogin });
 
-// 타입도 빼줘야한다.
-// export type RootState = ReturnType<typeof rootReducer>;
+// 타입도 빼줘야한다. <-- 이거 export 해야지 나중에 useSelector 사용할 때 state의 Type을 지정할 수 있다
+export type RootState = ReturnType<typeof rootReducer>;
 
 // //persistReducer에 감싸서 보낸다
 

@@ -17,10 +17,12 @@ import SearchIcon from "@material-ui/icons/Search";
 import CreateIcon from "@material-ui/icons/Create";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import KitchenIcon from "@material-ui/icons/Kitchen";
+import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import { Link, withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
-import MoreIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -104,29 +106,15 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   match,
 }) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const mobileMenuId = "primary-search-account-menu-mobile";
-  const menuId = "primary-search-account-menu";
-
-  const isMenuOpen = Boolean(anchorEl);
-
-  console.log("history form appbar", history);
-
-  const handleProfileMenuOpen = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   function ScrollTop(props: any) {
@@ -179,11 +167,17 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
       </MenuItem>
       <MenuItem>
         <IconButton color="inherit">
+          <KitchenIcon />
+        </IconButton>
+        <p>Recipes</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton color="inherit">
           <NotificationsIcon />
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={pushProfile}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -194,20 +188,12 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-    </Menu>
-  );
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem>
+        <IconButton color="inherit">
+          <ExitToAppIcon />
+        </IconButton>
+        <p>Log out</p>
+      </MenuItem>
     </Menu>
   );
 
@@ -237,10 +223,16 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
               <CreateIcon />
             </IconButton>
             <IconButton color="inherit">
+              <KitchenIcon />
+            </IconButton>
+            <IconButton color="inherit">
               <NotificationsIcon />
             </IconButton>
             <IconButton onClick={pushProfile} color="inherit">
               <AccountCircleIcon />
+            </IconButton>
+            <IconButton color="inherit">
+              <ExitToAppIcon />
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -257,7 +249,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
       <Toolbar id="back-to-top-anchor" />
       <ScrollTop>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
