@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 public interface PostService {
@@ -15,5 +16,6 @@ public interface PostService {
     PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception;
     PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception;
     ResponseEntity<?> deletePost(@PathVariable("post_id") Long postId) throws Exception;
+    String getPostImage(HttpServletRequest request) throws IOException;
 
 }
