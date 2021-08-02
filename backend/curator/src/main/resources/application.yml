@@ -1,0 +1,14 @@
+server:
+  name: curation-service
+  port: 9000
+  servlet:
+    context-path: /curation
+---
+spring:
+  profiles:
+    active: prod # 운영
+---
+spring:
+  profiles:
+    active: local # 개발
+---
