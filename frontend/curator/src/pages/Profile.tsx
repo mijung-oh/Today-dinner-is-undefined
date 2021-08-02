@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import Articles from "@components/Articles";
 import ArticleContainer from "@container/ArticleContainer";
 import "./Profile.scss";
 interface paramsProps {

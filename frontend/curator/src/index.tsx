@@ -19,8 +19,6 @@ import configureStore from "./modules/index";
 // //여기서도 export를 해줬어야한다. --> 그냥 export store는 해결이 안된다.
 
 const { store, persistor } = configureStore();
-console.log("store", store);
-console.log("persistor", persistor);
 const Root = () => (
   <Provider store={store}>
     <PersistGate loading={<TestCompo />} persistor={persistor}>
