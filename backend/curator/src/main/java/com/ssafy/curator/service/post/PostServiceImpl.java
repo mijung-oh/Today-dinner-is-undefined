@@ -11,8 +11,10 @@ import com.ssafy.curator.repository.post.CommentRepository;
 import com.ssafy.curator.repository.post.PostImageRepository;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserRepository;
+import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -22,8 +24,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -197,5 +203,13 @@ public class PostServiceImpl implements PostService {
 
     }
 
+    public String getPostImage(HttpServletRequest request) throws IOException {
+        String path = request.getParameter("path");
+        InputStream imageStream = new FileInputStream(path);
+        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+        String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+        imageStream.close();
+        return "data:image/png;base64," + base64data;
+    }
 
 }
