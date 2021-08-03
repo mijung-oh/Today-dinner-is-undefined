@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { Button } from "@material-ui/core";
-import { ArticleProps } from "@components/lib/interfaces";
-import ArticleContainer from "@container/ArticleContainer";
-import "./Profile.scss";
+import { ArticleProps } from "lib/interfaces";
+import ArticleContainer from "@profiles/container/ArticleContainer";
+import "./ProfilePage.scss";
 import axios from "axios";
 interface paramsProps {
   nickname: string;
