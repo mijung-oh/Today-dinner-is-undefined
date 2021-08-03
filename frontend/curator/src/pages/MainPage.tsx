@@ -21,7 +21,6 @@ const useStyles = makeStyles({
     width: "70%",
     height: "70%",
     margin: "3% auto",
-    // position: "relative",
   },
   buttonBox: {
     padding: "5% 0%",

@@ -5,6 +5,7 @@ import MainPage from "@pages/MainPage";
 import ProfilePage from "@pages/ProfilePage";
 import AuthloginPage from "@pages/AuthloginPage";
 import Appbar from "@components/Appbar";
+import BottomNav from "@components/BottomNav";
 import { useSelector } from "react-redux";
 
 import { RootState } from "modules";
@@ -17,7 +18,7 @@ const BRouter: React.FC<BRouterProps> = () => {
   const name = useSelector((state: RootState) => state.clientLogin.name);
   const Email = useSelector((state: RootState) => state.clientLogin.email);
 
-  const [isAuth, setAuth] = useState<Boolean>(false);
+  const [isAuth, setAuth] = useState<boolean>(false);
 
   useEffect(() => {
     if (name && Email) {
@@ -29,7 +30,8 @@ const BRouter: React.FC<BRouterProps> = () => {
 
   return (
     <Router>
-      {isAuth ? <Appbar /> : null}
+      {/* {isAuth ? <Appbar /> : null} */}
+      <Appbar />
       <Switch>
         <Route path="/" exact component={MainPage} />
         <Route path="/test" exact component={TestPage} />
@@ -37,6 +39,8 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/oauth/:socialCompany" component={AuthloginPage} />
         <Route path="/articles" component={Articles} />
       </Switch>
+      {/* {isAuth ? <BottomNav /> : null} */}
+      <BottomNav />
     </Router>
   );
 };
