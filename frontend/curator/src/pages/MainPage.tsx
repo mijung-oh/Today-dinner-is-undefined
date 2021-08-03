@@ -5,8 +5,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../modules/clientLogin";
-import { codeExtractor } from "@components/lib/helper";
-import { googleURL, naverURL, kakaoURL } from "@components/lib/constants";
+import { codeExtractor } from "@lib/helper";
+import { googleURL, naverURL, kakaoURL } from "@lib/constants";
 
 import Glogo from "@static/logos/G-logo";
 import Nlogo from "@static/logos/N-logo";

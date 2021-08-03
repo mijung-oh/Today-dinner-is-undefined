@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { codeExtractor, nicknameCheck } from "@components/lib/helper";
+import { codeExtractor, nicknameCheck } from "@lib/helper";
 import axios from "axios";
 
 import { useDispatch } from "react-redux";

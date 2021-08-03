@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { humanizeTime } from "./lib/helper";
+import { humanizeTime } from "@lib/helper";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreIcon from "@material-ui/icons/More";
 import "./Articles.scss";
-import { ArticleProps } from "@components/lib/interfaces";
+import { ArticleProps } from "@lib/interfaces";
 
 const Articles: React.FC<ArticleProps> = (props) => {
   const [humanTime, setHumanTime] = useState<string>("");

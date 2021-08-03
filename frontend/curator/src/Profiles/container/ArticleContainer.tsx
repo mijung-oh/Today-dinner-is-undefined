@@ -1,9 +1,9 @@
 import React from "react";
-import Articles from "@components/Articles";
+import Articles from "@profiles/components/Articles";
+import DefaultArticle from "@profiles/components/DefaultArticle";
 import "./ArticleContainer.scss";
 import { v4 as uuidv4 } from "uuid";
-import { ArticleProps } from "@components/lib/interfaces";
-import DefaultArticle from "@components/DefaultArticle";
+import { ArticleProps } from "@lib/interfaces";
 
 interface ContainerProps {
   fetchedMypagePostDtos: Array<[ArticleProps]>;

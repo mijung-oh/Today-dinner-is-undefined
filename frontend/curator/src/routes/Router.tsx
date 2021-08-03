@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TestPage from "@pages/TestPage";
-import Main from "@pages/Main";
-import Profile from "@pages/Profile";
-import Authlogin from "@pages/Authlogin";
+import MainPage from "@pages/MainPage";
+import ProfilePage from "@pages/ProfilePage";
+import AuthloginPage from "@pages/AuthloginPage";
 import Appbar from "@components/Appbar";
 import { useSelector } from "react-redux";
 
@@ -31,10 +31,10 @@ const BRouter: React.FC<BRouterProps> = () => {
     <Router>
       {isAuth ? <Appbar /> : null}
       <Switch>
-        <Route path="/" exact component={Main} />
+        <Route path="/" exact component={MainPage} />
         <Route path="/test" exact component={TestPage} />
-        <Route path="/profile/:nickname" component={Profile} />
-        <Route path="/oauth/:socialCompany" component={Authlogin} />
+        <Route path="/profile/:nickname" component={ProfilePage} />
+        <Route path="/oauth/:socialCompany" component={AuthloginPage} />
         <Route path="/articles" component={Articles} />
       </Switch>
     </Router>
