@@ -228,4 +228,14 @@ public class PostServiceImpl implements PostService {
 
     }
 
+//    public String getPostImage(HttpServletRequest request) throws IOException {
+//        String path = request.getParameter("path");
+//        InputStream imageStream = new FileInputStream(path);
+//        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+//        String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+//        imageStream.close();
+//        return "data:image/png;base64," + base64data;
+//    }
+
+
 }
