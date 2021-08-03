@@ -11,11 +11,11 @@ import java.io.IOException;
 import java.util.List;
 
 public interface PostService {
-    List<PostWithImageDto> getAllLists();
+    List<PostWithImageDto> getAllLists() throws IOException;
     String createPost(HttpServletRequest request, MultipartHttpServletRequest mtfRequest) throws Exception;
-    PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception;
+    PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws IOException;
     PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception;
     ResponseEntity<?> deletePost(@PathVariable("post_id") Long postId) throws Exception;
-    String getPostImage(HttpServletRequest request) throws IOException;
+//    String getPostImage(HttpServletRequest request) throws IOException;
 
 }

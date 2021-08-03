@@ -28,10 +28,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -48,7 +45,7 @@ public class PostServiceImpl implements PostService {
     CommentRepository commentRepository;
 
 
-    public List<PostWithImageDto> getAllLists() {
+    public List<PostWithImageDto> getAllLists() throws IOException {
         List<PostEntity> posts = postRepository.findAll();
         // 게시글 + 이미지
         List<PostWithImageDto> postWithImageDto = new ArrayList<>();
@@ -73,8 +70,24 @@ public class PostServiceImpl implements PostService {
             String updateDate = format.format(p.getUpdate_date());
             pp.setCreateDate(createDate);
             pp.setUpdateDate(updateDate);
-            pp.setImagePath(p.getImagePaths());
+
+
+            List<String> imagePaths = p.getImagePaths();
+            if (imagePaths.size() >= 1) {
+                String firstImage = imagePaths.get(0);
+                InputStream imageStream = new FileInputStream(firstImage);
+                byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+                String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+                imageStream.close();
+                String imageInfo = "data:image/png;base64," + base64data;
+
+                pp.setImagePath(Collections.singletonList(imageInfo));
+            } else {
+                pp.setImagePath(p.getImagePaths());
+            }
+
             pp.setComment(comments);
+
             postWithImageDto.add(pp);
 
         }
@@ -129,7 +142,7 @@ public class PostServiceImpl implements PostService {
         return "success";
     }
 
-    public PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception {
+    public PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws IOException {
         Long p = Long.parseLong(String.valueOf(postId));
         PostEntity post = postRepository.findById(p);
 
@@ -144,7 +157,19 @@ public class PostServiceImpl implements PostService {
         String updateDate = format.format(post.getUpdate_date());
         postWithImageDto.setCreateDate(createDate);
         postWithImageDto.setUpdateDate(updateDate);
-        postWithImageDto.setImagePath(post.getImagePaths());
+
+        List<String> imageInfos = new ArrayList<String>();
+        List<String> imagePaths = post.getImagePaths();
+        for (String path : imagePaths) {
+            InputStream imageStream = new FileInputStream(path);
+            byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+            String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+            imageStream.close();
+            String imageInfo = "data:image/png;base64," + base64data;
+            imageInfos.add(imageInfo);
+        }
+
+        postWithImageDto.setImagePath(imageInfos);
 
         List<CommentEntity> Comments = commentRepository.findByPostId(p);
 
@@ -201,15 +226,6 @@ public class PostServiceImpl implements PostService {
 
         return ResponseEntity.ok().build();
 
-    }
-
-    public String getPostImage(HttpServletRequest request) throws IOException {
-        String path = request.getParameter("path");
-        InputStream imageStream = new FileInputStream(path);
-        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-        String base64data = Base64.getEncoder().encodeToString(imageByteArray);
-        imageStream.close();
-        return "data:image/png;base64," + base64data;
     }
 
 }
