@@ -37,7 +37,7 @@ public class PostController {
 
 
     @GetMapping("/list")
-    public List<PostWithImageDto> getAllPosts() {
+    public List<PostWithImageDto> getAllPosts() throws Exception {
         return postService.getAllLists();
     }
 
@@ -85,10 +85,10 @@ public class PostController {
         return commentService.deleteComment(postId, commentId);
     }
 
-    @PostMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
-    String getPostImage(HttpServletRequest request) throws IOException {
-        return postService.getPostImage(request);
-    }
+//    @PostMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
+//    String getPostImage(HttpServletRequest request) throws IOException {
+//        return postService.getPostImage(request);
+//    }
 
 }
 
