@@ -11,7 +11,7 @@ interface paramsProps {
 //TODO : 이메일 출력
 const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
   const nickname = match.params.nickname;
-  const PROFILE_URL = `http://localhost:9000/curation/userInfo/${nickname}`;
+  const PROFILE_URL = `http://i5c207.p.ssafy.io:9000/curation/userInfo/${nickname}`;
 
   const [fetchedProfileImg, setProfileImg] = useState<any>("");
   const [fetchedBgImg, setBgImg] = useState<any>("");
@@ -24,22 +24,26 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
 
   useEffect(() => {
     const userInfo = async () => {
-      const res = await axios.get(PROFILE_URL);
-      console.log("fectched data", res.data);
-      const {
-        bgImg,
-        followers,
-        followings,
-        introduction,
-        myPagePostDtos,
-        profileImg,
-      } = res.data;
-      setBgImg(bgImg);
-      setFollowers(followers);
-      setFollowings(followings);
-      setIntroduction(introduction);
-      setMyPagePostDtos(myPagePostDtos);
-      setProfileImg(profileImg);
+      try {
+        const res = await axios.get(PROFILE_URL);
+        console.log("fectched data", res.data);
+        const {
+          bgImg,
+          followers,
+          followings,
+          introduction,
+          myPagePostDtos,
+          profileImg,
+        } = res.data;
+        setBgImg(bgImg);
+        setFollowers(followers);
+        setFollowings(followings);
+        setIntroduction(introduction);
+        setMyPagePostDtos(myPagePostDtos);
+        setProfileImg(profileImg);
+      } catch (err) {
+        alert("야 너 누구야"); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
+      }
     };
     userInfo();
   }, [PROFILE_URL]);
@@ -82,6 +86,9 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           </div>
         </div>
         <div className="buttonArea">
+          {/* TODO: 팔로우 버튼 등장 조건 .. 프로필 유저 !== 로그인 유저
+          프로필 유저 === 로그인 유저 프로필 편집 
+          */}
           <Button className="follow--btn" variant="outlined" color="primary">
             팔로우
           </Button>

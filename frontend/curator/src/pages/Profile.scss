@@ -1,42 +1,6 @@
 @import "../static/scss/variables";
 
-//responsive page settings
-
-@mixin mobile {
-  @media (min-width: #{$breakpoint-mobile}) and (max-width: #{$breakpoint-tablet - 1px}) {
-    @content;
-  }
-}
-
-@mixin tablet {
-  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1px}) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media (min-width: #{$breakpoint-desktop}) {
-    @content;
-  }
-}
-
 //mixins
-
-@include mobile {
-  body {
-    font-size: 1.1rem;
-  }
-}
-@include tablet {
-  body {
-    font-size: 1.5rem;
-  }
-}
-@include desktop {
-  body {
-    font-size: 2rem;
-  }
-}
 
 .container {
   padding-bottom: 10%;
@@ -138,6 +102,7 @@
 .contextArea {
   background-color: $white;
   padding: 0% 10%;
+  width: 100%;
   .buttonArea {
     display: flex;
     padding: 5% 0;

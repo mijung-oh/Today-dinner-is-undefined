@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TestPage from "@pages/TestPage";
 import Main from "@pages/Main";
 import Profile from "@pages/Profile";
@@ -18,7 +18,7 @@ const BRouter: React.FC<BRouterProps> = () => {
   const Email = useSelector((state: RootState) => state.clientLogin.email);
 
   const [isAuth, setAuth] = useState<Boolean>(false);
-  // //새로고침되면 폐기된다...XX..결국 localStorage를 활용해서 끝
+
   useEffect(() => {
     if (name && Email) {
       setAuth(true);
