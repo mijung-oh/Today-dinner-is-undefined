@@ -11,8 +11,10 @@ import com.ssafy.curator.repository.post.CommentRepository;
 import com.ssafy.curator.repository.post.PostImageRepository;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserRepository;
+import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -22,10 +24,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -42,7 +45,7 @@ public class PostServiceImpl implements PostService {
     CommentRepository commentRepository;
 
 
-    public List<PostWithImageDto> getAllLists() {
+    public List<PostWithImageDto> getAllLists() throws IOException {
         List<PostEntity> posts = postRepository.findAll();
         // 게시글 + 이미지
         List<PostWithImageDto> postWithImageDto = new ArrayList<>();
@@ -63,12 +66,28 @@ public class PostServiceImpl implements PostService {
             pp.setId(p.getId());
             pp.setUser(p.getUser());
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String createDate = format.format(p.getCreate_date());
-            String updateDate = format.format(p.getUpdate_date());
+            String createDate = format.format(p.getCreateDate());
+            String updateDate = format.format(p.getUpdateDate());
             pp.setCreateDate(createDate);
             pp.setUpdateDate(updateDate);
-            pp.setImagePath(p.getImagePaths());
+
+
+            List<String> imagePaths = p.getImagePaths();
+            if (imagePaths.size() >= 1) {
+                String firstImage = imagePaths.get(0);
+                InputStream imageStream = new FileInputStream(firstImage);
+                byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+                String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+                imageStream.close();
+                String imageInfo = "data:image/png;base64," + base64data;
+
+                pp.setImagePath(Collections.singletonList(imageInfo));
+            } else {
+                pp.setImagePath(p.getImagePaths());
+            }
+
             pp.setComment(comments);
+
             postWithImageDto.add(pp);
 
         }
@@ -123,7 +142,7 @@ public class PostServiceImpl implements PostService {
         return "success";
     }
 
-    public PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception {
+    public PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws IOException {
         Long p = Long.parseLong(String.valueOf(postId));
         PostEntity post = postRepository.findById(p);
 
@@ -134,11 +153,23 @@ public class PostServiceImpl implements PostService {
         postWithImageDto.setIngredients(post.getIngredients());
         postWithImageDto.setUser(post.getUser());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String createDate = format.format(post.getCreate_date());
-        String updateDate = format.format(post.getUpdate_date());
+        String createDate = format.format(post.getCreateDate());
+        String updateDate = format.format(post.getUpdateDate());
         postWithImageDto.setCreateDate(createDate);
         postWithImageDto.setUpdateDate(updateDate);
-        postWithImageDto.setImagePath(post.getImagePaths());
+
+        List<String> imageInfos = new ArrayList<String>();
+        List<String> imagePaths = post.getImagePaths();
+        for (String path : imagePaths) {
+            InputStream imageStream = new FileInputStream(path);
+            byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+            String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+            imageStream.close();
+            String imageInfo = "data:image/png;base64," + base64data;
+            imageInfos.add(imageInfo);
+        }
+
+        postWithImageDto.setImagePath(imageInfos);
 
         List<CommentEntity> Comments = commentRepository.findByPostId(p);
 
@@ -196,6 +227,5 @@ public class PostServiceImpl implements PostService {
         return ResponseEntity.ok().build();
 
     }
-
 
 }

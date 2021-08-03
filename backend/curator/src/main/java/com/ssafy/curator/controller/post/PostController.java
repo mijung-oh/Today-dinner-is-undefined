@@ -1,6 +1,5 @@
 package com.ssafy.curator.controller.post;
 
-
 import com.ssafy.curator.dto.post.CommentDto;
 import com.ssafy.curator.dto.post.PostWithImageDto;
 import com.ssafy.curator.entity.post.CommentEntity;
@@ -10,12 +9,19 @@ import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserRepository;
 import com.ssafy.curator.service.post.*;
 import com.ssafy.curator.service.user.UserService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -31,7 +37,7 @@ public class PostController {
 
 
     @GetMapping("/list")
-    public List<PostWithImageDto> getAllPosts() {
+    public List<PostWithImageDto> getAllPosts() throws Exception {
         return postService.getAllLists();
     }
 
@@ -78,7 +84,6 @@ public class PostController {
     public ResponseEntity deleteComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId) throws Exception {
         return commentService.deleteComment(postId, commentId);
     }
-
 
 }
 

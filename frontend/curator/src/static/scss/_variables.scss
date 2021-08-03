@@ -1,0 +1,29 @@
+//colors
+$red: #f52525;
+$blue: #3f51b5;
+$gray: #eee;
+$white: #ffffff;
+// Breakpoints
+$breakpoint-mobile: 320px;
+$breakpoint-tablet: 758px;
+$breakpoint-desktop: 1024px;
+
+//responsive mixins
+
+@mixin mobile {
+  @media (min-width: #{$breakpoint-mobile}) and (max-width: #{$breakpoint-tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}

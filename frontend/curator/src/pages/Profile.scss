@@ -1,5 +1,6 @@
-$red: #f52525;
-$blue: #3f51b5;
+@import "../static/scss/variables";
+
+//mixins
 
 .container {
   padding-bottom: 10%;
@@ -20,23 +21,78 @@ $blue: #3f51b5;
 .backgroundImg {
   border-radius: 7% 7% 0 0;
 }
-.profileImg {
-  position: absolute;
-  width: 25%;
-  height: 25%;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  top: 70%;
-  border-radius: 50%;
+
+// responsive mix-in
+
+@include mobile {
+  .profileImg {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 65%;
+    border-radius: 50%;
+  }
+  .follow--btn {
+    width: 96px;
+    height: 48px;
+    span {
+      font-size: 1rem;
+    }
+  }
 }
-.test2 {
+
+@include tablet {
+  .profileImg {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 65%;
+    border-radius: 50%;
+  }
+  .follow--btn {
+    width: 128px;
+    height: 64px;
+    span {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+@include desktop {
+  .profileImg {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 67%;
+    border-radius: 50%;
+  }
+  .follow--btn {
+    width: 164px;
+    height: 82px;
+    span {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.whiteTip {
   position: absolute;
   top: 80%;
   width: 100%;
   height: 20%; /* as the half of the width */
-  background-color: white;
+  background-color: $white;
   border-top-left-radius: 130px; /* 100px of height + 10px of border */
   border-top-right-radius: 130px; /* 100px of height + 10px of border */
   border: none;
@@ -44,8 +100,9 @@ $blue: #3f51b5;
 }
 
 .contextArea {
-  background-color: white;
+  background-color: $white;
   padding: 0% 10%;
+  width: 100%;
   .buttonArea {
     display: flex;
     padding: 5% 0;
@@ -65,7 +122,7 @@ $blue: #3f51b5;
     }
   }
   .--borderleft {
-    border-left: 1px solid gray;
+    border-left: 1px solid $gray;
   }
 }
 

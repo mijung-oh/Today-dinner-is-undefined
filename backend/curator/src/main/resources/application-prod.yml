@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://I5C207.p.ssafy.io:3306/curation?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: root
+
+  redis:
+    host: I5C207.p.ssafy.io
+    session:
+      port: 6379
+
+  token:
+    expiration_time: 8640000
+    secret: access_token
