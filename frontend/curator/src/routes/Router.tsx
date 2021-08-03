@@ -6,11 +6,9 @@ import Profile from "@pages/Profile";
 import Authlogin from "@pages/Authlogin";
 import Appbar from "@components/Appbar";
 import { useSelector } from "react-redux";
-import BoardPage from "../views/BoaedPage/BoardPage";
-import ArticlePage from "../views/ArticlePage/ArticlePage";
-import RegisterPage from "../components/views/RegisterPage/RegisterPage";
-import { RootState } from "modules";
 
+import { RootState } from "modules";
+import Articles from "../Articles/route/Articles";
 //App.tsx에서 내려주는 props들의 타입 여기서 지정
 interface BRouterProps {}
 
@@ -37,10 +35,7 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/test" exact component={TestPage} />
         <Route path="/profile/:nickname" component={Profile} />
         <Route path="/oauth/:socialCompany" component={Authlogin} />
-        <Route path="/Board" exact component={BoardPage}></Route>
-        <Route path="/article/:articleId" exact component={ArticlePage}></Route>
-        <Route path="/register" exact component={RegisterPage}></Route>
-        <Route path="/edit/:articleId" exact component={RegisterPage}></Route>
+        <Route path="/oauth/:socialCompany" component={Articles} />
       </Switch>
     </Router>
   );
