@@ -29,7 +29,7 @@ import { RootState } from "modules";
 const useStyles = makeStyles((theme: any) => ({
   root: {
     position: "fixed",
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(10),
     right: theme.spacing(2),
     "z-index": "100",
   },
@@ -172,12 +172,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
       </MenuItem>
       <MenuItem>
         <IconButton color="inherit">
-          <KitchenIcon />
-        </IconButton>
-        <p>Recipes</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton color="inherit">
           <NotificationsIcon />
         </IconButton>
         <p>Notifications</p>
@@ -226,9 +220,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit">
               <CreateIcon />
-            </IconButton>
-            <IconButton color="inherit">
-              <KitchenIcon />
             </IconButton>
             <IconButton color="inherit">
               <NotificationsIcon />
