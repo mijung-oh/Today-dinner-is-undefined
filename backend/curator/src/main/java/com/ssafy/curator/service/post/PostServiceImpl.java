@@ -66,8 +66,8 @@ public class PostServiceImpl implements PostService {
             pp.setId(p.getId());
             pp.setUser(p.getUser());
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String createDate = format.format(p.getCreate_date());
-            String updateDate = format.format(p.getUpdate_date());
+            String createDate = format.format(p.getCreateDate());
+            String updateDate = format.format(p.getUpdateDate());
             pp.setCreateDate(createDate);
             pp.setUpdateDate(updateDate);
 
@@ -153,8 +153,8 @@ public class PostServiceImpl implements PostService {
         postWithImageDto.setIngredients(post.getIngredients());
         postWithImageDto.setUser(post.getUser());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String createDate = format.format(post.getCreate_date());
-        String updateDate = format.format(post.getUpdate_date());
+        String createDate = format.format(post.getCreateDate());
+        String updateDate = format.format(post.getUpdateDate());
         postWithImageDto.setCreateDate(createDate);
         postWithImageDto.setUpdateDate(updateDate);
 
@@ -227,15 +227,5 @@ public class PostServiceImpl implements PostService {
         return ResponseEntity.ok().build();
 
     }
-
-//    public String getPostImage(HttpServletRequest request) throws IOException {
-//        String path = request.getParameter("path");
-//        InputStream imageStream = new FileInputStream(path);
-//        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-//        String base64data = Base64.getEncoder().encodeToString(imageByteArray);
-//        imageStream.close();
-//        return "data:image/png;base64," + base64data;
-//    }
-
 
 }
