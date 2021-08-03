@@ -114,7 +114,7 @@ public class UserPageServiceImpl implements UserPageService{
             myPagePostDto.setDescription(postEntity.getDescription());
             myPagePostDto.setIngredients(postEntity.getIngredients());
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String createDate = format.format(postEntity.getCreate_date());
+            String createDate = format.format(postEntity.getCreateDate());
             myPagePostDto.setCreate_date(createDate);
 
             myPagePostDto.setImagePaths(postEntity.getImagePaths());

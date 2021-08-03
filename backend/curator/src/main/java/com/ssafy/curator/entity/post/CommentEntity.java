@@ -35,10 +35,10 @@ public class CommentEntity {
     String content;
 
     @CreationTimestamp
-    Timestamp create_date;
+    Timestamp createDate;
 
     @UpdateTimestamp
-    Timestamp update_date;
+    Timestamp updateDate;
 
 
 }
