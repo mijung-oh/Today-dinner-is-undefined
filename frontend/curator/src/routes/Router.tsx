@@ -35,7 +35,7 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/test" exact component={TestPage} />
         <Route path="/profile/:nickname" component={Profile} />
         <Route path="/oauth/:socialCompany" component={Authlogin} />
-        <Route path="/oauth/:socialCompany" component={Articles} />
+        <Route path="/articles" component={Articles} />
       </Switch>
     </Router>
   );
