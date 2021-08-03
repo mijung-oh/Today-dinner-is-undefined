@@ -10,8 +10,8 @@ function BoardPage() {
   useEffect(() => {
     dispatch(boardActions.getBoard());
   }, [dispatch]);
-
-  const { board, isLoading, isSuccess, error, date } = useSelector((state) => ({
+  //{ board, isLoading, isSuccess, error, date }
+  const { board, isSuccess, date } = useSelector((state) => ({
     board: state.boardReducers.board,
     isLoading: state.boardReducers.isLoading,
     isSuccess: state.boardReducers.isSuccess,

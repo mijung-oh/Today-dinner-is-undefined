@@ -50,13 +50,14 @@ export const nicknameCheck = (username, email) => {
       if (!nickname) {
         return "우리 사이트 그렇게 허졉하지는 않아요";
       } else {
-        const nicknameCheckURL = `http://127.0.0.1:9000/curation/user/userNicknameCheck?nickname=${nickname}`;
+        const nicknameCheckURL = `http://i5c207.p.ssafy.io:9000/curation/user/userNicknameCheck?nickname=${nickname}`;
         const isExist = await axios.get(nicknameCheckURL);
+        console.log("isExist", isExist);
         if (isExist.data) {
           return "이미 존재하는 닉네임입니다.";
         } else {
           const nicknameSetURL =
-            "http://127.0.0.1:9000/curation/user/setNickname";
+            "http://i5c207.p.ssafy.io:9000/curation/user/setNickname";
 
           const data = { nickname: nickname, email: email };
           const config = { withCredentials: true };

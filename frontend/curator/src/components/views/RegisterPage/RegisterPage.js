@@ -29,7 +29,13 @@ function RegisterPage(props) {
     }
     setTitleValue(title);
     setContentValue(content);
-  }, [id]);
+  }, [
+    props.location.search,
+    props.match.params.articleId,
+    title,
+    content,
+    dispatch,
+  ]);
 
   const onTitleChange = (event) => {
     setTitleValue(event.currentTarget.value);

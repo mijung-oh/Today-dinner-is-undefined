@@ -11,7 +11,7 @@ function ArticlePage({ match, location }) {
   useEffect(() => {
     dispatch(articleActions.getArticle(match.params.articleId));
     dispatch(commentActions.getComments(match.params.articleId));
-  }, [match.params.articleId]);
+  });
   const comments = useSelector((state) => state.commentReducers.comments);
   const { id, title, content, date } = useSelector(
     (state) => ({
