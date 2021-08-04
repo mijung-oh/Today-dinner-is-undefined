@@ -6,7 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../modules/clientLogin";
 import { codeExtractor } from "@lib/helper";
-import { googleURL, naverURL, kakaoURL } from "@lib/constants";
+import { GOOGLE_URL, NAVER_URL, KAKAO_URL } from "@lib/constants";
 import Glogo from "@static/logos/G-logo";
 import Nlogo from "@static/logos/N-logo";
 import Klogo from "@static/logos/K-logo";
@@ -63,13 +63,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const onClickGoogle = (e: any) => {
-  window.location.href = `${googleURL}`;
+  window.location.href = `${GOOGLE_URL}`;
 };
 const onClickNaver = (e: any) => {
-  window.location.href = `${naverURL}`;
+  window.location.href = `${NAVER_URL}`;
 };
 const onClickKakao = (e: any) => {
-  window.location.href = `${kakaoURL}`;
+  window.location.href = `${KAKAO_URL}`;
 };
 
 interface MainProps {}

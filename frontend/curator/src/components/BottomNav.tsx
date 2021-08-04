@@ -5,8 +5,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import HomeIcon from "@material-ui/icons/Home";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import KitchenIcon from "@material-ui/icons/Kitchen";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 
 const useStyles = makeStyles({

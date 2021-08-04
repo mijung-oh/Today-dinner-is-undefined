@@ -19,7 +19,6 @@ import CreateIcon from "@material-ui/icons/Create";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import KitchenIcon from "@material-ui/icons/Kitchen";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import { Link, withRouter } from "react-router-dom";

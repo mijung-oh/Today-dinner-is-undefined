@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../modules/clientLogin";
+import { USER_CHECK_URL } from "@lib/constants";
 
 interface paramsProps {
   socialCompany: string;
@@ -56,7 +57,7 @@ const Authlogin: React.FC<RouteComponentProps<paramsProps>> = ({
       .then(async () => {
         const response = await axios.get(
           // `http://i5c207.p.ssafy.io:9000/curation/currentLogin`, <-- 개발 끝나고 이걸로 바꿀것
-          `http://i5c207.p.ssafy.io:9000/curation/currentLogin/test`,
+          `${USER_CHECK_URL}`,
           config
         );
         console.log("current Login response", response);
