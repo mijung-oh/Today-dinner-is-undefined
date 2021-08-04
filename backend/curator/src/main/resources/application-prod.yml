@@ -2,10 +2,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -14,7 +10,7 @@ spring:
     password: root
 
   redis:
-    host: 127.0.0.1
+    host: I5C207.p.ssafy.io
     session:
       port: 6379
 

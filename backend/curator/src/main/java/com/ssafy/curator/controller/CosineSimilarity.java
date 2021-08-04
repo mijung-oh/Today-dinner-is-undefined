@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 @RestController
 public class CosineSimilarity {
 

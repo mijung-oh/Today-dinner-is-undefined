@@ -10,6 +10,24 @@ export const codeExtractor = (URL) => {
   return trimmedCode;
 };
 
+// 작성 시간을 좀 더 사람이 손 댄 것 처럼 만들어주는 함수
+export const humanizeTime = (target) => {
+  const targetTime = new Date(target);
+  const duration = new Date() - targetTime;
+  let seconds = Math.floor((duration / 1000) % 60);
+  let minutes = Math.floor((duration / (1000 * 60)) % 60);
+  let hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  if (!hours && !minutes && seconds) {
+    return `${seconds}초 전`;
+  } else if (!hours && minutes) {
+    return `${minutes}분 전`;
+  } else if (hours && hours <= 10) {
+    return `${hours}시간 전`;
+  } else {
+    return "오래 전";
+  }
+};
+
 export const testalert = () => {
   Swal.fire({
     title: "Error!",

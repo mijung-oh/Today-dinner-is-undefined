@@ -10,6 +10,7 @@ import {
   Zoom,
 } from "@material-ui/core";
 import React from "react";
+import { useSelector } from "react-redux";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -23,6 +24,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import { Link, withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
+import { RootState } from "modules";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -97,7 +99,7 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 interface paramsProps {
-  username: string;
+  nickname: string;
 }
 
 const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
@@ -106,6 +108,10 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   match,
 }) => {
   const classes = useStyles();
+  const nickname = useSelector(
+    (state: RootState) => state.clientLogin.nickname
+  );
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -146,8 +152,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   }
 
   const pushProfile = (event: any) => {
-    console.log(history);
-    history.push("/profile/이동윤");
+    history.push(`/profile/${nickname}`);
   };
   const renderMobileMenu = (
     <Menu

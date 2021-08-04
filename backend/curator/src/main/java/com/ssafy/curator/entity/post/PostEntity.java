@@ -40,10 +40,10 @@ public class PostEntity {
     String ingredients;
 
     @CreationTimestamp
-    Timestamp create_date;
+    Timestamp createDate;
 
     @UpdateTimestamp
-    Timestamp update_date;
+    Timestamp updateDate;
 
     @ElementCollection(targetClass=String.class)
     @CollectionTable(

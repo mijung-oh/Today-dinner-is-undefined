@@ -2,9 +2,7 @@ import { combineReducers, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-
 import clientLogin from "./clientLogin";
-// import clientLogin from "./clientLogin2";
 
 const persistConfig = {
   key: "root",
