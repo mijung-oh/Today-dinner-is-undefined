@@ -180,7 +180,16 @@ public class PostServiceImpl implements PostService {
 
     public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception {
         Long p = Long.parseLong(String.valueOf(postId));
+
         PostEntity post = postRepository.findById(p);
+        List<String> PathList = post.getImagePaths();
+        for (String path : PathList) {
+            File file = new File(path);
+            file.delete();
+        }
+        List<PostImageEntity> postImages = postImageRepository.findByPostId(p);
+        postImageRepository.deleteAll(postImages);
+
         post.setTitle(postDetails.getTitle());
         post.setDescription(postDetails.getDescription());
         post.setIngredients(postDetails.getIngredients());
@@ -212,6 +221,11 @@ public class PostServiceImpl implements PostService {
     public ResponseEntity deletePost(@PathVariable("post_id") Long postId) {
         Long p = Long.parseLong(String.valueOf(postId));
         PostEntity post = postRepository.findById(p);
+        List<String> PathList = post.getImagePaths();
+        for (String path : PathList) {
+            File file = new File(path);
+            file.delete();
+        }
         List<PostImageEntity> postImages = postImageRepository.findByPostId(p);
         List<CommentEntity> comments = commentRepository.findByPostId(p);
         commentRepository.deleteAll(comments);
