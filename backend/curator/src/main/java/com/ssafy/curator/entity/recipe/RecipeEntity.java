@@ -43,7 +43,7 @@ public class RecipeEntity {
     // 스크랩
     @OneToMany(mappedBy = "recipeEntity")
     @JsonIgnore
-    private List<RecipeScrapEntity> recipeScrapEntities = new ArrayList<>();
+    private List<RecipeScrapEntity> recipeScrapEntities;
 
 }
 

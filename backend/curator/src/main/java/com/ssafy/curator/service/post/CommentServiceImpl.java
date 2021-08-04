@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 
 @Service
@@ -33,10 +35,10 @@ public class CommentServiceImpl implements CommentService{
     public String createComment(HttpServletRequest request) throws Exception {
         CommentEntity comment = new CommentEntity();
 
-        String e = request.getParameter("email");
+        String n = request.getParameter("nickname");
         String p = request.getParameter("postId");
 
-        UserEntity user = userRepository.findByEmail(e);
+        UserEntity user = userRepository.findByNickname(n);
         PostEntity post = postRepository.findById(Long.parseLong(p));
         String content = request.getParameter("content");
         comment.setUser(user);
@@ -56,11 +58,8 @@ public class CommentServiceImpl implements CommentService{
         commentDto.setContent(comment.getContent());
         commentDto.setUser(comment.getUser());
         commentDto.setId(comment.getId());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String createDate = format.format(comment.getCreateDate());
-        String updateDate = format.format(comment.getUpdateDate());
-        commentDto.setCreateDate(createDate);
-        commentDto.setUpdateDate(updateDate);
+        commentDto.setCreateDate(comment.getCreateDate());
+        commentDto.setUpdateDate(comment.getUpdateDate());
 
         return commentDto;
     }
