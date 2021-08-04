@@ -107,16 +107,13 @@ public class UserPageServiceImpl implements UserPageService{
 
         // 게시글
         List<MyPagePostDto> myPagePostDtos = new ArrayList<>();
-        for (PostEntity postEntity : postRepository.findByUser(userEntity)) {
+        for (PostEntity postEntity : postRepository.findByUserOrderByCreateDateDesc(userEntity)) {
 
             MyPagePostDto myPagePostDto = new MyPagePostDto();
             myPagePostDto.setTitle(postEntity.getTitle());
             myPagePostDto.setDescription(postEntity.getDescription());
             myPagePostDto.setIngredients(postEntity.getIngredients());
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String createDate = format.format(postEntity.getCreateDate());
-            myPagePostDto.setCreate_date(createDate);
-
+            myPagePostDto.setCreateDate(postEntity.getCreateDate());
             myPagePostDto.setImagePaths(postEntity.getImagePaths());
 
             myPagePostDtos.add(myPagePostDto);
