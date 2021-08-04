@@ -5,7 +5,9 @@
       "@components/*": ["./components/*"],
       "@pages/*": ["./pages/*"],
       "@static/*": ["./static/*"],
-      "@container/*": ["./container/*"]
+      "@container/*": ["./container/*"],
+      "@lib/*": ["./lib/*"],
+      "@profiles/*": ["./Profiles/*"]
     }
   }
 }
