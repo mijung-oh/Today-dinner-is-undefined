@@ -1,0 +1,134 @@
+@import "../static/scss/variables";
+
+//mixins
+
+.container {
+  padding-bottom: 10%;
+  margin-bottom: 10%;
+}
+
+.userInfo {
+  text-align: center;
+  h1 {
+    margin-top: 0;
+  }
+}
+
+.imgContainer {
+  position: relative;
+  width: 100%;
+}
+
+.backgroundImg {
+  border-radius: 7% 7% 0 0;
+}
+
+// responsive mix-in
+
+@include mobile {
+  .profileImg {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 65%;
+    border-radius: 50%;
+  }
+  .follow--btn {
+    width: 96px;
+    height: 48px;
+    span {
+      font-size: 1rem;
+    }
+  }
+}
+
+@include tablet {
+  .profileImg {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 65%;
+    border-radius: 50%;
+  }
+  .follow--btn {
+    width: 128px;
+    height: 64px;
+    span {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+@include desktop {
+  .profileImg {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 67%;
+    border-radius: 50%;
+  }
+  .follow--btn {
+    width: 164px;
+    height: 82px;
+    span {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.whiteTip {
+  position: absolute;
+  top: 80%;
+  width: 100%;
+  height: 20%; /* as the half of the width */
+  background-color: $white;
+  border-top-left-radius: 130px; /* 100px of height + 10px of border */
+  border-top-right-radius: 130px; /* 100px of height + 10px of border */
+  border: none;
+  border-bottom: 0;
+}
+
+.contextArea {
+  background-color: $white;
+  padding: 0% 10%;
+  width: 100%;
+  .buttonArea {
+    display: flex;
+    padding: 5% 0;
+    justify-content: space-around;
+  }
+  .infoArea {
+    display: flex;
+    padding: 5% 0;
+    justify-content: space-around;
+    .infoText {
+      text-align: center;
+      padding: 0, 5%;
+      h5,
+      p {
+        margin-top: 0px;
+      }
+    }
+  }
+  .--borderleft {
+    border-left: 1px solid $gray;
+  }
+}
+
+.articleArea {
+  .title {
+    color: $blue;
+  }
+}

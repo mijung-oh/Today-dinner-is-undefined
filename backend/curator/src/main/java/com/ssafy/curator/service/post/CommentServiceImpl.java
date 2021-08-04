@@ -57,8 +57,8 @@ public class CommentServiceImpl implements CommentService{
         commentDto.setUser(comment.getUser());
         commentDto.setId(comment.getId());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String createDate = format.format(comment.getCreate_date());
-        String updateDate = format.format(comment.getUpdate_date());
+        String createDate = format.format(comment.getCreateDate());
+        String updateDate = format.format(comment.getUpdateDate());
         commentDto.setCreateDate(createDate);
         commentDto.setUpdateDate(updateDate);
 

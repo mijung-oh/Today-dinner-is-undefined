@@ -1,0 +1,18 @@
+@import "../../static/scss/variables";
+
+.defaultArticle--Container {
+  width: 100%;
+  text-align: center;
+  padding: 10% 10%;
+
+  .defaultArticle--imgContainer {
+    max-width: 512px;
+    max-height: 512px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    img {
+      width: 100%;
+    }
+  }
+}

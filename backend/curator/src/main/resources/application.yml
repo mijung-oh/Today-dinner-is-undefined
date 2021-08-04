@@ -5,4 +5,4 @@ server:
     context-path: /curation
 spring:
   profiles:
-    active: @spring.profiles.active@
+    active: "@spring.profiles.active@"

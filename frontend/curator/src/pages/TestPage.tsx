@@ -1,5 +1,5 @@
 import React from "react";
-import { testalert } from "@components/lib/helper";
+import { testalert } from "@lib/helper";
 
 const TestPage: React.FC = () => {
   const onClick = () => {
