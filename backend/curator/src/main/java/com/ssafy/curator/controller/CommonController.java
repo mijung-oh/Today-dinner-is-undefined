@@ -32,4 +32,13 @@ public class CommonController {
         return (UserSessionDto) loginSessionService.getSession();
     }
 
+    @GetMapping("/currentLogin/test")
+    public UserSessionDto currentLoginTest(){
+        UserSessionDto userSessionDto = new UserSessionDto();
+        userSessionDto.setEmail("zang9412@naver.com");
+        userSessionDto.setName("이주선");
+        userSessionDto.setNickname("김서방");
+        return userSessionDto;
+    }
+
 }
