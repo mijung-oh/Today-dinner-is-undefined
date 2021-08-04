@@ -1,5 +1,6 @@
 package com.ssafy.curator.entity.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;

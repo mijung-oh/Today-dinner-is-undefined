@@ -8,14 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/follow")
 public class FollowController {
 
     @Autowired
     private FollowService followService;
 
     // 팔로우하기
-    @PostMapping("/{followingNickname}")
+    @PostMapping("/follow/{followingNickname}")
     public String follow(@RequestParam String userNickname, @PathVariable String followingNickname) {
         return followService.follow(userNickname, followingNickname);
     }
@@ -33,7 +32,7 @@ public class FollowController {
     }
 
     // 팔로우 취소
-    @DeleteMapping("/{followingNickname}")
+    @DeleteMapping("/follow/{followingNickname}")
     String deleteFollow(@RequestParam String userNickname, @PathVariable String followingNickname) {
         return followService.deleteFollow(userNickname, followingNickname);
     }
