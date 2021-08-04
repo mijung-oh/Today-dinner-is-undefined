@@ -65,11 +65,8 @@ public class PostServiceImpl implements PostService {
             pp.setIngredients(p.getIngredients());
             pp.setId(p.getId());
             pp.setUser(p.getUser());
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String createDate = format.format(p.getCreateDate());
-            String updateDate = format.format(p.getUpdateDate());
-            pp.setCreateDate(createDate);
-            pp.setUpdateDate(updateDate);
+            pp.setCreateDate(p.getCreateDate());
+            pp.setUpdateDate(p.getUpdateDate());
 
 
             List<String> imagePaths = p.getImagePaths();
@@ -106,8 +103,8 @@ public class PostServiceImpl implements PostService {
     public String createPost(HttpServletRequest request, MultipartHttpServletRequest mtfRequest) throws Exception {
 
         PostEntity post = new PostEntity();
-        String e = request.getParameter("email");
-        UserEntity user = userRepository.findByEmail(e);
+        String n = request.getParameter("nickname");
+        UserEntity user = userRepository.findByEmail(n);
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String ingredients = request.getParameter("ingredients");
@@ -152,11 +149,8 @@ public class PostServiceImpl implements PostService {
         postWithImageDto.setDescription(post.getDescription());
         postWithImageDto.setIngredients(post.getIngredients());
         postWithImageDto.setUser(post.getUser());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String createDate = format.format(post.getCreateDate());
-        String updateDate = format.format(post.getUpdateDate());
-        postWithImageDto.setCreateDate(createDate);
-        postWithImageDto.setUpdateDate(updateDate);
+        postWithImageDto.setCreateDate(post.getCreateDate());
+        postWithImageDto.setUpdateDate(post.getUpdateDate());
 
         List<String> imageInfos = new ArrayList<String>();
         List<String> imagePaths = post.getImagePaths();
