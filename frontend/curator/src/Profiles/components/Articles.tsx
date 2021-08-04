@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles, Theme } from "@material-ui/core";
 import { humanizeTime } from "@lib/helper";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -9,8 +10,14 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreIcon from "@material-ui/icons/More";
-import "./Articles.scss";
 import { ArticleProps } from "@lib/interfaces";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  cardWrapper: {
+    maxWidth: "300px",
+    margin: "5% 0",
+  },
+}));
 
 const Articles: React.FC<ArticleProps> = (props) => {
   const [humanTime, setHumanTime] = useState<string>("");
@@ -28,8 +35,9 @@ const Articles: React.FC<ArticleProps> = (props) => {
   // description : 게시글 내용
   // imagePath : 사진 url
   // ingredient : 요리에 들어간 재료
+  const classes = useStyles();
   return (
-    <Card className="card--wrapper">
+    <Card className={classes.cardWrapper}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -45,8 +53,8 @@ const Articles: React.FC<ArticleProps> = (props) => {
             {props.title}
           </Typography>
           <Typography
-            variant="h5"
-            component="h5"
+            variant="subtitle2"
+            component="p"
             color="textSecondary"
             align="right"
             gutterBottom

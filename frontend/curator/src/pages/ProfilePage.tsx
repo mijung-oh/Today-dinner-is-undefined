@@ -2,9 +2,98 @@ import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { Button } from "@material-ui/core";
 import { ArticleProps } from "lib/interfaces";
+import { makeStyles, Theme } from "@material-ui/core";
 import ArticleContainer from "@profiles/container/ArticleContainer";
-import "./ProfilePage.scss";
 import axios from "axios";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    paddingBottom: "10%",
+    marginBottom: "10%",
+  },
+  imgContainer: {
+    position: "relative",
+    width: "100%",
+  },
+  backgroundImg: {
+    borderRadius: "7% 7% 0 0",
+  },
+  profileImg: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    marginLeft: "auto",
+    marginRight: "auto",
+    top: "65%",
+    borderRadius: "50%",
+    [theme.breakpoints.between("xs", "sm")]: {
+      width: "64px",
+      height: "64px",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: "120px",
+      height: "120px",
+    },
+    [theme.breakpoints.between("md", "lg")]: {
+      width: "160px",
+      height: "160px",
+    },
+  },
+  followBtn: {
+    "& span": {
+      fontSize: "1rem",
+    },
+    [theme.breakpoints.between("xs", "sm")]: {
+      width: "96px",
+      height: "48px",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: "128px",
+      height: "64px",
+    },
+    [theme.breakpoints.between("md", "lg")]: {
+      width: "164px",
+      height: "82px",
+    },
+  },
+  whiteTip: {
+    position: "absolute",
+    top: "80%",
+    width: "100%",
+    height: "20%",
+    backgroundColor: theme.palette.common.white,
+    borderTopLeftRadius: "130px",
+    borderTopRightRadius: "130px",
+    border: "none",
+    borderBottom: 0,
+  },
+  contextArea: {
+    backgroundColor: theme.palette.common.white,
+    width: "100%",
+  },
+  infoArea: {
+    display: "flex",
+    padding: "5% 0",
+    justifyContent: "space-around",
+  },
+  infoText: {
+    textAlign: "center",
+    padding: "5% 5%",
+    margin: "-1% 0%",
+  },
+  buttonArea: {
+    display: "flex",
+    padding: "5% 0",
+    justifyContent: "space-around",
+  },
+  articleArea: {
+    padding: "0% 5%",
+  },
+  title: {
+    color: theme.palette.primary.main,
+  },
+}));
+
 interface paramsProps {
   nickname: string;
 }
@@ -42,29 +131,28 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
         setMyPagePostDtos(myPagePostDtos);
         setProfileImg(profileImg);
       } catch (err) {
-        alert("야 너 누구야"); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
+        alert("존재하지 않는 사용자 페이지 "); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
       }
     };
     userInfo();
   }, [PROFILE_URL]);
+  const classes = useStyles();
   return (
-    <section className="container">
-      <div className="imgContainer">
-        <div className="whiteTip"></div>
-        <div className="profileImgContainer">
-          <img
-            className="profileImg"
-            src={
-              fetchedProfileImg
-                ? fetchedProfileImg
-                : "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
-            }
-            alt="profileImg"
-          ></img>
-        </div>
+    <section className={classes.container}>
+      <div className={classes.imgContainer}>
+        <div className={classes.whiteTip}></div>
+        <img
+          className={classes.profileImg}
+          src={
+            fetchedProfileImg
+              ? fetchedProfileImg
+              : "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
+          }
+          alt="profileImg"
+        ></img>
         <div>
           <img
-            className="backgroundImg"
+            className={classes.backgroundImg}
             width="100%"
             src={
               fetchedBgImg
@@ -75,9 +163,9 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           ></img>
         </div>
       </div>
-      <div className="contextArea">
+      <div className={classes.contextArea}>
         <div>
-          <div className="userInfo">
+          <div className={classes.infoText}>
             <h1>{nickname}</h1>
 
             <h3>
@@ -85,31 +173,35 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
             </h3>
           </div>
         </div>
-        <div className="buttonArea">
+        <div className={classes.buttonArea}>
           {/* TODO: 팔로우 버튼 등장 조건 .. 프로필 유저 !== 로그인 유저
           프로필 유저 === 로그인 유저 프로필 편집 
           */}
-          <Button className="follow--btn" variant="outlined" color="primary">
+          <Button
+            className={classes.followBtn}
+            variant="outlined"
+            color="primary"
+          >
             팔로우
           </Button>
         </div>
-        <div className="infoArea">
-          <div className="infoText">
+        <div className={classes.infoArea}>
+          <div className={classes.infoText}>
             <h4>{fetchedMyPagePostDtos.length}</h4>
             <p>게시글</p>
           </div>
-          <div className="infoText">
+          <div className={classes.infoText}>
             <h4>{fetchedFollowers.length}</h4>
             <p>팔로워</p>
           </div>
-          <div className="infoText">
+          <div className={classes.infoText}>
             <h4>{fetchedFollowings.length}</h4>
             <p>팔로잉</p>
           </div>
         </div>
-        <hr></hr>
-        <div className="articleArea">
-          <h2 className="title">게시글</h2>
+        <hr style={{ width: "90%" }}></hr>
+        <div className={classes.articleArea}>
+          <h2 className={classes.title}>게시글</h2>
           <ArticleContainer
             fetchedMypagePostDtos={fetchedMyPagePostDtos}
           ></ArticleContainer>

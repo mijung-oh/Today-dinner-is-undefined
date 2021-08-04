@@ -3,4 +3,5 @@ export const googleURL =
 export const naverURL =
   "https://nid.naver.com/oauth2.0/authorize?client_id=fUgFgzRaWuRXh8piK5n8&redirect_uri=http://127.0.0.1:3000/oauth/naver&response_type=code";
 export const kakaoURL =
-  "https://kauth.kakao.com/oauth/authorize?client_id=4f445ad5411d2c6c022fbd8101999e07&redirect_uri=http://I5C207.p.ssafy.io:3000/oauth/kakao&response_type=code";
+  "https://kauth.kakao.com/oauth/authorize?client_id=4f445ad5411d2c6c022fbd8101999e07&redirect_uri=http://127.0.0.1:3000/oauth/kakao&response_type=code";
+// "https://kauth.kakao.com/oauth/authorize?client_id=4f445ad5411d2c6c022fbd8101999e07&redirect_uri=http://I5C207.p.ssafy.io:3000/oauth/kakao&response_type=code";

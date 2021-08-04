@@ -10,15 +10,6 @@ body {
   background-color: $gray;
 }
 
-button[name="naver"]:hover {
-  background-color: #449f1e;
-  transition: all 0.2s ease-in;
-}
-button[name="kakao"]:hover {
-  background-color: #e5d119;
-  transition: all 0.2s ease-in;
-}
-
 // font-size 조정
 // XXXX : 이게 반응형으로 동작하는지 모르겠음
 @include mobile {
@@ -32,10 +23,6 @@ button[name="kakao"]:hover {
   }
 }
 @include desktop {
-  // :root {
-  //   font-size: calc(0.75rem + ((1vw - 1.23px) * 1.5075));
-  //   min-height: 0vw;
-  // }
   html {
     font-size: 18px;
   }

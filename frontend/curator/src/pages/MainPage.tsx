@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
@@ -7,12 +7,11 @@ import { useDispatch } from "react-redux";
 import { getUserInfo } from "../modules/clientLogin";
 import { codeExtractor } from "@lib/helper";
 import { googleURL, naverURL, kakaoURL } from "@lib/constants";
-
 import Glogo from "@static/logos/G-logo";
 import Nlogo from "@static/logos/N-logo";
 import Klogo from "@static/logos/K-logo";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   container: {
     textAlign: "center",
     width: "100%",
@@ -34,25 +33,42 @@ const useStyles = makeStyles({
   },
   GoogleBtn: {
     backgroundColor: "#FFF",
+    "&:hover": {
+      transition: theme.transitions.create("all", {
+        easing: theme.transitions.easing.easeIn,
+        duration: theme.transitions.duration.short,
+      }),
+    },
   },
   NaverBtn: {
     backgroundColor: "#3EAF0E",
+    "&:hover": {
+      backgroundColor: "#449f1e",
+      transition: theme.transitions.create("all", {
+        easing: theme.transitions.easing.easeIn,
+        duration: theme.transitions.duration.short,
+      }),
+    },
   },
   KakaoBtn: {
     backgroundColor: "#FEE500",
+    "&:hover": {
+      backgroundColor: "#e5d119",
+      transition: theme.transitions.create("all", {
+        easing: theme.transitions.easing.easeIn,
+        duration: theme.transitions.duration.short,
+      }),
+    },
   },
-});
+}));
 
 const onClickGoogle = (e: any) => {
-  console.log("Google");
   window.location.href = `${googleURL}`;
 };
 const onClickNaver = (e: any) => {
-  console.log("Naver");
   window.location.href = `${naverURL}`;
 };
 const onClickKakao = (e: any) => {
-  console.log("Kakao");
   window.location.href = `${kakaoURL}`;
 };
 
@@ -84,7 +100,7 @@ const Main: React.FC<MainProps> = (props) => {
     }
   }, [dispatch, history]);
 
-  const classes = useStyles(props);
+  const classes = useStyles();
   return (
     <section className={classes.container}>
       <div className={classes.imageBox}>
