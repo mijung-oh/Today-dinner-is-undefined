@@ -21,9 +21,6 @@ import java.util.*;
 public class Recommend {
 
     @Autowired
-    CosineSimilarity cosineSimilarity;
-
-    @Autowired
     RecipeRepository recipeRepository;
 
     @Autowired
