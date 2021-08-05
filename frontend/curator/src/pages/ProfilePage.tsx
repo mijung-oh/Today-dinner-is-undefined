@@ -7,7 +7,6 @@ import ArticleContainer from "@profiles/container/ArticleContainer";
 import axios from "axios";
 import { USER_CHECK_URL } from "@lib/constants";
 import ProfileDrawer from "@profiles/components/ProfileDrawer";
-import { Height } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -156,9 +155,6 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     currentUser();
   }, [PROFILE_URL]);
 
-  console.log(fetchedFollowers);
-  console.log(fetchedMyPagePostDtos);
-
   const classes = useStyles();
   return (
     <section className={classes.container}>
@@ -205,7 +201,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
             <ProfileDrawer
               nickname={nickname}
               profileImg={fetchedProfileImg}
-              introduction={fetchedIntroduction}
+              introduction={fetchedIntroduction ? fetchedIntroduction : ""}
             />
           ) : (
             <Button

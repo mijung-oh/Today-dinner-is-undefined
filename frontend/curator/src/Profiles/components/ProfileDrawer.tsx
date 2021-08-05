@@ -92,6 +92,8 @@ interface profileProps {
 const ProfileDrawer: React.FC<profileProps> = (props) => {
   const classes = useStyles();
   const [state, setState] = useState<boolean>(false);
+  const [nickName, setNickName] = useState<string>(props.nickname);
+  const [introduction, setIntroduction] = useState<string>(props.introduction);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -108,12 +110,22 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
 
   const profileInput = useRef<HTMLInputElement>(null);
   const bgInput = useRef<HTMLInputElement>(null);
+
   const profileChange = () => {
     profileInput.current.click();
   };
+
   const bgChange = () => {
     bgInput.current.click();
   };
+
+  const nickNameChange = (e: any) => {
+    setNickName(e.target.value);
+  };
+  const introductionChange = (e: any) => {
+    setIntroduction(e.target.value);
+  };
+
   const list = () => (
     <div role="presentation">
       <input
@@ -163,7 +175,8 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         <TextField
           id="input-nickname"
           label="닉네임"
-          value={props.nickname}
+          value={nickName}
+          onChange={nickNameChange}
           fullWidth
           margin="normal"
           InputProps={{
@@ -177,7 +190,8 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         <TextField
           id="input-introduction"
           label="자기소개"
-          value={props.introduction}
+          value={introduction}
+          onChange={introductionChange}
           fullWidth
           margin="normal"
           InputProps={{
