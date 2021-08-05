@@ -51,7 +51,7 @@ function ArticleUpdate({ history }) {
 
     try {
       axios
-        .post("http://localhost:9000/curation/post/list", formData, {
+        .post("http://I5C207.p.ssafy.io/curation/post/list", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
           },
@@ -59,7 +59,7 @@ function ArticleUpdate({ history }) {
         .then((res) => {
           console.log(res);
           const response = axios
-            .get("http://localhost:9000/curation/post/list")
+            .get("http://I5C207.p.ssafy.io/curation/post/list")
             .then((res) => {
               console.log(res.data);
               let post_id = res.data[res.data.length - 1].id;

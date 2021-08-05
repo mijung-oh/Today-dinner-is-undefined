@@ -30,8 +30,9 @@ function ArticleCreate({ history }) {
     title: "",
     description: "",
     ingredients: "",
+    nickname: "김서방",
   });
-  const { title, description, ingredients } = text;
+  const { title, description, ingredients, nickname } = text;
   const onChange = (e) => {
     const { value, name } = e.target;
     setText({
@@ -45,6 +46,7 @@ function ArticleCreate({ history }) {
     formData.append("title", title);
     formData.append("ingredients", ingredients);
     formData.append("description", description);
+    formData.append("nickname", nickname);
 
     postfiles?.file.map((eachfile) => {
       formData.append("files", new Blob([eachfile], { type: "image/png" }));
@@ -52,7 +54,7 @@ function ArticleCreate({ history }) {
 
     try {
       axios
-        .post("http://localhost:9000/curation/post/list", formData, {
+        .post("http://I5C207.p.ssafy.io/curation/post/list", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
           },
@@ -60,12 +62,12 @@ function ArticleCreate({ history }) {
         .then((res) => {
           console.log(res);
           const response = axios
-            .get("http://localhost:9000/curation/post/list")
+            .get("http://I5C207.p.ssafy.io/curation/post/list")
             .then((res) => {
               console.log(res.data);
               let post_id = res.data[res.data.length - 1].id;
 
-              history.push(`/articles/${post_id}`);
+              history.push(`/articles/detail/${post_id}`);
             });
         });
     } catch (e) {
