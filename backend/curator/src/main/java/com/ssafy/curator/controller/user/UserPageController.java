@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.IOException;
+
 
 @RestController
 public class UserPageController {
@@ -17,19 +19,6 @@ public class UserPageController {
 
     @Autowired
     UserRepository userRepository;
-
-    // 닉네임등록 추가
-    @PostMapping("/createNickname")
-    String createNickname(@RequestParam String email, @RequestParam String nickname) {
-        return userPageService.createNickname(email, nickname);
-    }
-
-
-    // 닉네임중복 처리
-    @GetMapping("/checkNickname")
-    String checkNickname(@RequestParam String nickname) {
-        return userPageService.checkNickname(nickname);
-    }
 
 
     // 마이페이지 등록
@@ -42,7 +31,7 @@ public class UserPageController {
 
     // 마이페이지 가져오기
     @GetMapping("/userInfo/{nickname}")
-    UserPageDto getUserInfo(@PathVariable String nickname) {
+    UserPageDto getUserInfo(@PathVariable String nickname) throws IOException {
         if (userPageService.existsByNickname(nickname)) {
             return userPageService.getUserInfo(nickname);
         }
