@@ -181,7 +181,7 @@ public class UserPageServiceImpl implements UserPageService{
         }
 
         if (!multipartFile1.isEmpty()) {
-            String profileImg = "C:\\Users\\multicampus\\Desktop\\S05P13C207\\backend\\curator\\src\\main\\resources\\static\\images\\" + sb1.toString();
+            String profileImg = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/" + sb1.toString();
             userPageEntity.setProfileImg(profileImg);
             File dest = new File(profileImg);
             try {
@@ -205,7 +205,7 @@ public class UserPageServiceImpl implements UserPageService{
         }
 
         if (!multipartFile2.isEmpty()) {
-            String bgImg = "C:\\Users\\multicampus\\Desktop\\S05P13C207\\backend\\curator\\src\\main\\resources\\static\\images\\" + sb2.toString();
+            String bgImg = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/" + sb2.toString();
             userPageEntity.setBgImg(bgImg);
             File dest = new File(bgImg);
             try {
