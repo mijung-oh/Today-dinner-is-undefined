@@ -7,6 +7,7 @@ import ArticleContainer from "@profiles/container/ArticleContainer";
 import axios from "axios";
 import { USER_CHECK_URL } from "@lib/constants";
 import ProfileDrawer from "@profiles/components/ProfileDrawer";
+import { Height } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "100%",
   },
   backgroundImg: {
-    borderRadius: "7% 7% 0 0",
+    // borderRadius: "7% 7% 0 0",
   },
   profileImg: {
     position: "absolute",
@@ -40,6 +41,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "160px",
       height: "160px",
     },
+    [theme.breakpoints.up("lg")]: {
+      width: "172px",
+      height: "172px",
+    },
   },
   followBtn: {
     "& span": {
@@ -56,6 +61,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.between("md", "lg")]: {
       width: "164px",
       height: "82px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "186px",
+      height: "70px",
     },
   },
   whiteTip: {
@@ -147,20 +156,25 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     currentUser();
   }, [PROFILE_URL]);
 
+  console.log(fetchedFollowers);
+  console.log(fetchedMyPagePostDtos);
+
   const classes = useStyles();
   return (
     <section className={classes.container}>
       <div className={classes.imgContainer}>
         <div className={classes.whiteTip}></div>
-        <img
-          className={classes.profileImg}
-          src={
-            fetchedProfileImg
-              ? fetchedProfileImg
-              : "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
-          }
-          alt="profileImg"
-        ></img>
+        <div>
+          <img
+            className={classes.profileImg}
+            src={
+              fetchedProfileImg
+                ? fetchedProfileImg
+                : "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
+            }
+            alt="profileImg"
+          ></img>
+        </div>
         <div>
           <img
             className={classes.backgroundImg}
@@ -192,7 +206,6 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
               nickname={nickname}
               profileImg={fetchedProfileImg}
               introduction={fetchedIntroduction}
-              bgImg={fetchedBgImg}
             />
           ) : (
             <Button

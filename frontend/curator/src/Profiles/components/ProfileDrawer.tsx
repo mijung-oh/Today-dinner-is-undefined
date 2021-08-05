@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -10,6 +10,8 @@ import ModeCommentIcon from "@material-ui/icons/ModeComment";
 import IconButton from "@material-ui/core/IconButton";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import Swal from "sweetalert2";
+import Input from "@material-ui/core/Input";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -32,7 +34,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     [theme.breakpoints.between("md", "lg")]: {
       width: "164px",
-      height: "82px",
+      height: "68px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "186px",
+      height: "70px",
     },
   },
   imgContainer: {
@@ -49,6 +55,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.between("md", "lg")]: {
       width: "128px",
       height: "128px",
+      padding: "3% 3% 3% 3%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "172px",
+      height: "172px",
+      padding: "3% 1% 1% 1%",
     },
     "& img": {
       width: "100%",
@@ -57,6 +69,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   contextContainer: {
     padding: "5% 5% 10% 5%",
+    [theme.breakpoints.between("md", "lg")]: {
+      padding: "5% 5% 5% 5%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      padding: "3% 10% 3% 10%",
+    },
   },
   buttonContainer: {
     margin: "0 auto",
@@ -69,7 +87,6 @@ interface profileProps {
   nickname: string;
   profileImg: any;
   introduction: string;
-  bgImg: any;
 }
 
 const ProfileDrawer: React.FC<profileProps> = (props) => {
@@ -89,8 +106,28 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       setState(open);
     };
 
+  const profileInput = useRef<HTMLInputElement>(null);
+  const bgInput = useRef<HTMLInputElement>(null);
+  const profileChange = () => {
+    profileInput.current.click();
+  };
+  const bgChange = () => {
+    bgInput.current.click();
+  };
   const list = () => (
     <div role="presentation">
+      <input
+        type="file"
+        id="profileInput"
+        ref={profileInput}
+        style={{ display: "none" }}
+      />
+      <input
+        type="file"
+        id="bgInput"
+        ref={bgInput}
+        style={{ display: "none" }}
+      />
       <Typography className={classes.title} align="justify" variant="h5">
         프로필 편집
       </Typography>
@@ -109,8 +146,18 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         component="p"
         align="center"
         color="primary"
+        onClick={profileChange}
       >
         프로필 사진 변경
+      </Typography>
+      <Typography
+        variant="subtitle1"
+        component="p"
+        align="center"
+        color="primary"
+        onClick={bgChange}
+      >
+        백그라운드 이미지 변경
       </Typography>
       <div className={classes.contextContainer}>
         <TextField
