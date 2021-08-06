@@ -38,6 +38,13 @@ public class RecipeScrapServiceImpl implements RecipeScrapService {
 
         if (recipeScrapRepository.existsByUserEntityAndRecipeEntity(userEntity,recipeEntity)) {
             recipeScrapRepository.deleteByUserEntityAndRecipeEntity(userEntity, recipeEntity);
+
+            Integer scrapCount = recipeEntity.getScrapCount();
+            scrapCount -=1;
+            recipeEntity.setScrapCount(scrapCount);
+
+            recipeRepository.save(recipeEntity);
+
             return "delete success";
         }
         else {
@@ -45,6 +52,11 @@ public class RecipeScrapServiceImpl implements RecipeScrapService {
             recipeScrapEntity.setRecipeEntity(recipeEntity);
             recipeScrapEntity.setUserEntity(userEntity);
 
+            Integer scrapCount = recipeEntity.getScrapCount();
+            scrapCount += 1;
+            recipeEntity.setScrapCount(scrapCount);
+
+            recipeRepository.save(recipeEntity);
             recipeScrapRepository.save(recipeScrapEntity);
 
             return "success";
