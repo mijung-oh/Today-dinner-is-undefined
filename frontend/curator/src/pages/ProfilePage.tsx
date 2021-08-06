@@ -112,14 +112,23 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
   const nickname = match.params.nickname;
   const PROFILE_URL = `http://i5c207.p.ssafy.io:9000/curation/userInfo/${nickname}`;
   const [currentUserNickname, setCurrentUserNickname] = useState<string>("");
-  const [fetchedProfileImg, setProfileImg] = useState<any>("");
-  const [fetchedBgImg, setBgImg] = useState<any>("");
-  const [fetchedFollowers, setFollowers] = useState<Array<string>>([]);
-  const [fetchedFollowings, setFollowings] = useState<Array<string>>([]);
-  const [fetchedIntroduction, setIntroduction] = useState<string>("");
-  const [fetchedMyPagePostDtos, setMyPagePostDtos] = useState<
-    Array<[ArticleProps]>
-  >([]);
+
+  interface UserData {
+    profileImg: any;
+    bgImg: any;
+    followers: [string] | [];
+    followings: [string] | [];
+    introduction: string;
+    myPagePostDtos: Array<[ArticleProps]>;
+  }
+  const [fetchedUserData, setFetchedUserData] = useState<UserData>({
+    profileImg: null,
+    bgImg: null,
+    followers: [],
+    followings: [],
+    introduction: "",
+    myPagePostDtos: [],
+  });
 
   useEffect(() => {
     const userInfo = async () => {
@@ -134,12 +143,15 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           myPagePostDtos,
           profileImg,
         } = res.data;
-        setBgImg(bgImg);
-        setFollowers(followers);
-        setFollowings(followings);
-        setIntroduction(introduction);
-        setMyPagePostDtos(myPagePostDtos);
-        setProfileImg(profileImg);
+        setFetchedUserData({
+          bgImg,
+          followers,
+          followings,
+          introduction,
+          myPagePostDtos,
+          profileImg,
+        });
+        console.log(fetchedUserData);
       } catch (err) {
         alert("존재하지 않는 사용자 페이지 "); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
       }
@@ -153,8 +165,8 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     };
     userInfo();
     currentUser();
-  }, [PROFILE_URL]);
-
+  }, []);
+  console.log("fectimage", fetchedUserData.profileImg);
   const classes = useStyles();
   return (
     <section className={classes.container}>
@@ -164,8 +176,8 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           <img
             className={classes.profileImg}
             src={
-              fetchedProfileImg
-                ? fetchedProfileImg
+              fetchedUserData.profileImg
+                ? fetchedUserData.profileImg
                 : "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
             }
             alt="profileImg"
@@ -176,8 +188,8 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
             className={classes.backgroundImg}
             width="100%"
             src={
-              fetchedBgImg
-                ? fetchedBgImg
+              fetchedUserData.bgImg
+                ? fetchedUserData.bgImg
                 : "https://patoliyainfotech.com/wp-content/uploads/2019/10/one-year-of-react-native.png"
             }
             alt="backgroundImg"
@@ -189,7 +201,9 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           <div className={classes.infoText}>
             <h1>{nickname}</h1>
             <h3>
-              {fetchedIntroduction ? fetchedIntroduction : "자기 소개가 없어요"}
+              {fetchedUserData.introduction
+                ? fetchedUserData.introduction
+                : "자기 소개가 없어요"}
             </h3>
           </div>
         </div>
@@ -200,8 +214,11 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           {currentUserNickname === nickname ? (
             <ProfileDrawer
               nickname={nickname}
-              profileImg={fetchedProfileImg}
-              introduction={fetchedIntroduction ? fetchedIntroduction : ""}
+              profileImg={fetchedUserData.profileImg}
+              introduction={
+                fetchedUserData.introduction ? fetchedUserData.introduction : ""
+              }
+              bgImg={fetchedUserData.bgImg}
             />
           ) : (
             <Button
@@ -215,15 +232,15 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
         </div>
         <div className={classes.infoArea}>
           <div className={classes.infoText}>
-            <h4>{fetchedMyPagePostDtos.length}</h4>
+            <h4>{fetchedUserData.myPagePostDtos.length}</h4>
             <p>게시글</p>
           </div>
           <div className={classes.infoText}>
-            <h4>{fetchedFollowers.length}</h4>
+            <h4>{fetchedUserData.followers.length}</h4>
             <p>팔로워</p>
           </div>
           <div className={classes.infoText}>
-            <h4>{fetchedFollowings.length}</h4>
+            <h4>{fetchedUserData.followings.length}</h4>
             <p>팔로잉</p>
           </div>
         </div>
@@ -231,7 +248,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
         <div className={classes.articleArea}>
           <h2 className={classes.title}>게시글</h2>
           <ArticleContainer
-            fetchedMypagePostDtos={fetchedMyPagePostDtos}
+            fetchedMypagePostDtos={fetchedUserData.myPagePostDtos}
           ></ArticleContainer>
         </div>
       </div>
