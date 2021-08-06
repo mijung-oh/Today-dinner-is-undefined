@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, MouseEvent, ChangeEvent } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -12,6 +12,8 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import Swal from "sweetalert2";
 import Input from "@material-ui/core/Input";
+import { profile } from "console";
+import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -86,6 +88,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface profileProps {
   nickname: string;
   profileImg: any;
+  bgImg: any;
   introduction: string;
 }
 
@@ -94,7 +97,11 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const [state, setState] = useState<boolean>(false);
   const [nickName, setNickName] = useState<string>(props.nickname);
   const [introduction, setIntroduction] = useState<string>(props.introduction);
-
+  const [profileImg, setProfileImg] = useState<any>(props.profileImg);
+  const [bgImg, setBgImg] = useState<any>(props.bgImg);
+  console.log("I am props!", props);
+  console.log(props.profileImg);
+  console.log(profileImg);
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -110,13 +117,73 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
 
   const profileInput = useRef<HTMLInputElement>(null);
   const bgInput = useRef<HTMLInputElement>(null);
+  const handleSubmit = async (e: any) => {
+    const formData = new FormData();
+    formData.append("nickname", nickName);
+    formData.append("introduction", introduction);
+    formData.append("profileImg", profileImg);
+    formData.append("bgImg", bgImg);
+    for (let key of formData.keys()) {
+      console.log(key);
+    }
+    for (let value of formData.values()) {
+      console.log(value);
+    }
+    // PUT
+    const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
+    try {
+      // const config = {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      //   withCredentials: true,
+      // };
+      const res = await axios.put(PUT_URL, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+  // formdata 넣는건 되는듯?
 
-  const profileChange = () => {
-    profileInput.current.click();
+  const onClickProfileInput = (e: MouseEvent) => {
+    if (profileInput.current !== null) {
+      profileInput.current.click();
+    }
+  };
+  console.log("profile", profileImg);
+  const profileChange = (e: ChangeEvent) => {
+    if (profileInput.current !== null) {
+      const adjustedProfile: File | undefined = profileInput.current.files?.[0];
+      console.log("adjustP", adjustedProfile);
+      if (adjustedProfile !== undefined) {
+        const reader = new FileReader();
+        reader.onloadend = (event: any) => {
+          // const url = reader.result;
+          // console.log("e", event);
+          // console.log("e.currentT", event.currentTarget.result);
+          // console.log("url", url);
+          const test = event.currentTarget.result as string;
+          setProfileImg(test);
+          // console.log("test", test);
+          // console.log(typeof test);
+          console.log("ad", profileImg); // 정상적으로 들어는 가는데 왜  console.log로는 출력이 안될까?
+        };
+        reader.readAsDataURL(adjustedProfile);
+      }
+    }
   };
 
   const bgChange = () => {
-    bgInput.current.click();
+    if (bgInput.current !== null) {
+      bgInput.current.click();
+      const adjustedBG = bgInput.current.files?.[0];
+      console.log("adjustB", adjustedBG);
+      setBgImg(adjustedBG);
+    }
   };
 
   const nickNameChange = (e: any) => {
@@ -133,6 +200,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         id="profileInput"
         ref={profileInput}
         style={{ display: "none" }}
+        onChange={profileChange}
       />
       <input
         type="file"
@@ -146,8 +214,8 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       <div className={classes.imgContainer}>
         <img
           src={
-            props.profileImg
-              ? props.profileImg
+            profileImg
+              ? profileImg
               : "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
           }
           alt=""
@@ -158,7 +226,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         component="p"
         align="center"
         color="primary"
-        onClick={profileChange}
+        onClick={onClickProfileInput}
       >
         프로필 사진 변경
       </Typography>
@@ -205,7 +273,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       </div>
       <Divider />
       <div className={classes.buttonContainer}>
-        <IconButton color="primary">
+        <IconButton color="primary" onClick={handleSubmit}>
           <CheckIcon />
         </IconButton>
         <IconButton color="secondary">
