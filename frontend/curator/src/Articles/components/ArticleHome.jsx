@@ -15,7 +15,7 @@ function ArticleHome() {
         setArticles(null);
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:9000/curation/post/list"
+          "http://I5C207.p.ssafy.io/curation/post/list"
         );
         setArticles(response.data);
       } catch (e) {
@@ -31,6 +31,9 @@ function ArticleHome() {
   console.log("test: ", articles);
   return (
     <>
+      <Link to="/articles/create">
+        <button>create</button>
+      </Link>
       {articles.map((article) => (
         <div key={article.id}>
           <Home article={article} />

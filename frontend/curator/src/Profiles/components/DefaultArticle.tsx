@@ -1,12 +1,27 @@
 import React from "react";
-import "./DefaultArticle.scss";
+import { makeStyles, Theme } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    textAlign: "center",
+    padding: "10% 10%",
+  },
+  imgContainer: {
+    maxWidth: "512px",
+    maxHeight: "512px",
+    display: "flex",
+    justifyContent: "center",
+    margin: "0 auto",
+  },
+}));
+
 const DefaultArticle: React.FC = () => {
+  const classes = useStyles();
   return (
-    <Paper className="defaultArticle--Container" elevation={3}>
-      <div className="defaultArticle--imgContainer">
+    <Paper className={classes.container} elevation={3}>
+      <div className={classes.imgContainer}>
         <img
           src="https://thumbs.gfycat.com/BouncyWelcomeGrassspider.webp"
           alt="other"

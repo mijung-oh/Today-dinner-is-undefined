@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.curator.entity.post.PostLikeEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class RecipeEntity {
     @OneToMany(mappedBy = "recipeEntity")
     @JsonIgnore
     private List<RecipeScrapEntity> recipeScrapEntities;
+
+    private int scrapCount = 0;
 
 }
 
