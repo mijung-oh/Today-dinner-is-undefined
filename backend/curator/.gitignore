@@ -33,5 +33,4 @@ build/
 .vscode/
 
 ### 제외 폴더 ###
-images/
 **/src/main/**/application-local.yml
