@@ -10,10 +10,8 @@ import ModeCommentIcon from "@material-ui/icons/ModeComment";
 import IconButton from "@material-ui/core/IconButton";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
-import Swal from "sweetalert2";
-import Input from "@material-ui/core/Input";
-import { profile } from "console";
 import axios from "axios";
+import { NICKNAME_CHECK_URL } from "@lib/constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -81,7 +79,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
     margin: "0 auto",
     display: "flex",
+    visibility: "visible",
     justifyContent: "space-around",
+  },
+  disappear: {
+    display: "none",
+    opacity: 0,
   },
 }));
 
@@ -99,9 +102,12 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const [introduction, setIntroduction] = useState<string>(props.introduction);
   const [profileImg, setProfileImg] = useState<any>(props.profileImg);
   const [bgImg, setBgImg] = useState<any>(props.bgImg);
+  const [triggerCheck, setTriggerCheck] = useState<Boolean>(false);
+  const [isDuplicate, setIsDuplicate] = useState<Boolean>(false);
+  const [showButtons, setShowButtons] = useState<Boolean>(true);
+
   console.log("I am props!", props);
-  console.log(props.profileImg);
-  console.log(profileImg);
+
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -123,21 +129,16 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     formData.append("introduction", introduction);
     formData.append("profileImg", profileImg);
     formData.append("bgImg", bgImg);
-    for (let key of formData.keys()) {
-      console.log(key);
-    }
-    for (let value of formData.values()) {
-      console.log(value);
-    }
+    // formData 확인용
+    // for (let key of formData.keys()) {
+    //   console.log(key);
+    // }
+    // for (let value of formData.values()) {
+    //   console.log(value);
+    // }
     // PUT
     const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
     try {
-      // const config = {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      //   withCredentials: true,
-      // };
       const res = await axios.put(PUT_URL, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
@@ -158,19 +159,13 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const profileChange = (e: ChangeEvent) => {
     if (profileInput.current !== null) {
       const adjustedProfile: File | undefined = profileInput.current.files?.[0];
-      console.log("adjustP", adjustedProfile);
+      // console.log("adjustP", adjustedProfile);
       if (adjustedProfile !== undefined) {
         const reader = new FileReader();
         reader.onloadend = (event: any) => {
-          // const url = reader.result;
-          // console.log("e", event);
-          // console.log("e.currentT", event.currentTarget.result);
-          // console.log("url", url);
-          const test = event.currentTarget.result as string;
-          setProfileImg(test);
-          // console.log("test", test);
-          // console.log(typeof test);
-          console.log("ad", profileImg); // 정상적으로 들어는 가는데 왜  console.log로는 출력이 안될까?
+          const readData = event.currentTarget.result as string;
+          setProfileImg(readData);
+          // console.log("ad", profileImg); // 정상적으로 들어는 가는데 왜  console.log로는 출력이 안될까?
         };
         reader.readAsDataURL(adjustedProfile);
       }
@@ -188,6 +183,24 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
 
   const nickNameChange = (e: any) => {
     setNickName(e.target.value);
+    setTriggerCheck(true);
+    setShowButtons(false);
+  };
+  const nickNameDuplicateCheck = async () => {
+    const config = { withCredentials: true };
+    const res = await axios.get(NICKNAME_CHECK_URL(nickName), config); // 이게 참이면 중복 체크 통과한거
+    setIsDuplicate(res.data);
+    setTriggerCheck(false);
+    console.log("중복되었나요?", isDuplicate);
+    // console.log(triggerCheck);
+    if (isDuplicate) {
+      // 중복되었다면
+      setShowButtons(false);
+    } else {
+      setShowButtons(true);
+      // setTriggerCheck(true);
+    }
+    console.log(res);
   };
   const introductionChange = (e: any) => {
     setIntroduction(e.target.value);
@@ -253,8 +266,32 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
                 <AccountCircle />
               </InputAdornment>
             ),
+            endAdornment: (
+              <InputAdornment position="end">
+                {triggerCheck ? (
+                  <Button color="primary" onClick={nickNameDuplicateCheck}>
+                    중복 체크
+                  </Button>
+                ) : null}
+              </InputAdornment>
+            ),
           }}
         />
+        {triggerCheck ? (
+          isDuplicate ? (
+            <Typography variant="subtitle2" color="secondary">
+              중복된 닉네임입니다.
+            </Typography>
+          ) : (
+            <Typography variant="subtitle2" color="secondary">
+              닉네임 중복 체크를 해주세요
+            </Typography>
+          )
+        ) : (
+          <Typography variant="subtitle2" color="primary">
+            사용가능한 닉네임입니다.
+          </Typography>
+        )}
         <TextField
           id="input-introduction"
           label="자기소개"
@@ -272,7 +309,13 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         />
       </div>
       <Divider />
-      <div className={classes.buttonContainer}>
+      <div
+        className={
+          showButtons
+            ? `${classes.buttonContainer}`
+            : ` ${classes.buttonContainer} ${classes.disappear}`
+        }
+      >
         <IconButton color="primary" onClick={handleSubmit}>
           <CheckIcon />
         </IconButton>

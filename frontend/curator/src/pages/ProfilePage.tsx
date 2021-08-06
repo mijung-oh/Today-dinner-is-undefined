@@ -112,6 +112,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
   const nickname = match.params.nickname;
   const PROFILE_URL = `http://i5c207.p.ssafy.io:9000/curation/userInfo/${nickname}`;
   const [currentUserNickname, setCurrentUserNickname] = useState<string>("");
+  const [isFollowing, setIsFollowing] = useState<Boolean>(false);
 
   interface UserData {
     profileImg: any;
@@ -152,8 +153,9 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           profileImg,
         });
         console.log(fetchedUserData);
+        setIsFollowing(Boolean(followers.includes(nickname)));
       } catch (err) {
-        alert("존재하지 않는 사용자 페이지 "); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
+        console.log(err.response); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
       }
     };
     const currentUser = async () => {
@@ -165,7 +167,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     };
     userInfo();
     currentUser();
-  }, []);
+  }, []); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
   console.log("fectimage", fetchedUserData.profileImg);
   const classes = useStyles();
   return (
@@ -220,11 +222,19 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
               }
               bgImg={fetchedUserData.bgImg}
             />
-          ) : (
+          ) : isFollowing ? (
             <Button
               className={classes.followBtn}
               variant="outlined"
               color="primary"
+            >
+              언팔로우
+            </Button>
+          ) : (
+            <Button
+              className={classes.followBtn}
+              variant="outlined"
+              color="secondary"
             >
               팔로우
             </Button>

@@ -9,3 +9,7 @@ export const KAKAO_URL =
 export const USER_CHECK_URL =
   //// `http://i5c207.p.ssafy.io:9000/curation/currentLogin`, <-- 개발 끝나고 이걸로 바꿀것
   "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test";
+
+export const NICKNAME_CHECK_URL = (nickname) => {
+  return `http://i5c207.p.ssafy.io:9000/curation/user/userNicknameCheck?nickname=${nickname}`;
+};
