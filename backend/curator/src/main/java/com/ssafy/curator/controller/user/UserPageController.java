@@ -40,11 +40,11 @@ public class UserPageController {
 
 
     // 마이페이지 수정
-    @PutMapping("/userInfo")
+    @PutMapping ("/userInfo")
     String updateUserInfo(@RequestParam String nickname,
                           @RequestParam String introduction,
                           @RequestParam(name = "profileImg") MultipartFile multipartFile1,
-                          @RequestParam(name = "bgImg") MultipartFile multipartFile2) {
+                          @RequestParam(name = "bgImg") MultipartFile multipartFile2) throws Exception {
         return userPageService.updateUserInfo(nickname, introduction, multipartFile1, multipartFile2);
     }
 
