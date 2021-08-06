@@ -123,7 +123,7 @@ public class PostServiceImpl implements PostService {
             pi.setFileOriName(originalName);
 
 //            String path = "src/main/resources/static/images/";
-            String path = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/";
+            String path = "/usr/local/images/";
 
             String newFileName = rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
@@ -206,7 +206,7 @@ public class PostServiceImpl implements PostService {
             pi.setFileOriName(originalName);
 
 //            String path = "src/main/resources/static/images/";
-            String path = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/";
+            String path = "/usr/local/images/";
             String newFileName = rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
             paths.add(newPath);
