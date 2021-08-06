@@ -176,7 +176,7 @@ public class UserPageServiceImpl implements UserPageService{
         if (!multipartFile1.isEmpty()) {
 //            File pre = new File(userPageEntity.getProfileImg());
 //            pre.delete();
-            String path = "src/main/resources/static/images/";
+            String path = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/";
             String newFileName = rnd(multipartFile1.getOriginalFilename(), multipartFile1.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setProfileImg(newPath);
@@ -192,7 +192,7 @@ public class UserPageServiceImpl implements UserPageService{
 
         // 배경사진
         if (!multipartFile2.isEmpty()) {
-            String path = "src/main/resources/static/images/";
+            String path = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/";
             String newFileName = rnd(multipartFile2.getOriginalFilename(), multipartFile2.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setBgImg(newPath);
