@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DetailPage from "../page/DetailPage";
+import React, { useEffect, useState } from "react";
 
-function ArticleDetail({ match }) {
-  const post_id = match.params.id;
-
+function CommentList({ post_id }) {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -31,17 +28,26 @@ function ArticleDetail({ match }) {
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!article) return null;
-
-  const onDelete = (post_id) => {
-    axios.delete(`http://I5C207.p.ssafy.io/curation/post/${post_id}`);
-    // history.push("/articles");
+  const onDelete = (comment_id) => {
+    axios.delete(
+      ` http://I5C207.p.ssafy.io/curation/post/${post_id}/commentList/${comment_id}`
+    );
+    console.log("testtest ", post_id, comment_id);
   };
+  const onCommentChange = () => {};
 
   return (
-    <>
-      <DetailPage article={article} onDelete={onDelete} />
-    </>
+    <div>
+      {article.comment.map((content) => (
+        <li key={content.id}>
+          {content.content}
+          <button onClick={onCommentChange}>수정</button>
+
+          <button onClick={() => onDelete(content.id)}>삭제</button>
+        </li>
+      ))}
+    </div>
   );
 }
 
-export default ArticleDetail;
+export default CommentList;

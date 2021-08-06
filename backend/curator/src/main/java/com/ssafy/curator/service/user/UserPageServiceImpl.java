@@ -11,15 +11,16 @@ import com.ssafy.curator.entity.user.UserPageEntity;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserPageRepository;
 import com.ssafy.curator.repository.user.UserRepository;
+import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserPageServiceImpl implements UserPageService{
@@ -32,6 +33,7 @@ public class UserPageServiceImpl implements UserPageService{
 
     @Autowired
     PostRepository postRepository;
+
 
     @Override
     public UserPageDto createUserInfo(String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) {
@@ -78,11 +80,11 @@ public class UserPageServiceImpl implements UserPageService{
     }
 
     @Override
-    public UserPageDto getUserInfo(String nickname) {
+    public UserPageDto getUserInfo(String nickname) throws IOException {
 
         UserEntity userEntity = userRepository.findByNickname(nickname);
-
         UserPageEntity userPageEntity = userPageRepository.findByUser(userEntity);
+
         UserPageDto userPageDto = new UserPageDto();
 
         userPageDto.setIntroduction(userPageEntity.getIntroduction());
@@ -102,8 +104,21 @@ public class UserPageServiceImpl implements UserPageService{
         }
         userPageDto.setFollowings(userDtos2);
 
-        userPageDto.setProfileImg(userPageEntity.getProfileImg());
-        userPageDto.setBgImg(userPageEntity.getBgImg());
+        InputStream imageStream = new FileInputStream(userPageEntity.getProfileImg());
+        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+        String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+        imageStream.close();
+        String ProfileImg = "data:image/png;base64," + base64data;
+
+        userPageDto.setProfileImg(ProfileImg);
+
+        InputStream imageStream2 = new FileInputStream(userPageEntity.getBgImg());
+        byte[] imageByteArray2 = IOUtils.toByteArray(imageStream2);
+        String base64data2 = Base64.getEncoder().encodeToString(imageByteArray2);
+        imageStream2.close();
+        String BgImg = "data:image/png;base64," + base64data2;
+
+        userPageDto.setBgImg(BgImg);
 
         // 게시글
         List<MyPagePostDto> myPagePostDtos = new ArrayList<>();
@@ -114,41 +129,25 @@ public class UserPageServiceImpl implements UserPageService{
             myPagePostDto.setDescription(postEntity.getDescription());
             myPagePostDto.setIngredients(postEntity.getIngredients());
             myPagePostDto.setCreateDate(postEntity.getCreateDate());
-            myPagePostDto.setImagePaths(postEntity.getImagePaths());
+            List<String> imagePaths = postEntity.getImagePaths();
+            if (imagePaths.size() >= 1) {
+                String firstImage = imagePaths.get(0);
+                InputStream imageStream3 = new FileInputStream(firstImage);
+                byte[] imageByteArray3 = IOUtils.toByteArray(imageStream);
+                String base64data3 = Base64.getEncoder().encodeToString(imageByteArray);
+                imageStream.close();
+                String imageInfo = "data:image/png;base64," + base64data;
+
+                myPagePostDto.setImagePaths(Collections.singletonList(imageInfo));
+            } else {
+                myPagePostDto.setImagePaths(postEntity.getImagePaths());
+            }
 
             myPagePostDtos.add(myPagePostDto);
         }
 
         userPageDto.setMyPagePostDtos(myPagePostDtos);
         return userPageDto;
-    }
-
-
-    @Override
-    public String createNickname(String email, String nickname) {
-        UserEntity userEntity = userRepository.findByEmail(email);
-
-        // 처음 유저 닉네임 설정할 때 사진, 한줄소개 등등은 null값으로 일단 저장해놓기
-        UserPageEntity userPageEntity = new UserPageEntity();
-
-        userPageEntity.setUser(userEntity);
-        userPageEntity.setNickname(nickname);
-        userPageEntity.setIntroduction(null);
-        userPageEntity.setProfileImg(null);
-        userPageEntity.setBgImg(null);
-
-        userPageRepository.save(userPageEntity);
-        return "success";
-    }
-
-
-    @Override
-    public String checkNickname(String nickname) {
-        UserPageEntity userPageEntity = userPageRepository.findByNickname(nickname);
-
-        // 닉네임을 가진 유저가 존재하지 않을 경우 success를 보내줌
-        if (userPageEntity == null) return "success";
-        else return "fail";
     }
 
 
@@ -169,20 +168,56 @@ public class UserPageServiceImpl implements UserPageService{
         } else {
             userPageEntity.setIntroduction(introduction);
         }
-
-        if (multipartFile1 == null) {
-            userPageEntity.setProfileImg(userPageEntity.getProfileImg());
+        // 프로필
+        File pre = new File(userPageEntity.getProfileImg());
+        pre.delete();
+        Date date = new Date();
+        StringBuilder sb1 = new StringBuilder();
+        if (multipartFile1.isEmpty()) {
+            sb1.append("none");
         } else {
-            userPageEntity.setProfileImg(multipartFile1.getOriginalFilename());
+            sb1.append(date.getTime());
+            sb1.append(multipartFile1.getOriginalFilename());
         }
 
-        if (multipartFile2 == null) {
-            userPageEntity.setBgImg(userPageEntity.getBgImg());
-        } else {
-            userPageEntity.setBgImg(multipartFile2.getOriginalFilename());
+        if (!multipartFile1.isEmpty()) {
+            String profileImg = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/" + sb1.toString();
+            userPageEntity.setProfileImg(profileImg);
+            File dest = new File(profileImg);
+            try {
+                multipartFile1.transferTo(dest);
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
+        // 배경사진
+        File pre2 = new File(userPageEntity.getBgImg());
+        pre2.delete();
+        StringBuilder sb2 = new StringBuilder();
+        if (multipartFile2.isEmpty()) {
+            sb2.append("none");
+        } else {
+            sb2.append(date.getTime());
+            sb2.append(multipartFile2.getOriginalFilename());
+        }
+
+        if (!multipartFile2.isEmpty()) {
+            String bgImg = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/" + sb2.toString();
+            userPageEntity.setBgImg(bgImg);
+            File dest = new File(bgImg);
+            try {
+                multipartFile2.transferTo(dest);
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         userPageRepository.save(userPageEntity);
-
         return "success";
     }
 
