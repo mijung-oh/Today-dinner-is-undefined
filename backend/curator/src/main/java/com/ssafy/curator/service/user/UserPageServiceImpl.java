@@ -15,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -133,10 +134,10 @@ public class UserPageServiceImpl implements UserPageService{
             if (imagePaths.size() >= 1) {
                 String firstImage = imagePaths.get(0);
                 InputStream imageStream3 = new FileInputStream(firstImage);
-                byte[] imageByteArray3 = IOUtils.toByteArray(imageStream);
-                String base64data3 = Base64.getEncoder().encodeToString(imageByteArray);
+                byte[] imageByteArray3 = IOUtils.toByteArray(imageStream3);
+                String base64data3 = Base64.getEncoder().encodeToString(imageByteArray3);
                 imageStream.close();
-                String imageInfo = "data:image/png;base64," + base64data;
+                String imageInfo = "data:image/png;base64," + base64data3;
 
                 myPagePostDto.setImagePaths(Collections.singletonList(imageInfo));
             } else {
@@ -152,8 +153,11 @@ public class UserPageServiceImpl implements UserPageService{
 
 
     @Override
-    public String updateUserInfo(String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2){
+    public String updateUserInfo(String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2) throws Exception {
         UserEntity userEntity = userRepository.findByNickname(nickName);
+        if (userEntity == null) {
+            return "유저가 존재하지 않습니다.";
+        }
         UserPageEntity userPageEntity = userPageRepository.findByUser(userEntity);
 
 
@@ -168,22 +172,15 @@ public class UserPageServiceImpl implements UserPageService{
         } else {
             userPageEntity.setIntroduction(introduction);
         }
-        // 프로필
-        File pre = new File(userPageEntity.getProfileImg());
-        pre.delete();
-        Date date = new Date();
-        StringBuilder sb1 = new StringBuilder();
-        if (multipartFile1.isEmpty()) {
-            sb1.append("none");
-        } else {
-            sb1.append(date.getTime());
-            sb1.append(multipartFile1.getOriginalFilename());
-        }
 
         if (!multipartFile1.isEmpty()) {
-            String profileImg = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/" + sb1.toString();
-            userPageEntity.setProfileImg(profileImg);
-            File dest = new File(profileImg);
+//            File pre = new File(userPageEntity.getProfileImg());
+//            pre.delete();
+            String path = "src/main/resources/static/images/";
+            String newFileName = rnd(multipartFile1.getOriginalFilename(), multipartFile1.getBytes(), path);
+            String newPath = path+newFileName;
+            userPageEntity.setProfileImg(newPath);
+            File dest = new File(newPath);
             try {
                 multipartFile1.transferTo(dest);
             } catch (IllegalStateException e) {
@@ -194,20 +191,12 @@ public class UserPageServiceImpl implements UserPageService{
         }
 
         // 배경사진
-        File pre2 = new File(userPageEntity.getBgImg());
-        pre2.delete();
-        StringBuilder sb2 = new StringBuilder();
-        if (multipartFile2.isEmpty()) {
-            sb2.append("none");
-        } else {
-            sb2.append(date.getTime());
-            sb2.append(multipartFile2.getOriginalFilename());
-        }
-
         if (!multipartFile2.isEmpty()) {
-            String bgImg = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/" + sb2.toString();
-            userPageEntity.setBgImg(bgImg);
-            File dest = new File(bgImg);
+            String path = "src/main/resources/static/images/";
+            String newFileName = rnd(multipartFile2.getOriginalFilename(), multipartFile2.getBytes(), path);
+            String newPath = path+newFileName;
+            userPageEntity.setBgImg(newPath);
+            File dest = new File(newPath);
             try {
                 multipartFile2.transferTo(dest);
             } catch (IllegalStateException e) {
@@ -224,5 +213,14 @@ public class UserPageServiceImpl implements UserPageService{
     @Override
     public boolean existsByNickname(String nickname) {
         return userPageRepository.existsByNickname(nickname);
+    }
+
+    private String rnd(String originName, byte[] fileData, String path) throws Exception {
+        UUID uuid = UUID.randomUUID();
+        String savedName = uuid.toString() + "_" + originName;
+        File target = new File(path, savedName);
+
+        FileCopyUtils.copy(fileData, target);
+        return savedName;
     }
 }

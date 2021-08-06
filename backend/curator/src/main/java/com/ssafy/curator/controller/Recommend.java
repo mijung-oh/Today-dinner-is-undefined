@@ -148,6 +148,7 @@ public class Recommend {
     private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
                        final Set<CharSequence> intersection) {
         long dotProduct = 0;
+        System.out.println(intersection);
         for (final CharSequence key : intersection) {
             dotProduct += leftVector.get(key) * rightVector.get(key);
         }

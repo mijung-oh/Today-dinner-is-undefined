@@ -124,6 +124,7 @@ public class PostServiceImpl implements PostService {
 
 //            String path = "src/main/resources/static/images/";
             String path = "/home/ubuntu/CURATION/S05P13C207/backend/curator/src/main/resources/static/images/";
+
             String newFileName = rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
             paths.add(newPath);
