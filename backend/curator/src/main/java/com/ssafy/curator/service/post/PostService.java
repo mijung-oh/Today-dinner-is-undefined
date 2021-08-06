@@ -16,6 +16,5 @@ public interface PostService {
     PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws IOException;
     PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception;
     ResponseEntity<?> deletePost(@PathVariable("post_id") Long postId) throws Exception;
-//    String getPostImage(HttpServletRequest request) throws IOException;
 
 }
