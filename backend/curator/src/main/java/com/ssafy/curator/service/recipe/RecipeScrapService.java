@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface RecipeScrapService {
     String scrap(HttpServletRequest request, Long id);
-    List<UserDto> scrapUserList(Long id);
+    List<String> scrapUserList(Long id);
     List<RecipeDto> scrapRecipeList(String nickname);
+    List<RecipeDto> getAllRecipeOrderByScrapCount();
 }
