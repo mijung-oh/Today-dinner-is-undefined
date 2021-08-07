@@ -31,6 +31,21 @@ public class RecipeScrapServiceImpl implements RecipeScrapService {
     @Autowired
     RecipeScrapRepository recipeScrapRepository;
 
+    ModelMapper mapper;
+
+    @Override
+    public List<RecipeDto> getAllRecipeOrderByScrapCount() {
+        mapper = new ModelMapper();
+
+        List<RecipeEntity> EntityList = recipeRepository.findAllByOrderByScrapCountDesc();
+        List<RecipeDto> recipeDtoList = new ArrayList<>();
+        EntityList.forEach(v->{
+            recipeDtoList.add(mapper.map(v, RecipeDto.class));
+        });
+        return recipeDtoList;
+    }
+
+
     public String scrap(HttpServletRequest request, Long id) {
         String nickname = request.getParameter("nickname");
         RecipeEntity recipeEntity = recipeRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -64,14 +79,14 @@ public class RecipeScrapServiceImpl implements RecipeScrapService {
         }
     }
 
-    public List<UserDto> scrapUserList(Long id) {
-        List<UserDto> userDtos = new ArrayList<>();
+    public List<String> scrapUserList(Long id) {
+        List<String> userDtos = new ArrayList<>();
 
         RecipeEntity recipeEntity = recipeRepository.findById(id).orElseThrow(RuntimeException::new);
         List<RecipeScrapEntity> scrapEntities = recipeEntity.getRecipeScrapEntities();
         for (RecipeScrapEntity s : scrapEntities) {
             UserDto userDto = new ModelMapper().map(s.getUserEntity(), UserDto.class);
-            userDtos.add(userDto);
+            userDtos.add(userDto.getNickname());
         }
 
         return userDtos;

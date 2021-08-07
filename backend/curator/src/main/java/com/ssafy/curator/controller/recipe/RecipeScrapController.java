@@ -5,6 +5,8 @@ import com.ssafy.curator.dto.user.UserDto;
 import com.ssafy.curator.entity.recipe.RecipeScrapEntity;
 import com.ssafy.curator.service.recipe.RecipeScrapService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +20,18 @@ public class RecipeScrapController {
     @Autowired
     RecipeScrapService recipeScrapService;
 
+    @GetMapping("/getAllRecipe/orderByScrapCount")
+    public ResponseEntity<List<RecipeDto>> getAllRecipeOrderByScrapCount(){
+        return ResponseEntity.status(HttpStatus.OK).body(recipeScrapService.getAllRecipeOrderByScrapCount());
+    }
+
     @PostMapping("/{recipeId}")
     String scrap(HttpServletRequest request, @PathVariable Long recipeId) {
         return recipeScrapService.scrap(request, recipeId);
     }
 
     @GetMapping("/{recipeId}/userList")
-    List<UserDto> scrapUserList(@PathVariable Long recipeId) {
+    List<String> scrapUserList(@PathVariable Long recipeId) {
         return recipeScrapService.scrapUserList(recipeId);
     }
 

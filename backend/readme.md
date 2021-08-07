@@ -34,6 +34,7 @@
 |**POST**|레시피 스크랩/스크랩 취소|http://localhost:9000/curation/scrap/{recipe_id}|nickname|String:message("success")/<br />String:message("delete success")|
 |**GET**|해당 레시피 스크랩한 유저 목록|http://localhost:9000/curation/scrap/{recipe_id}/userList||List|
 |**GET**|해당 유저가 스크랩한 레시피 목록|http://localhost:9000/curation/scrap/{nickname}/recipeList||List|
+|**GET**|스크랩 수를 기준으로 전체 목록|http://localhost:9000/curation/scrap/getAllRecipe/orderByScrapCount||List|
 
 > Util
 
