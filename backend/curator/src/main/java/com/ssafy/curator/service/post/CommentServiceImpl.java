@@ -32,22 +32,22 @@ public class CommentServiceImpl implements CommentService{
     PostRepository postRepository;
 
 
-    public String createComment(HttpServletRequest request) throws Exception {
+    public ResponseEntity createComment(@PathVariable("post_id") Long postId, HttpServletRequest request) throws Exception {
         CommentEntity comment = new CommentEntity();
 
         String n = request.getParameter("nickname");
-        String p = request.getParameter("postId");
+        String content = request.getParameter("content");
 
         UserEntity user = userRepository.findByNickname(n);
-        PostEntity post = postRepository.findById(Long.parseLong(p));
-        String content = request.getParameter("content");
+        PostEntity post = postRepository.findById(postId);
+
         comment.setUser(user);
         comment.setPost(post);
         comment.setContent(content);
 
         commentRepository.save(comment);
 
-        return "success";
+        return ResponseEntity.ok().build();
     }
 
     public CommentDto getCommentById(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId) throws Exception {

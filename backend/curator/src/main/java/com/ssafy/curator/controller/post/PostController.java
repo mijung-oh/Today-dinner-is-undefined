@@ -65,8 +65,8 @@ public class PostController {
     }
 
     @PostMapping("/{post_id}/commentList")
-    public String createComment(HttpServletRequest request) throws Exception {
-        return commentService.createComment(request);
+    public ResponseEntity createComment(@PathVariable("post_id") Long postId, HttpServletRequest request) throws Exception {
+        return commentService.createComment(postId, request);
     }
 
     @GetMapping("/{post_id}/commentList/{comment_id}")
