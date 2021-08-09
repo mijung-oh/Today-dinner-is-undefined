@@ -104,7 +104,7 @@ public class PostServiceImpl implements PostService {
 
         PostEntity post = new PostEntity();
         String n = request.getParameter("nickname");
-        UserEntity user = userRepository.findByEmail(n);
+        UserEntity user = userRepository.findByNickname(n);
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String ingredients = request.getParameter("ingredients");
