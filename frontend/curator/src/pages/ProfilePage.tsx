@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { Button } from "@material-ui/core";
 import { ArticleProps } from "lib/interfaces";
@@ -7,6 +7,8 @@ import ArticleContainer from "@profiles/container/ArticleContainer";
 import axios from "axios";
 import { USER_CHECK_URL } from "@lib/constants";
 import ProfileDrawer from "@profiles/components/ProfileDrawer";
+import { FOLLOW_URL } from "@lib/constants";
+import { UNFOLLOW_URL } from "@lib/constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -112,6 +114,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
   const nickname = match.params.nickname;
   const PROFILE_URL = `http://i5c207.p.ssafy.io:9000/curation/userInfo/${nickname}`;
   const [currentUserNickname, setCurrentUserNickname] = useState<string>("");
+  const [isFollowing, setIsFollowing] = useState<Boolean>(false);
 
   interface UserData {
     profileImg: any;
@@ -152,8 +155,9 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           profileImg,
         });
         console.log(fetchedUserData);
+        setIsFollowing(Boolean(followers.includes(nickname)));
       } catch (err) {
-        alert("존재하지 않는 사용자 페이지 "); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
+        console.log(err.response); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
       }
     };
     const currentUser = async () => {
@@ -165,8 +169,33 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     };
     userInfo();
     currentUser();
-  }, []);
+  }, [PROFILE_URL, fetchedUserData, nickname]); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
   console.log("fectimage", fetchedUserData.profileImg);
+
+  const onClickFollow = (e: MouseEvent) => {
+    const data = {};
+    const config = {
+      params: {
+        nickname,
+      },
+      withCredentials: true,
+    };
+    axios.post(FOLLOW_URL(nickname), data, config);
+    /* 요청 보내고 현재 팔로우 상태 바꿔야하는데, fetch해오는게 매번 일어나는게 아니니까, 현재 페이지 바꿔줄 수 있도록 follow 상태 토글 */
+    setIsFollowing(!isFollowing);
+  };
+
+  const onClickUnfollow = (e: MouseEvent) => {
+    const config = {
+      params: {
+        nickname,
+      },
+      withCredentials: true,
+    };
+    axios.delete(UNFOLLOW_URL(nickname), config);
+    setIsFollowing(!isFollowing);
+  };
+
   const classes = useStyles();
   return (
     <section className={classes.container}>
@@ -220,11 +249,21 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
               }
               bgImg={fetchedUserData.bgImg}
             />
-          ) : (
+          ) : isFollowing ? (
             <Button
               className={classes.followBtn}
               variant="outlined"
               color="primary"
+              onClick={onClickUnfollow}
+            >
+              언팔로우
+            </Button>
+          ) : (
+            <Button
+              className={classes.followBtn}
+              variant="outlined"
+              color="secondary"
+              onClick={onClickFollow}
             >
               팔로우
             </Button>
