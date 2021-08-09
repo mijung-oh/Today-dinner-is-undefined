@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "10% 10%",
   },
   imgContainer: {
-    maxWidth: "512px",
-    maxHeight: "512px",
+    maxWidth: "300px",
+    maxHeight: "300px",
     display: "flex",
     justifyContent: "center",
     margin: "0 auto",
@@ -25,6 +25,7 @@ const DefaultArticle: React.FC = () => {
         <img
           src="https://thumbs.gfycat.com/BouncyWelcomeGrassspider.webp"
           alt="other"
+          style={{ width: "100%" }}
         />
       </div>
       <Typography variant="h5">아직 아무런 게시글이 없어요</Typography>

@@ -10,10 +10,8 @@ import ModeCommentIcon from "@material-ui/icons/ModeComment";
 import IconButton from "@material-ui/core/IconButton";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
-import Swal from "sweetalert2";
-import Input from "@material-ui/core/Input";
-import { profile } from "console";
 import axios from "axios";
+import { NICKNAME_CHECK_URL } from "@lib/constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -66,7 +64,27 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "& img": {
       width: "100%",
-      borderRadius: "50%",
+    },
+  },
+  backgroundImgContainer: {
+    margin: "0 auto",
+    padding: "10% 10% 3% 10%",
+    [theme.breakpoints.between("xs", "sm")]: {
+      width: "120px",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: "78px",
+    },
+    [theme.breakpoints.between("md", "lg")]: {
+      width: "128px",
+      padding: "1% 1% 1% 1%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "172px",
+      padding: "1% 1% 1% 1%",
+    },
+    "& img": {
+      width: "100%",
     },
   },
   contextContainer: {
@@ -81,7 +99,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   buttonContainer: {
     margin: "0 auto",
     display: "flex",
+    visibility: "visible",
     justifyContent: "space-around",
+  },
+  disappear: {
+    display: "none",
+    opacity: 0,
   },
 }));
 
@@ -99,9 +122,12 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const [introduction, setIntroduction] = useState<string>(props.introduction);
   const [profileImg, setProfileImg] = useState<any>(props.profileImg);
   const [bgImg, setBgImg] = useState<any>(props.bgImg);
-  console.log("I am props!", props);
-  console.log(props.profileImg);
-  console.log(profileImg);
+  const [triggerCheck, setTriggerCheck] = useState<Boolean>(false);
+  const [isDuplicate, setIsDuplicate] = useState<Boolean>(false);
+  const [showButtons, setShowButtons] = useState<Boolean>(true);
+
+  // console.log("I am props!", props);
+
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -123,21 +149,9 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     formData.append("introduction", introduction);
     formData.append("profileImg", profileImg);
     formData.append("bgImg", bgImg);
-    for (let key of formData.keys()) {
-      console.log(key);
-    }
-    for (let value of formData.values()) {
-      console.log(value);
-    }
-    // PUT
+
     const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
     try {
-      // const config = {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      //   withCredentials: true,
-      // };
       const res = await axios.put(PUT_URL, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
@@ -154,40 +168,61 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       profileInput.current.click();
     }
   };
-  console.log("profile", profileImg);
+
   const profileChange = (e: ChangeEvent) => {
     if (profileInput.current !== null) {
       const adjustedProfile: File | undefined = profileInput.current.files?.[0];
-      console.log("adjustP", adjustedProfile);
+      // console.log("adjustP", adjustedProfile);
       if (adjustedProfile !== undefined) {
         const reader = new FileReader();
         reader.onloadend = (event: any) => {
-          // const url = reader.result;
-          // console.log("e", event);
-          // console.log("e.currentT", event.currentTarget.result);
-          // console.log("url", url);
-          const test = event.currentTarget.result as string;
-          setProfileImg(test);
-          // console.log("test", test);
-          // console.log(typeof test);
-          console.log("ad", profileImg); // 정상적으로 들어는 가는데 왜  console.log로는 출력이 안될까?
+          const readData = event.currentTarget.result as string;
+          setProfileImg(readData);
+          // console.log("ad", profileImg); // 정상적으로 들어는 가는데 왜  console.log로는 출력이 안될까?
         };
         reader.readAsDataURL(adjustedProfile);
       }
     }
   };
 
-  const bgChange = () => {
+  const onClickbgInput = (e: MouseEvent) => {
     if (bgInput.current !== null) {
       bgInput.current.click();
-      const adjustedBG = bgInput.current.files?.[0];
-      console.log("adjustB", adjustedBG);
-      setBgImg(adjustedBG);
+    }
+  };
+  const bgChange = (e: ChangeEvent) => {
+    if (bgInput.current !== null) {
+      const adjustedBG: File | undefined = bgInput.current.files?.[0];
+      if (adjustedBG !== undefined) {
+        const reader = new FileReader();
+        reader.onloadend = (event: any) => {
+          const readData = event.currentTarget.result as string;
+          setBgImg(readData);
+        };
+        reader.readAsDataURL(adjustedBG);
+      }
     }
   };
 
   const nickNameChange = (e: any) => {
     setNickName(e.target.value);
+    setTriggerCheck(true);
+    setShowButtons(false);
+  };
+  const nickNameDuplicateCheck = async () => {
+    const config = { withCredentials: true };
+    const res = await axios.get(NICKNAME_CHECK_URL(nickName), config); // 이게 참이면 중복 체크 통과한거
+    setIsDuplicate(res.data);
+    setTriggerCheck(false);
+
+    if (isDuplicate) {
+      // 중복되었다면
+      setShowButtons(false);
+    } else {
+      setShowButtons(true);
+      // setTriggerCheck(true);
+    }
+    console.log(res);
   };
   const introductionChange = (e: any) => {
     setIntroduction(e.target.value);
@@ -207,12 +242,14 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         id="bgInput"
         ref={bgInput}
         style={{ display: "none" }}
+        onChange={bgChange}
       />
       <Typography className={classes.title} align="justify" variant="h5">
         프로필 편집
       </Typography>
       <div className={classes.imgContainer}>
         <img
+          style={{ borderRadius: "50%" }}
           src={
             profileImg
               ? profileImg
@@ -230,12 +267,22 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       >
         프로필 사진 변경
       </Typography>
+      <div className={classes.backgroundImgContainer}>
+        <img
+          src={
+            bgImg
+              ? bgImg
+              : "https://patoliyainfotech.com/wp-content/uploads/2019/10/one-year-of-react-native.png"
+          }
+          alt=""
+        />
+      </div>
       <Typography
         variant="subtitle1"
         component="p"
         align="center"
         color="primary"
-        onClick={bgChange}
+        onClick={onClickbgInput}
       >
         백그라운드 이미지 변경
       </Typography>
@@ -253,8 +300,34 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
                 <AccountCircle />
               </InputAdornment>
             ),
+            endAdornment: (
+              <InputAdornment position="end">
+                {triggerCheck ? (
+                  <Button color="primary" onClick={nickNameDuplicateCheck}>
+                    중복 체크
+                  </Button>
+                ) : (
+                  <div></div>
+                )}
+              </InputAdornment>
+            ),
           }}
         />
+        {triggerCheck ? (
+          isDuplicate ? (
+            <Typography variant="subtitle2" color="secondary">
+              중복된 닉네임입니다.
+            </Typography>
+          ) : (
+            <Typography variant="subtitle2" color="secondary">
+              닉네임 중복 체크를 해주세요
+            </Typography>
+          )
+        ) : (
+          <Typography variant="subtitle2" color="primary">
+            사용가능한 닉네임입니다.
+          </Typography>
+        )}
         <TextField
           id="input-introduction"
           label="자기소개"
@@ -272,11 +345,17 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         />
       </div>
       <Divider />
-      <div className={classes.buttonContainer}>
+      <div
+        className={
+          showButtons
+            ? `${classes.buttonContainer}`
+            : ` ${classes.buttonContainer} ${classes.disappear}`
+        }
+      >
         <IconButton color="primary" onClick={handleSubmit}>
           <CheckIcon />
         </IconButton>
-        <IconButton color="secondary">
+        <IconButton color="secondary" onClick={toggleDrawer(false)}>
           <CloseIcon />
         </IconButton>
       </div>
