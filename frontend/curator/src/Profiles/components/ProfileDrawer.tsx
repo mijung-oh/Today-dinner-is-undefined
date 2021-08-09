@@ -64,7 +64,27 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "& img": {
       width: "100%",
-      borderRadius: "50%",
+    },
+  },
+  backgroundImgContainer: {
+    margin: "0 auto",
+    padding: "10% 10% 3% 10%",
+    [theme.breakpoints.between("xs", "sm")]: {
+      width: "120px",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: "78px",
+    },
+    [theme.breakpoints.between("md", "lg")]: {
+      width: "128px",
+      padding: "1% 1% 1% 1%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "172px",
+      padding: "1% 1% 1% 1%",
+    },
+    "& img": {
+      width: "100%",
     },
   },
   contextContainer: {
@@ -106,7 +126,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const [isDuplicate, setIsDuplicate] = useState<Boolean>(false);
   const [showButtons, setShowButtons] = useState<Boolean>(true);
 
-  console.log("I am props!", props);
+  // console.log("I am props!", props);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -129,14 +149,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     formData.append("introduction", introduction);
     formData.append("profileImg", profileImg);
     formData.append("bgImg", bgImg);
-    // formData 확인용
-    // for (let key of formData.keys()) {
-    //   console.log(key);
-    // }
-    // for (let value of formData.values()) {
-    //   console.log(value);
-    // }
-    // PUT
+
     const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
     try {
       const res = await axios.put(PUT_URL, formData, {
@@ -155,7 +168,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       profileInput.current.click();
     }
   };
-  console.log("profile", profileImg);
+
   const profileChange = (e: ChangeEvent) => {
     if (profileInput.current !== null) {
       const adjustedProfile: File | undefined = profileInput.current.files?.[0];
@@ -172,12 +185,22 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     }
   };
 
-  const bgChange = () => {
+  const onClickbgInput = (e: MouseEvent) => {
     if (bgInput.current !== null) {
       bgInput.current.click();
-      const adjustedBG = bgInput.current.files?.[0];
-      console.log("adjustB", adjustedBG);
-      setBgImg(adjustedBG);
+    }
+  };
+  const bgChange = (e: ChangeEvent) => {
+    if (bgInput.current !== null) {
+      const adjustedBG: File | undefined = bgInput.current.files?.[0];
+      if (adjustedBG !== undefined) {
+        const reader = new FileReader();
+        reader.onloadend = (event: any) => {
+          const readData = event.currentTarget.result as string;
+          setBgImg(readData);
+        };
+        reader.readAsDataURL(adjustedBG);
+      }
     }
   };
 
@@ -191,8 +214,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     const res = await axios.get(NICKNAME_CHECK_URL(nickName), config); // 이게 참이면 중복 체크 통과한거
     setIsDuplicate(res.data);
     setTriggerCheck(false);
-    console.log("중복되었나요?", isDuplicate);
-    // console.log(triggerCheck);
+
     if (isDuplicate) {
       // 중복되었다면
       setShowButtons(false);
@@ -220,12 +242,14 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         id="bgInput"
         ref={bgInput}
         style={{ display: "none" }}
+        onChange={bgChange}
       />
       <Typography className={classes.title} align="justify" variant="h5">
         프로필 편집
       </Typography>
       <div className={classes.imgContainer}>
         <img
+          style={{ borderRadius: "50%" }}
           src={
             profileImg
               ? profileImg
@@ -243,12 +267,22 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       >
         프로필 사진 변경
       </Typography>
+      <div className={classes.backgroundImgContainer}>
+        <img
+          src={
+            bgImg
+              ? bgImg
+              : "https://patoliyainfotech.com/wp-content/uploads/2019/10/one-year-of-react-native.png"
+          }
+          alt=""
+        />
+      </div>
       <Typography
         variant="subtitle1"
         component="p"
         align="center"
         color="primary"
-        onClick={bgChange}
+        onClick={onClickbgInput}
       >
         백그라운드 이미지 변경
       </Typography>
@@ -272,7 +306,9 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
                   <Button color="primary" onClick={nickNameDuplicateCheck}>
                     중복 체크
                   </Button>
-                ) : null}
+                ) : (
+                  <div></div>
+                )}
               </InputAdornment>
             ),
           }}
@@ -319,7 +355,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         <IconButton color="primary" onClick={handleSubmit}>
           <CheckIcon />
         </IconButton>
-        <IconButton color="secondary">
+        <IconButton color="secondary" onClick={toggleDrawer(false)}>
           <CloseIcon />
         </IconButton>
       </div>

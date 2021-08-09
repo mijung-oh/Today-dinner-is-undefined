@@ -13,3 +13,11 @@ export const USER_CHECK_URL =
 export const NICKNAME_CHECK_URL = (nickname) => {
   return `http://i5c207.p.ssafy.io:9000/curation/user/userNicknameCheck?nickname=${nickname}`;
 };
+
+export const FOLLOW_URL = (nickname) => {
+  return `http://i5c207.p.ssafy.io:9000/curation/follow/${nickname}`;
+};
+
+export const UNFOLLOW_URL = (nickname) => {
+  return `http://i5c207.p.ssafy.io:9000/curation/follow/${nickname}`;
+};

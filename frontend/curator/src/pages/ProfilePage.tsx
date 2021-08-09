@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { Button } from "@material-ui/core";
 import { ArticleProps } from "lib/interfaces";
@@ -7,6 +7,8 @@ import ArticleContainer from "@profiles/container/ArticleContainer";
 import axios from "axios";
 import { USER_CHECK_URL } from "@lib/constants";
 import ProfileDrawer from "@profiles/components/ProfileDrawer";
+import { FOLLOW_URL } from "@lib/constants";
+import { UNFOLLOW_URL } from "@lib/constants";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -167,8 +169,33 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     };
     userInfo();
     currentUser();
-  }, []); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
+  }, [PROFILE_URL, fetchedUserData, nickname]); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
   console.log("fectimage", fetchedUserData.profileImg);
+
+  const onClickFollow = (e: MouseEvent) => {
+    const data = {};
+    const config = {
+      params: {
+        nickname,
+      },
+      withCredentials: true,
+    };
+    axios.post(FOLLOW_URL(nickname), data, config);
+    /* 요청 보내고 현재 팔로우 상태 바꿔야하는데, fetch해오는게 매번 일어나는게 아니니까, 현재 페이지 바꿔줄 수 있도록 follow 상태 토글 */
+    setIsFollowing(!isFollowing);
+  };
+
+  const onClickUnfollow = (e: MouseEvent) => {
+    const config = {
+      params: {
+        nickname,
+      },
+      withCredentials: true,
+    };
+    axios.delete(UNFOLLOW_URL(nickname), config);
+    setIsFollowing(!isFollowing);
+  };
+
   const classes = useStyles();
   return (
     <section className={classes.container}>
@@ -227,6 +254,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
               className={classes.followBtn}
               variant="outlined"
               color="primary"
+              onClick={onClickUnfollow}
             >
               언팔로우
             </Button>
@@ -235,6 +263,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
               className={classes.followBtn}
               variant="outlined"
               color="secondary"
+              onClick={onClickFollow}
             >
               팔로우
             </Button>
