@@ -24,7 +24,7 @@ public class CommonController {
 
     @GetMapping("/status")
     public String status(){
-        return String.format("서버 가동중 .. %s port", env.getProperty("server.port"));
+        return String.format("서버 작동중 . . . . %s port", env.getProperty("server.port"));
     }
 
     @GetMapping("/currentLogin")
