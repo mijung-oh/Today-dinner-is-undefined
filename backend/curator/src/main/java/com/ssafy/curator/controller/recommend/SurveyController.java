@@ -52,8 +52,8 @@ public class SurveyController {
     }
 
     @DeleteMapping("/{survey_id}/replyList/{reply_id}")
-    public ResponseEntity deletereply(@PathVariable("survey_id") Long surveyId, @PathVariable("reply_id") Long replyId) throws Exception {
-        return replyService.deletereply(surveyId, replyId);
+    public ResponseEntity deleteReply(@PathVariable("survey_id") Long surveyId, @PathVariable("reply_id") Long replyId) throws Exception {
+        return replyService.deleteReply(surveyId, replyId);
     }
 
 

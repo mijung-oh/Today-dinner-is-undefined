@@ -44,17 +44,17 @@ public class ReplyServiceImpl {
     }
 
     public ReplyEntity updateReply(@PathVariable("survey_id") Long surveyId, @PathVariable("reply_id") Long replyId, ReplyEntity replyDetails) throws Exception {
-        Long c = Long.parseLong(String.valueOf(replyId));
-        ReplyEntity reply = replyRepository.findById(c);
+        Long r = Long.parseLong(String.valueOf(replyId));
+        ReplyEntity reply = replyRepository.findById(r);
         reply.setContent(replyDetails.getContent());
 
         ReplyEntity updatereply = replyRepository.save(reply);
         return updatereply;
     }
 
-    public ResponseEntity deletereply(@PathVariable("survey_id") Long surveyId, @PathVariable("reply_id") Long replyId) throws Exception {
-        Long c = Long.parseLong(String.valueOf(replyId));
-        ReplyEntity reply = replyRepository.findById(c);
+    public ResponseEntity deleteReply(@PathVariable("survey_id") Long surveyId, @PathVariable("reply_id") Long replyId) throws Exception {
+        Long r = Long.parseLong(String.valueOf(replyId));
+        ReplyEntity reply = replyRepository.findById(r);
         replyRepository.delete(reply);
         return ResponseEntity.ok().build();
     }
