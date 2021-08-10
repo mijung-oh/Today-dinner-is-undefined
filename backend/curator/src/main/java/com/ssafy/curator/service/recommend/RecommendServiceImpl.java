@@ -1,25 +1,22 @@
-package com.ssafy.curator.controller;
+package com.ssafy.curator.service.recommend;
 
-import com.ssafy.curator.dto.recipe.RecipeIngredientDto;
+
 import com.ssafy.curator.dto.recipe.RecipeRecommendDto;
 import com.ssafy.curator.entity.recipe.RecipeEntity;
 import com.ssafy.curator.entity.recipe.RecipeIngredientEntity;
 import com.ssafy.curator.entity.recipe.RecipeIngredientMap;
 import com.ssafy.curator.repository.recipe.RecipeIngredientMapRepository;
+import com.ssafy.curator.repository.recipe.RecipeIngredientRepository;
 import com.ssafy.curator.repository.recipe.RecipeRepository;
 import com.ssafy.curator.service.recipe.RecipeService;
-import com.ssafy.curator.vo.recipe.ResponseRecipeDetail;
+import com.ssafy.curator.vo.recommend.RequestIngredient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.stereotype.Service;
 import java.util.*;
 
-@RestController
-public class Recommend {
-
+@Service
+public class RecommendServiceImpl implements RecommendService {
     @Autowired
     RecipeRepository recipeRepository;
 
@@ -29,8 +26,10 @@ public class Recommend {
     @Autowired
     RecipeIngredientMapRepository recipeIngredientMapRepository;
 
-    @GetMapping("/setRecipeIngredientMap")
-    List<RecipeIngredientMap> getRecipeIngredients() {
+    @Autowired
+    RecipeIngredientRepository recipeIngredientRepository;
+
+    public List<RecipeIngredientMap> getRecipeIngredients() {
 
         int idx = 1;
         for (RecipeEntity o : recipeRepository.findAll()) {
@@ -44,7 +43,6 @@ public class Recommend {
                 } else {
                     recipeIngredientMap.setName(name);
                     recipeIngredientMap.setNumber(idx);
-                    idx ++;
                 }
                 recipeIngredientMapRepository.save(recipeIngredientMap);
             }
@@ -53,24 +51,41 @@ public class Recommend {
         return recipeIngredientMapRepository.findAll();
     }
 
-    @GetMapping("/getRecommendList")
-    List<RecipeRecommendDto> getRecommendList(@RequestParam(value="ingredient", required=true) List<String> ingredients) {
+    public List<RecipeRecommendDto> getRecommendList(RequestIngredient requestIngredient) {
         ArrayList<Double[]> sorted = new ArrayList<>();
 
-        HashMap<CharSequence, Integer> leftmap = new HashMap();
-        for (String s : ingredients) {
-            leftmap.put(s, recipeIngredientMapRepository.findByName(s).getNumber());
+        HashMap<CharSequence, Double> leftmap = new HashMap();
+        for (String s : requestIngredient.getIngredients()) {
+            leftmap.put(s, 2.0);
         }
+
+        List<String> defaultSource = new ArrayList<>();
+        defaultSource.add("소금");
+        defaultSource.add("간장");
+        defaultSource.add("고추장");
+        defaultSource.add("참기름");
+        defaultSource.add("후추");
+
+        // 기본 양념이 있는 경우
+        if (requestIngredient.isCheck()) {
+            for (String s : defaultSource) {
+                leftmap.put(s, 1.0);
+            }
+        } else{
+            for (String s : defaultSource) {
+            leftmap.put(s, 0.0);
+        }}
+
 
         for (RecipeEntity o : recipeRepository.findAll()) {
             List<RecipeIngredientEntity> recipeIngredientEntities = o.getIngredientEntities();
-            HashMap<CharSequence, Integer> rightmap = new HashMap();
+            HashMap<CharSequence, Double> rightmap = new HashMap();
             for (RecipeIngredientEntity recipeIngredientEntity : recipeIngredientEntities) {
                 String name = recipeIngredientEntity.getIRDNT_NM();
                 if (recipeIngredientMapRepository.findByName(name) == null) {
-                    rightmap.put(name, 0);
+                    rightmap.put(name, (double) 0);
                 } else {
-                    rightmap.put(name, Integer.valueOf(recipeIngredientMapRepository.findByName(name).getNumber()));
+                    rightmap.put(name, (double) 2);
                 }
             }
             sorted.add(new Double[]{cosineSimilarity(leftmap, rightmap), Double.valueOf(o.getRECIPE_ID())});
@@ -87,16 +102,24 @@ public class Recommend {
         List<RecipeRecommendDto> recipeRecommendDtos = new ArrayList<>();
         for (int i = sorted.size()-1; i >= sorted.size()-5; i--) {
             Long id = sorted.get(i)[1].longValue();
+
+            List<RecipeIngredientEntity> recipeIngredientEntities = recipeIngredientRepository.findByRecipeEntity(recipeRepository.findById(id).get());
+
+            List<String> ingredients2 = new ArrayList<>();
+            recipeIngredientEntities.forEach(recipeIngredientEntity -> ingredients2.add(recipeIngredientEntity.getIRDNT_NM()));
+
             RecipeRecommendDto recipeRecommendDto = new ModelMapper().map(recipeRepository.findById(id).get(), RecipeRecommendDto.class);
+            recipeRecommendDto.setIngredientEntities(ingredients2);
             recipeRecommendDto.setRate(sorted.get(i)[0]);
             recipeRecommendDtos.add(recipeRecommendDto);
+
         }
 
         return recipeRecommendDtos;
     }
 
 
-    public Double cosineSimilarity(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector) {
+    public Double cosineSimilarity(final Map<CharSequence, Double> leftVector, final Map<CharSequence, Double> rightVector) {
         if (leftVector == null || rightVector == null) {
             throw new IllegalArgumentException("Vectors must not be null");
         }
@@ -105,11 +128,11 @@ public class Recommend {
 
         final double dotProduct = dot(leftVector, rightVector, intersection);
         double d1 = 0.0d;
-        for (final Integer value : leftVector.values()) {
+        for (final Double value : leftVector.values()) {
             d1 += Math.pow(value, 2);
         }
         double d2 = 0.0d;
-        for (final Integer value : rightVector.values()) {
+        for (final Double value : rightVector.values()) {
             d2 += Math.pow(value, 2);
         }
         double cosineSimilarity;
@@ -121,31 +144,14 @@ public class Recommend {
         return cosineSimilarity;
     }
 
-    /**
-     * Returns a set with strings common to the two given maps.
-     *
-     * @param leftVector left vector map
-     * @param rightVector right vector map
-     * @return common strings
-     */
-    private Set<CharSequence> getIntersection(final Map<CharSequence, Integer> leftVector,
-                                              final Map<CharSequence, Integer> rightVector) {
+    private Set<CharSequence> getIntersection(final Map<CharSequence, Double> leftVector,
+                                              final Map<CharSequence, Double> rightVector) {
         final Set<CharSequence> intersection = new HashSet<>(leftVector.keySet());
         intersection.retainAll(rightVector.keySet());
         return intersection;
     }
 
-    /**
-     * Computes the dot product of two vectors. It ignores remaining elements. It means
-     * that if a vector is longer than other, then a smaller part of it will be used to compute
-     * the dot product.
-     *
-     * @param leftVector left vector
-     * @param rightVector right vector
-     * @param intersection common elements
-     * @return the dot product
-     */
-    private double dot(final Map<CharSequence, Integer> leftVector, final Map<CharSequence, Integer> rightVector,
+    private double dot(final Map<CharSequence, Double> leftVector, final Map<CharSequence, Double> rightVector,
                        final Set<CharSequence> intersection) {
         long dotProduct = 0;
         System.out.println(intersection);
@@ -154,7 +160,4 @@ public class Recommend {
         }
         return dotProduct;
     }
-
-
-
 }
