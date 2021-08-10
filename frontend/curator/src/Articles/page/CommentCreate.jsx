@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-function CommentCreate({ post_id }) {
+function CommentCreate({ post_id, history }) {
   const [text, setText] = useState({
     nickname: "",
     content: "",
@@ -24,16 +24,13 @@ function CommentCreate({ post_id }) {
 
     try {
       axios.post(
-        `http://I5C207.p.ssafy.io/curation/post/${post_id}/commentList`,
+        `http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList`,
         formData,
         {
           headers: {
             "Content-Type": `application/json`,
           },
-        },
-        window.location.replace(
-          `http://I5C207.p.ssafy.io/articles/detail/${post_id}`
-        )
+        }
       );
     } catch (e) {
       console.log(e);
@@ -43,7 +40,9 @@ function CommentCreate({ post_id }) {
     <div>
       댓글
       <input value={content} onChange={onChange} name="content" />
-      <button onClick={onCreate}>등록</button>
+      <a href={`/articles/detail/${post_id}`}>
+        <button onClick={onCreate}>등록</button>
+      </a>
     </div>
   );
 }

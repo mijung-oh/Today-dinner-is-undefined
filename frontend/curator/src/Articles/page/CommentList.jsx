@@ -13,7 +13,7 @@ function CommentList({ post_id }) {
         setArticle(null);
         setLoading(true);
         const response = await axios.get(
-          `http://I5C207.p.ssafy.io/curation/post/${post_id}`
+          `http://i5c207.p.ssafy.io/curation/post/${post_id}`
         );
 
         setArticle(response.data);
@@ -30,7 +30,7 @@ function CommentList({ post_id }) {
   if (!article) return null;
   const onDelete = (comment_id) => {
     axios.delete(
-      ` http://I5C207.p.ssafy.io/curation/post/${post_id}/commentList/${comment_id}`
+      ` http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList/${comment_id}`
     );
     console.log("testtest ", post_id, comment_id);
   };
@@ -42,8 +42,9 @@ function CommentList({ post_id }) {
         <li key={content.id}>
           {content.content}
           <button onClick={onCommentChange}>수정</button>
-
-          <button onClick={() => onDelete(content.id)}>삭제</button>
+          <a href={`/articles/detail/${post_id}`}>
+            <button onClick={() => onDelete(content.id)}>삭제</button>
+          </a>
         </li>
       ))}
     </div>

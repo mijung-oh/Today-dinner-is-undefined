@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Update({
   onCreate,
@@ -7,6 +8,7 @@ function Update({
   description,
   ingredients,
   uploadFile,
+  post_id,
 }) {
   /*
   onCreate = axios post로 백에 전송 함수
@@ -39,7 +41,9 @@ function Update({
         ></input>
         <label htmlFor="upload-file">파일선택</label>
       </div>
-      <button onClick={onCreate}>등록</button>
+      <a href={`/articles/detail/${post_id}`}>
+        <button onClick={onCreate}>등록</button>
+      </a>
     </div>
   );
 }

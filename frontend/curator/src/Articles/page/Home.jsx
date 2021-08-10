@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 function Home({ article }) {
   const onDelete = () => {
-    axios.delete(`http://localhost:9000/curation/post/${article.id}`);
+    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${article.id}`);
   };
   /*
   article 안에 백 서버 안에 있는 모든 필드값 담겨있음
@@ -21,8 +21,8 @@ function Home({ article }) {
           <Link to={`/articles/detail/${article.id}`}>
             컨텐트: {article.description}
           </Link>
-          글번호: {article.id} // // 작성자: {article.user.nickname} //
-          작성시간: {article.createDate}
+          글번호: {article.id} // 작성시간:
+          {article.createDate}
           <a href="/articles">
             <button onClick={() => onDelete(article.id)}>x</button>
           </a>
