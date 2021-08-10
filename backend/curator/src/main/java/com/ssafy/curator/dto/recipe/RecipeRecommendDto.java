@@ -12,4 +12,5 @@ public class RecipeRecommendDto {
     private String IMG_URL;
     private Double rate;
     private List<String> ingredientEntities;
+    private List<String> userSelectIngredients;
 }

@@ -111,6 +111,8 @@ public class RecommendServiceImpl implements RecommendService {
             RecipeRecommendDto recipeRecommendDto = new ModelMapper().map(recipeRepository.findById(id).get(), RecipeRecommendDto.class);
             recipeRecommendDto.setIngredientEntities(ingredients2);
             recipeRecommendDto.setRate(sorted.get(i)[0]);
+            recipeRecommendDto.setUserSelectIngredients(requestIngredient.getIngredients());
+
             recipeRecommendDtos.add(recipeRecommendDto);
 
         }
