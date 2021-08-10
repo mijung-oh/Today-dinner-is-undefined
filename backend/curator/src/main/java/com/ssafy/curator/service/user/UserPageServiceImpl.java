@@ -105,21 +105,31 @@ public class UserPageServiceImpl implements UserPageService{
         }
         userPageDto.setFollowings(userDtos2);
 
-        InputStream imageStream = new FileInputStream(userPageEntity.getProfileImg());
-        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-        String base64data = Base64.getEncoder().encodeToString(imageByteArray);
-        imageStream.close();
-        String ProfileImg = "data:image/png;base64," + base64data;
+        String curProfile = userPageEntity.getProfileImg();
+        if (curProfile != null) {
+            InputStream imageStream = new FileInputStream(curProfile);
+            byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+            String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+            imageStream.close();
+            String ProfileImg = "data:image/png;base64," + base64data;
 
-        userPageDto.setProfileImg(ProfileImg);
+            userPageDto.setProfileImg(ProfileImg);
+        } else {
+            userPageDto.setProfileImg(null);
+        }
 
-        InputStream imageStream2 = new FileInputStream(userPageEntity.getBgImg());
-        byte[] imageByteArray2 = IOUtils.toByteArray(imageStream2);
-        String base64data2 = Base64.getEncoder().encodeToString(imageByteArray2);
-        imageStream2.close();
-        String BgImg = "data:image/png;base64," + base64data2;
+        String curBg = userPageEntity.getBgImg();
+        if (curBg != null){
+            InputStream imageStream2 = new FileInputStream(curBg);
+            byte[] imageByteArray2 = IOUtils.toByteArray(imageStream2);
+            String base64data2 = Base64.getEncoder().encodeToString(imageByteArray2);
+            imageStream2.close();
+            String BgImg = "data:image/png;base64," + base64data2;
 
-        userPageDto.setBgImg(BgImg);
+            userPageDto.setBgImg(BgImg);
+        } else {
+            userPageDto.setBgImg(null);
+        }
 
         // 게시글
         List<MyPagePostDto> myPagePostDtos = new ArrayList<>();
@@ -136,7 +146,7 @@ public class UserPageServiceImpl implements UserPageService{
                 InputStream imageStream3 = new FileInputStream(firstImage);
                 byte[] imageByteArray3 = IOUtils.toByteArray(imageStream3);
                 String base64data3 = Base64.getEncoder().encodeToString(imageByteArray3);
-                imageStream.close();
+                imageStream3.close();
                 String imageInfo = "data:image/png;base64," + base64data3;
 
                 myPagePostDto.setImagePaths(Collections.singletonList(imageInfo));
