@@ -16,7 +16,7 @@ function ArticleDetail({ match }) {
         setArticle(null);
         setLoading(true);
         const response = await axios.get(
-          `http://I5C207.p.ssafy.io/curation/post/${post_id}`
+          `http://i5c207.p.ssafy.io/curation/post/${post_id}`
         );
 
         setArticle(response.data);
@@ -33,9 +33,24 @@ function ArticleDetail({ match }) {
   if (!article) return null;
 
   const onDelete = (post_id) => {
-    axios.delete(`http://I5C207.p.ssafy.io/curation/post/${post_id}`);
+    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${post_id}`);
     // history.push("/articles");
   };
+  // const onLike = async () => {
+  //   let formData = new FormData();
+
+  //   formData.append("nickname", "오잉");
+
+  //   const response = await axios.post(
+  //     `http://localhost:9000/curation/like/${post_id}`,
+  //     formData,
+  //     {
+  //       headers: {
+  //         "Content-Type": `application/json`,
+  //       },
+  //     }
+  //   );
+  // };
 
   return (
     <>

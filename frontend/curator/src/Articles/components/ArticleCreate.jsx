@@ -30,7 +30,6 @@ function ArticleCreate({ history }) {
     title: "",
     description: "",
     ingredients: "",
-    nickname: "김서방",
   });
   const { title, description, ingredients, nickname } = text;
   const onChange = (e) => {
@@ -46,7 +45,6 @@ function ArticleCreate({ history }) {
     formData.append("title", title);
     formData.append("ingredients", ingredients);
     formData.append("description", description);
-    formData.append("nickname", nickname);
 
     postfiles?.file.map((eachfile) => {
       formData.append("files", new Blob([eachfile], { type: "image/png" }));
@@ -54,7 +52,7 @@ function ArticleCreate({ history }) {
 
     try {
       axios
-        .post("http://I5C207.p.ssafy.io/curation/post/list", formData, {
+        .post("http://i5c207.p.ssafy.io/curation/post/list", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
           },
@@ -62,7 +60,7 @@ function ArticleCreate({ history }) {
         .then((res) => {
           console.log(res);
           const response = axios
-            .get("http://I5C207.p.ssafy.io/curation/post/list")
+            .get("http://i5c207.p.ssafy.io/curation/post/list")
             .then((res) => {
               console.log(res.data);
               let post_id = res.data[res.data.length - 1].id;

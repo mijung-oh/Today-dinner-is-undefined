@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Home from "../page/Home";
-
+import gif from "./images/123.gif";
 function ArticleHome() {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ function ArticleHome() {
         setArticles(null);
         setLoading(true);
         const response = await axios.get(
-          "http://I5C207.p.ssafy.io/curation/post/list"
+          "http://i5c207.p.ssafy.io/curation/post/list"
         );
         setArticles(response.data);
       } catch (e) {
@@ -25,10 +25,20 @@ function ArticleHome() {
     };
     fetchArticles();
   }, []);
-  if (loading) return <div>로딩중..</div>;
+  if (loading)
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "300px",
+        }}
+      >
+        <img src={gif} width="100px" />
+      </div>
+    );
   if (error) return <div>에러가 발생했습니다</div>;
   if (!articles) return null;
-  console.log("test: ", articles);
   return (
     <>
       <Link to="/articles/create">

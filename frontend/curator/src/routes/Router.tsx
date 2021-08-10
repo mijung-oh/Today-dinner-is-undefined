@@ -38,6 +38,7 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/profile/:nickname" component={ProfilePage} />
         <Route path="/oauth/:socialCompany" component={AuthloginPage} />
         <Route path="/articles" component={Articles} />
+        <Route path="/recipe" component={Articles} />
       </Switch>
       {/* {isAuth ? <BottomNav /> : null} */}
       <BottomNav />

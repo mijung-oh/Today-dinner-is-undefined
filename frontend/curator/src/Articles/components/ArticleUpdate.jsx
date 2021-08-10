@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Update from "../page/Update";
-function ArticleUpdate({ history }) {
+function ArticleUpdate({ history, match }) {
+  const prevState = history.location.state;
+  const post_id = match.params.id;
+  console.log("idtest", post_id);
   const [postfiles, setPostfiles] = useState({
     file: [],
     previewURL: "",
@@ -26,9 +29,9 @@ function ArticleUpdate({ history }) {
   };
 
   const [text, setText] = useState({
-    title: "",
-    description: "",
-    ingredients: "",
+    title: prevState.title,
+    description: prevState.description,
+    ingredients: prevState.ingredients,
   });
   const { title, description, ingredients } = text;
   const onChange = (e) => {
@@ -50,23 +53,11 @@ function ArticleUpdate({ history }) {
     });
 
     try {
-      axios
-        .post("http://I5C207.p.ssafy.io/curation/post/list", formData, {
-          headers: {
-            "Content-Type": `multipart/form-data`,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          const response = axios
-            .get("http://I5C207.p.ssafy.io/curation/post/list")
-            .then((res) => {
-              console.log(res.data);
-              let post_id = res.data[res.data.length - 1].id;
-
-              history.push(`/articles/${post_id}`);
-            });
-        });
+      axios.put(`http://i5c207.p.ssafy.io/curation/post/${post_id}`, formData, {
+        headers: {
+          "Content-Type": `multipart/form-data`,
+        },
+      });
     } catch (e) {
       console.log(e);
     }
@@ -80,6 +71,7 @@ function ArticleUpdate({ history }) {
         ingredients={ingredients}
         uploadFile={uploadFile}
         onCreate={onCreate}
+        post_id={post_id}
       />
     </div>
   );
