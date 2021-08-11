@@ -11,6 +11,7 @@ import com.ssafy.curator.repository.post.CommentRepository;
 import com.ssafy.curator.repository.post.PostImageRepository;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserRepository;
+import com.ssafy.curator.service.CommonService;
 import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,8 @@ public class PostServiceImpl implements PostService {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    CommonService commonService;
 
     public List<PostWithImageDto> getAllLists() throws IOException {
         List<PostEntity> posts = postRepository.findAll();
@@ -72,13 +75,7 @@ public class PostServiceImpl implements PostService {
             List<String> imagePaths = p.getImagePaths();
             if (imagePaths.size() >= 1) {
                 String firstImage = imagePaths.get(0);
-                InputStream imageStream = new FileInputStream(firstImage);
-                byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-                String base64data = Base64.getEncoder().encodeToString(imageByteArray);
-                imageStream.close();
-                String imageInfo = "data:image/png;base64," + base64data;
-
-                pp.setImagePath(Collections.singletonList(imageInfo));
+                pp.setImagePath(Collections.singletonList(commonService.imageEncoding(firstImage)));
             } else {
                 pp.setImagePath(p.getImagePaths());
             }
@@ -91,14 +88,6 @@ public class PostServiceImpl implements PostService {
         return postWithImageDto;
     }
 
-    private String rnd(String originName, byte[] fileData, String path) throws Exception {
-        UUID uuid = UUID.randomUUID();
-        String savedName = uuid.toString() + "_" + originName;
-        File target = new File(path, savedName);
-
-        FileCopyUtils.copy(fileData, target);
-        return savedName;
-    }
 
     public String createPost(HttpServletRequest request, MultipartHttpServletRequest mtfRequest) throws Exception {
 
@@ -125,7 +114,7 @@ public class PostServiceImpl implements PostService {
 //            String path = "src/main/resources/static/images/";
             String path = "/usr/local/images/";
 
-            String newFileName = rnd(originalName, f.getBytes(), path);
+            String newFileName = commonService.rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
             paths.add(newPath);
 
@@ -157,12 +146,7 @@ public class PostServiceImpl implements PostService {
         List<String> imageInfos = new ArrayList<String>();
         List<String> imagePaths = post.getImagePaths();
         for (String path : imagePaths) {
-            InputStream imageStream = new FileInputStream(path);
-            byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-            String base64data = Base64.getEncoder().encodeToString(imageByteArray);
-            imageStream.close();
-            String imageInfo = "data:image/png;base64," + base64data;
-            imageInfos.add(imageInfo);
+            imageInfos.add(commonService.imageEncoding(path));
         }
 
         postWithImageDto.setImagePath(imageInfos);
@@ -207,7 +191,7 @@ public class PostServiceImpl implements PostService {
 
 //            String path = "src/main/resources/static/images/";
             String path = "/usr/local/images/";
-            String newFileName = rnd(originalName, f.getBytes(), path);
+            String newFileName = commonService.rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
             paths.add(newPath);
 
