@@ -10,6 +10,7 @@ import com.ssafy.curator.entity.user.UserEntity;
 import com.ssafy.curator.repository.post.CommentRepository;
 import com.ssafy.curator.repository.post.PostImageRepository;
 import com.ssafy.curator.repository.post.PostRepository;
+import com.ssafy.curator.repository.user.UserPageRepository;
 import com.ssafy.curator.repository.user.UserRepository;
 import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
@@ -44,6 +45,17 @@ public class PostServiceImpl implements PostService {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    UserPageRepository userPageRepository;
+
+    public String imageEncoding(String input) throws IOException {
+        InputStream imageStream = new FileInputStream(input);
+        byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+        String base64data = Base64.getEncoder().encodeToString(imageByteArray);
+        imageStream.close();
+        String imageInfo = "data:image/png;base64," + base64data;
+        return imageInfo;
+    }
 
     public List<PostWithImageDto> getAllLists() throws IOException {
         List<PostEntity> posts = postRepository.findAll();
@@ -67,6 +79,9 @@ public class PostServiceImpl implements PostService {
             pp.setUser(p.getUser());
             pp.setCreateDate(p.getCreateDate());
             pp.setUpdateDate(p.getUpdateDate());
+
+            String profileImage = userPageRepository.findByUser(p.getUser()).getProfileImg();
+            pp.setProfileImage(imageEncoding(profileImage));
 
 
             List<String> imagePaths = p.getImagePaths();
@@ -153,6 +168,8 @@ public class PostServiceImpl implements PostService {
         postWithImageDto.setUser(post.getUser());
         postWithImageDto.setCreateDate(post.getCreateDate());
         postWithImageDto.setUpdateDate(post.getUpdateDate());
+        String profileImage = userPageRepository.findByUser(post.getUser()).getProfileImg();
+        postWithImageDto.setProfileImage(imageEncoding(profileImage));
 
         List<String> imageInfos = new ArrayList<String>();
         List<String> imagePaths = post.getImagePaths();

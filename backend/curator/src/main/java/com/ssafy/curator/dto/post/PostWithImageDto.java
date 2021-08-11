@@ -18,4 +18,5 @@ public class PostWithImageDto {
     Timestamp updateDate;
     List imagePath;
     List comment;
+    String profileImage;
 }
