@@ -10,6 +10,7 @@ import com.ssafy.curator.entity.user.UserEntity;
 import com.ssafy.curator.repository.post.CommentRepository;
 import com.ssafy.curator.repository.post.PostImageRepository;
 import com.ssafy.curator.repository.post.PostRepository;
+import com.ssafy.curator.repository.user.UserPageRepository;
 import com.ssafy.curator.repository.user.UserRepository;
 import com.ssafy.curator.service.CommonService;
 import org.apache.commons.io.IOUtils;
@@ -47,6 +48,8 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     CommonService commonService;
+    UserPageRepository userPageRepository;
+
 
     public List<PostWithImageDto> getAllLists() throws IOException {
         List<PostEntity> posts = postRepository.findAll();
@@ -70,6 +73,9 @@ public class PostServiceImpl implements PostService {
             pp.setUser(p.getUser());
             pp.setCreateDate(p.getCreateDate());
             pp.setUpdateDate(p.getUpdateDate());
+
+            String profileImage = userPageRepository.findByUser(p.getUser()).getProfileImg();
+            pp.setProfileImage(commonService.imageEncoding(profileImage));
 
 
             List<String> imagePaths = p.getImagePaths();
@@ -142,6 +148,8 @@ public class PostServiceImpl implements PostService {
         postWithImageDto.setUser(post.getUser());
         postWithImageDto.setCreateDate(post.getCreateDate());
         postWithImageDto.setUpdateDate(post.getUpdateDate());
+        String profileImage = userPageRepository.findByUser(post.getUser()).getProfileImg();
+        postWithImageDto.setProfileImage(commonService.imageEncoding(profileImage));
 
         List<String> imageInfos = new ArrayList<String>();
         List<String> imagePaths = post.getImagePaths();

@@ -161,8 +161,8 @@ public class UserPageServiceImpl implements UserPageService{
                 File pre = new File(userPageEntity.getProfileImg());
                 pre.delete();
             }
-            String path = "src/main/resources/static/images/";
-//            String path = "/usr/local/images/";
+//            String path = "src/main/resources/static/images/";
+            String path = "/usr/local/images/";
             String newFileName = commonService.rnd(multipartFile1.getOriginalFilename(), multipartFile1.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setProfileImg(newPath);
@@ -181,8 +181,8 @@ public class UserPageServiceImpl implements UserPageService{
                 File pre = new File(userPageEntity.getBgImg());
                 pre.delete();
             }
-            String path = "src/main/resources/static/images/";
-//            String path = "/usr/local/images/";
+//            String path = "src/main/resources/static/images/";
+            String path = "/usr/local/images/";
             String newFileName = commonService.rnd(multipartFile2.getOriginalFilename(), multipartFile2.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setBgImg(newPath);
