@@ -20,15 +20,15 @@ public class FollowController {
     }
 
     // 나를 팔로우한 사람들 리스트
-    @GetMapping("/{followingNickname}/followers")
-    List<UserDto> showFollowers(@PathVariable String followingNickname) {
-        return followService.showFollowers(followingNickname);
+    @GetMapping("/{nickname}/followers")
+    List<UserDto> showFollowers(@PathVariable String nickname) {
+        return followService.showFollowers(nickname);
     }
 
     // 내가 팔로우한 사람들 리스트
-    @GetMapping("/{followingNickname}/followings")
-    List<UserDto> showFollowings(@PathVariable String followingNickname) {
-        return followService.showFollowings(followingNickname);
+    @GetMapping("/{nickname}/followings")
+    List<UserDto> showFollowings(@PathVariable String nickname) {
+        return followService.showFollowings(nickname);
     }
 
     // 팔로우 취소
