@@ -4,5 +4,5 @@ import com.ssafy.curator.dto.user.UserDto;
 import java.util.List;
 
 public interface UserSearchService {
-    List<UserDto> searchUser(String username);
+    List<UserDto> searchUser(String ninkname);
 }
