@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpServletRequest;
 
 @Service
-public class ReplyServiceImpl {
+public class ReplyServiceImpl implements ReplyService{
 
     @Autowired
     UserRepository userRepository;

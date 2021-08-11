@@ -2,7 +2,9 @@ package com.ssafy.curator.controller.recommend;
 
 import com.ssafy.curator.dto.recommend.SurveyDto;
 import com.ssafy.curator.entity.recommend.ReplyEntity;
+import com.ssafy.curator.service.recommend.ReplyService;
 import com.ssafy.curator.service.recommend.ReplyServiceImpl;
+import com.ssafy.curator.service.recommend.SurveyService;
 import com.ssafy.curator.service.recommend.SurveyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +18,10 @@ import java.util.List;
 public class SurveyController {
 
     @Autowired
-    private SurveyServiceImpl surveyService;
+    private SurveyService surveyService;
 
     @Autowired
-    private ReplyServiceImpl replyService;
+    private ReplyService replyService;
 
     @PostMapping("/list")
     public ResponseEntity  createsurvey(HttpServletRequest request) throws Exception {
