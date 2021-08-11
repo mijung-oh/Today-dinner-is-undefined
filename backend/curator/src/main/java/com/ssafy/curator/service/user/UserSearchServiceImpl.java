@@ -14,8 +14,8 @@ public class UserSearchServiceImpl implements UserSearchService{
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserDto> searchUser(String username) {
-        List<UserEntity> users =  userRepository.findByNameContaining(username);
+    public List<UserDto> searchUser(String nickname) {
+        List<UserEntity> users =  userRepository.findByNicknameContaining(nickname);
         List<UserDto> userDtos = new ArrayList<>();
 
         for (UserEntity o : users) {

@@ -44,20 +44,8 @@ public class UserPageServiceImpl implements UserPageService{
         userPageEntity.setUser(userEntity);
         userPageEntity.setNickname(nickname);
         userPageEntity.setIntroduction(introduction);
-
-        if (multipartHttpServletRequest == null) {
-            userPageEntity.setProfileImg(null);
-            userPageEntity.setBgImg(null);
-        } else {
-            MultipartFile multipartFile = multipartHttpServletRequest.getFile("profileImg");
-            String profileImg = multipartFile.getOriginalFilename();
-            userPageEntity.setProfileImg(profileImg);
-
-            MultipartFile multipartFile2 = multipartHttpServletRequest.getFile("bgImg");
-            String bgImg = multipartFile2.getOriginalFilename();
-            userPageEntity.setBgImg(bgImg);
-        }
-
+        userPageEntity.setProfileImg(null);
+        userPageEntity.setBgImg(null);
 
         userPageRepository.save(userPageEntity);
 
@@ -112,7 +100,6 @@ public class UserPageServiceImpl implements UserPageService{
             String base64data = Base64.getEncoder().encodeToString(imageByteArray);
             imageStream.close();
             String ProfileImg = "data:image/png;base64," + base64data;
-
             userPageDto.setProfileImg(ProfileImg);
         } else {
             userPageDto.setProfileImg(null);
@@ -120,12 +107,11 @@ public class UserPageServiceImpl implements UserPageService{
 
         String curBg = userPageEntity.getBgImg();
         if (curBg != null){
-            InputStream imageStream2 = new FileInputStream(curBg);
-            byte[] imageByteArray2 = IOUtils.toByteArray(imageStream2);
-            String base64data2 = Base64.getEncoder().encodeToString(imageByteArray2);
-            imageStream2.close();
+            InputStream imageStream = new FileInputStream(curBg);
+            byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+            String base64data2 = Base64.getEncoder().encodeToString(imageByteArray);
+            imageStream.close();
             String BgImg = "data:image/png;base64," + base64data2;
-
             userPageDto.setBgImg(BgImg);
         } else {
             userPageDto.setBgImg(null);
@@ -184,8 +170,10 @@ public class UserPageServiceImpl implements UserPageService{
         }
 
         if (!multipartFile1.isEmpty()) {
-//            File pre = new File(userPageEntity.getProfileImg());
-//            pre.delete();
+            if (userPageEntity.getProfileImg() != null) {
+                File pre = new File(userPageEntity.getProfileImg());
+                pre.delete();
+            }
             String path = "/usr/local/images/";
             String newFileName = rnd(multipartFile1.getOriginalFilename(), multipartFile1.getBytes(), path);
             String newPath = path+newFileName;
@@ -200,8 +188,11 @@ public class UserPageServiceImpl implements UserPageService{
             }
         }
 
-        // 배경사진
         if (!multipartFile2.isEmpty()) {
+            if (userPageEntity.getBgImg() != null) {
+                File pre = new File(userPageEntity.getBgImg());
+                pre.delete();
+            }
             String path = "/usr/local/images/";
             String newFileName = rnd(multipartFile2.getOriginalFilename(), multipartFile2.getBytes(), path);
             String newPath = path+newFileName;
