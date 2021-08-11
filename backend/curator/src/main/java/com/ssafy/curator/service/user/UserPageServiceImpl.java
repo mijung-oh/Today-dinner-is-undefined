@@ -11,6 +11,7 @@ import com.ssafy.curator.entity.user.UserPageEntity;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserPageRepository;
 import com.ssafy.curator.repository.user.UserRepository;
+import com.ssafy.curator.service.CommonService;
 import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class UserPageServiceImpl implements UserPageService{
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    CommonService commonService;
 
     @Override
     public UserPageDto createUserInfo(String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) {
@@ -95,24 +98,14 @@ public class UserPageServiceImpl implements UserPageService{
 
         String curProfile = userPageEntity.getProfileImg();
         if (curProfile != null) {
-            InputStream imageStream = new FileInputStream(curProfile);
-            byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-            String base64data = Base64.getEncoder().encodeToString(imageByteArray);
-            imageStream.close();
-            String ProfileImg = "data:image/png;base64," + base64data;
-            userPageDto.setProfileImg(ProfileImg);
+            userPageDto.setProfileImg(commonService.imageEncoding(curProfile));
         } else {
             userPageDto.setProfileImg(null);
         }
 
         String curBg = userPageEntity.getBgImg();
         if (curBg != null){
-            InputStream imageStream = new FileInputStream(curBg);
-            byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-            String base64data2 = Base64.getEncoder().encodeToString(imageByteArray);
-            imageStream.close();
-            String BgImg = "data:image/png;base64," + base64data2;
-            userPageDto.setBgImg(BgImg);
+            userPageDto.setBgImg(commonService.imageEncoding(curBg));
         } else {
             userPageDto.setBgImg(null);
         }
@@ -129,13 +122,7 @@ public class UserPageServiceImpl implements UserPageService{
             List<String> imagePaths = postEntity.getImagePaths();
             if (imagePaths.size() >= 1) {
                 String firstImage = imagePaths.get(0);
-                InputStream imageStream3 = new FileInputStream(firstImage);
-                byte[] imageByteArray3 = IOUtils.toByteArray(imageStream3);
-                String base64data3 = Base64.getEncoder().encodeToString(imageByteArray3);
-                imageStream3.close();
-                String imageInfo = "data:image/png;base64," + base64data3;
-
-                myPagePostDto.setImagePaths(Collections.singletonList(imageInfo));
+                myPagePostDto.setImagePaths(Collections.singletonList(commonService.imageEncoding(firstImage)));
             } else {
                 myPagePostDto.setImagePaths(postEntity.getImagePaths());
             }
@@ -176,7 +163,7 @@ public class UserPageServiceImpl implements UserPageService{
             }
 //            String path = "src/main/resources/static/images/";
             String path = "/usr/local/images/";
-            String newFileName = rnd(multipartFile1.getOriginalFilename(), multipartFile1.getBytes(), path);
+            String newFileName = commonService.rnd(multipartFile1.getOriginalFilename(), multipartFile1.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setProfileImg(newPath);
             File dest = new File(newPath);
@@ -196,7 +183,7 @@ public class UserPageServiceImpl implements UserPageService{
             }
 //            String path = "src/main/resources/static/images/";
             String path = "/usr/local/images/";
-            String newFileName = rnd(multipartFile2.getOriginalFilename(), multipartFile2.getBytes(), path);
+            String newFileName = commonService.rnd(multipartFile2.getOriginalFilename(), multipartFile2.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setBgImg(newPath);
             File dest = new File(newPath);
@@ -218,12 +205,4 @@ public class UserPageServiceImpl implements UserPageService{
         return userPageRepository.existsByNickname(nickname);
     }
 
-    private String rnd(String originName, byte[] fileData, String path) throws Exception {
-        UUID uuid = UUID.randomUUID();
-        String savedName = uuid.toString() + "_" + originName;
-        File target = new File(path, savedName);
-
-        FileCopyUtils.copy(fileData, target);
-        return savedName;
-    }
 }
