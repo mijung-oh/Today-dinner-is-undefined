@@ -105,7 +105,7 @@ const Main: React.FC<MainProps> = (props) => {
     <section className={classes.container}>
       <div className={classes.imageBox}>
         <img
-          src="https://i.scdn.co/image/ab67706c0000bebb56c618ce8634a34df69eea63"
+          src="https://www.bgmfactory.com/data/album/3205/thumb-7J6Q7LyT_FutureFunk_500x500.jpg"
           alt="placeholder"
           width="100%"
           height="100%"
