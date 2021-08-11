@@ -48,6 +48,8 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     CommonService commonService;
+
+    @Autowired
     UserPageRepository userPageRepository;
 
 
