@@ -1,18 +1,13 @@
 package com.ssafy.curator.controller.post;
 
 import com.ssafy.curator.dto.user.UserDto;
-import com.ssafy.curator.entity.post.PostEntity;
-import com.ssafy.curator.entity.post.PostLikeEntity;
-import com.ssafy.curator.entity.user.UserEntity;
 import com.ssafy.curator.repository.post.PostLikeRepository;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserRepository;
 import com.ssafy.curator.service.post.PostLikeService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

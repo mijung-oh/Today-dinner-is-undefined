@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SurveyServiceImpl {
+public class SurveyServiceImpl implements SurveyService {
 
     @Autowired
     UserRepository userRepository;
