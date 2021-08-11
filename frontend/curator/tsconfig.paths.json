@@ -7,7 +7,8 @@
       "@static/*": ["./static/*"],
       "@container/*": ["./container/*"],
       "@lib/*": ["./lib/*"],
-      "@profiles/*": ["./Profiles/*"]
+      "@profiles/*": ["./Profiles/*"],
+      "@recommand/*": ["./Recommand/*"]
     }
   }
 }
