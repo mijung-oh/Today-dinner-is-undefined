@@ -21,18 +21,9 @@ public class RecommendController {
     @Autowired
     RecommendService recommendService;
 
-    @GetMapping("/setRecipeIngredientMap")
-    List<RecipeIngredientMap> getRecipeIngredients() {
-        return recommendService.getRecipeIngredients();
-    }
-//    @GetMapping("/getRecommendList")
-//    List<RecipeRecommendDto> getRecommendList(@RequestParam(value="ingredient", required=true) List<String> ingredients) {
-//        return recommendService.getRecommendList(ingredients);
-//    }
     @PostMapping("/getRecommendList")
     List<RecipeRecommendDto> getRecommendList(@RequestBody RequestIngredient requestIngredient) {
         return recommendService.getRecommendList(requestIngredient);
     }
-
 
 }

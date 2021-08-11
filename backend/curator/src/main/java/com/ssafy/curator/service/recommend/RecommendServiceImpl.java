@@ -29,28 +29,6 @@ public class RecommendServiceImpl implements RecommendService {
     @Autowired
     RecipeIngredientRepository recipeIngredientRepository;
 
-    public List<RecipeIngredientMap> getRecipeIngredients() {
-
-        int idx = 1;
-        for (RecipeEntity o : recipeRepository.findAll()) {
-            List<RecipeIngredientEntity> recipeIngredientEntities = o.getIngredientEntities();
-            for (RecipeIngredientEntity recipeIngredientEntity : recipeIngredientEntities) {
-
-                RecipeIngredientMap recipeIngredientMap = new RecipeIngredientMap();
-                String name = recipeIngredientEntity.getIRDNT_NM();
-                if (recipeIngredientMapRepository.existsByName(name)) {
-                    continue;
-                } else {
-                    recipeIngredientMap.setName(name);
-                    recipeIngredientMap.setNumber(idx);
-                }
-                recipeIngredientMapRepository.save(recipeIngredientMap);
-            }
-
-        }
-        return recipeIngredientMapRepository.findAll();
-    }
-
     public List<RecipeRecommendDto> getRecommendList(RequestIngredient requestIngredient) {
         ArrayList<Double[]> sorted = new ArrayList<>();
 
@@ -83,9 +61,9 @@ public class RecommendServiceImpl implements RecommendService {
             for (RecipeIngredientEntity recipeIngredientEntity : recipeIngredientEntities) {
                 String name = recipeIngredientEntity.getIRDNT_NM();
                 if (recipeIngredientMapRepository.findByName(name) == null) {
-                    rightmap.put(name, (double) 0);
+                    rightmap.put(name, 0.0);
                 } else {
-                    rightmap.put(name, (double) 2);
+                    rightmap.put(name, 2.0);
                 }
             }
             sorted.add(new Double[]{cosineSimilarity(leftmap, rightmap), Double.valueOf(o.getRECIPE_ID())});
@@ -156,7 +134,6 @@ public class RecommendServiceImpl implements RecommendService {
     private double dot(final Map<CharSequence, Double> leftVector, final Map<CharSequence, Double> rightVector,
                        final Set<CharSequence> intersection) {
         long dotProduct = 0;
-        System.out.println(intersection);
         for (final CharSequence key : intersection) {
             dotProduct += leftVector.get(key) * rightVector.get(key);
         }
