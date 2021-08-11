@@ -46,10 +46,10 @@ public class FollowServiceImpl implements FollowService {
 
 
     @Override
-    public List<UserDto> showFollowings(String followingNickname) {
+    public List<UserDto> showFollowings(String nickname) {
 
         List<UserDto> userDtos = new ArrayList<>();
-        UserEntity userEntity = userRepository.findByNickname(followingNickname);
+        UserEntity userEntity = userRepository.findByNickname(nickname);
         if (userEntity == null) {
             return null;
         }
@@ -63,9 +63,9 @@ public class FollowServiceImpl implements FollowService {
 
 
     @Override
-    public List<UserDto> showFollowers(String followingNickname) {
+    public List<UserDto> showFollowers(String nickname) {
         List<UserDto> userDtos = new ArrayList<>();
-        UserEntity userEntity = userRepository.findByNickname(followingNickname);
+        UserEntity userEntity = userRepository.findByNickname(nickname);
         if (userEntity == null) {
             return null;
         }

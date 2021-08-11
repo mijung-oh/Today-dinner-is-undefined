@@ -18,8 +18,8 @@ public class UserSearchController {
     @Autowired
     private UserSearchService userSearchService;
 
-    @GetMapping("/{username}")
-    List<UserDto> searchUser(@PathVariable String username) {
-        return userSearchService.searchUser(username);
+    @GetMapping("/{ninkname}")
+    List<UserDto> searchUser(@PathVariable String ninkname) {
+        return userSearchService.searchUser(ninkname);
     }
 }
