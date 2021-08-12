@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Update from "../page/Update";
+
 function ArticleUpdate({ history, match }) {
   const prevState = history.location.state;
   const post_id = match.params.id;

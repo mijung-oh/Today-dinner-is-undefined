@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Home from "../page/Home";
 import gif from "./images/123.gif";
+import Media from "../page/Home";
 function ArticleHome() {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -46,7 +46,7 @@ function ArticleHome() {
       </Link>
       {articles.map((article) => (
         <div key={article.id}>
-          <Home article={article} />
+          <Media article={article} />
         </div>
       ))}
     </>

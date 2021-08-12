@@ -1,35 +1,120 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Skeleton from "@material-ui/lab/Skeleton";
 import axios from "axios";
 import { Link } from "react-router-dom";
-function Home({ article }) {
+
+const useStyles = makeStyles((theme) => ({
+  card: {
+    maxWidth: 390,
+    margin: theme.spacing(2),
+    padding: 3,
+    backgroundColor: "#b0bec5",
+  },
+  media: {
+    height: 200,
+  },
+}));
+
+function Media({ article }) {
   const onDelete = () => {
     axios.delete(`http://i5c207.p.ssafy.io/curation/post/${article.id}`);
   };
-  /*
-  article 안에 백 서버 안에 있는 모든 필드값 담겨있음
-  26번째 줄 삭제는 되는데 새로고침 // 재렌더링? 이 안되서 일단 임시방편으로 a테그
-  ArticleHome에서 map으로 불러오기 때문에 create가 중복해서 뜨는 것으로 보여서 
-  create버튼은 ArticleHome return 부분 상단에 넣음 후에 게시판 페이지 네비게이션 만들때 따로 빼주면 될듯..?
-  */
+  const classes = useStyles();
+
+  function timeForToday(value) {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    const betweenTime = Math.floor(
+      (today.getTime() - timeValue.getTime()) / 1000 / 60
+    );
+    if (betweenTime < 1) return "방금전";
+    if (betweenTime < 60) {
+      return `${betweenTime}분전`;
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+      return `${betweenTimeHour}시간전`;
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+      return `${betweenTimeDay}일전`;
+    }
+
+    return `${Math.floor(betweenTimeDay / 365)}년전`;
+  }
+
+  console.log("TEST", timeForToday(article.createDate));
   return (
-    <>
-      <div>
-        <div>
-          <img src={article.imagePath} />
-        </div>
-        <h5>
-          <Link to={`/articles/detail/${article.id}`}>
-            컨텐트: {article.description}
-          </Link>
-          글번호: {article.id} // 작성시간:
-          {article.createDate}
-          <a href="/articles">
-            <button onClick={() => onDelete(article.id)}>x</button>
-          </a>
-        </h5>
-      </div>
-    </>
+    <Card className={classes.card}>
+      <CardHeader
+        avatar={
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              alt="Ted talk"
+              src={article.profileImage}
+              style={{ marginLeft: "1" }}
+            />
+
+            <Typography>{article.user.nickname}</Typography>
+          </div>
+        }
+        action={
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+            style={{
+              fontWeight: "bold",
+              fontSize: "13px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {timeForToday(article.createDate)}
+          </Typography>
+        }
+      />
+      <Link to={`/articles/detail/${article.id}`}>
+        <CardMedia className={classes.media} image={article.imagePath} />
+      </Link>
+
+      <CardContent>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p"
+          style={{
+            fontWeight: "bold",
+            fontSize: "16px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {article.title}
+        </Typography>
+      </CardContent>
+      <a href="/articles">
+        <button onClick={() => onDelete(article.id)}>삭제임시</button>
+      </a>
+    </Card>
   );
 }
 
-export default Home;
+Media.propTypes = {
+  loading: PropTypes.bool,
+};
+
+export default Media;

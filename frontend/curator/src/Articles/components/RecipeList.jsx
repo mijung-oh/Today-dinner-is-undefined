@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import axios from "axios";
 import "./style.css";
 import useIntersect from "./useintersect";
@@ -10,16 +11,13 @@ const fakeFetch = (delay = 1000) =>
 
 function RecipeList() {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
       const res = await axios.get(
         "http://i5c207.p.ssafy.io/curation/recipe/getAllRecipe"
       );
       setPosts(res.data);
-      setLoading(false);
     };
 
     fetchPosts();
@@ -49,7 +47,7 @@ function RecipeList() {
   return (
     <div style={{ backgroundColor: "grey", padding: "50px" }} className="App">
       {[...Array(itemCount)].map((_, i) => {
-        return <RecipePage key={i} post={posts[i]} />;
+        return <RecipePage key={i} allRecipe={posts[i]} />;
       })}
       <div ref={setRef} className="Loading">
         {isLoading && <img src={gif} width="100px" />}
