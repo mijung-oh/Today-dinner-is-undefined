@@ -30,6 +30,7 @@ function ArticleCreate({ history }) {
     title: "",
     description: "",
     ingredients: "",
+    nickname: "김서방",
   });
   const { title, description, ingredients, nickname } = text;
   const onChange = (e) => {
@@ -45,6 +46,7 @@ function ArticleCreate({ history }) {
     formData.append("title", title);
     formData.append("ingredients", ingredients);
     formData.append("description", description);
+    formData.append("nickname", nickname);
 
     postfiles?.file.map((eachfile) => {
       formData.append("files", new Blob([eachfile], { type: "image/png" }));
@@ -64,14 +66,13 @@ function ArticleCreate({ history }) {
             .then((res) => {
               console.log(res.data);
               let post_id = res.data[res.data.length - 1].id;
-
-              history.push(`/articles/detail/${post_id}`);
             });
         });
     } catch (e) {
       console.log(e);
     }
   };
+
   return (
     <>
       <Create

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function CommentList({ post_id }) {
   const [article, setArticle] = useState(null);
@@ -34,14 +35,12 @@ function CommentList({ post_id }) {
     );
     console.log("testtest ", post_id, comment_id);
   };
-  const onCommentChange = () => {};
 
   return (
     <div>
       {article.comment.map((content) => (
         <li key={content.id}>
           {content.content}
-          <button onClick={onCommentChange}>수정</button>
           <a href={`/articles/detail/${post_id}`}>
             <button onClick={() => onDelete(content.id)}>삭제</button>
           </a>

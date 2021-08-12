@@ -14,7 +14,7 @@ function UserScrap() {
         setScrap(null);
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:9000/curation/scrap/오잉/recipeList"
+          "http://i5c207.p.ssafy.io/curation/scrap/오잉/recipeList"
         );
         setScrap(response.data);
       } catch (e) {
@@ -24,6 +24,7 @@ function UserScrap() {
     };
     fetchArticles();
   }, []);
+  console.log("TES", scrap);
 
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
