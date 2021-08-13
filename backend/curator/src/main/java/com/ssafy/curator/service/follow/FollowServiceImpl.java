@@ -38,16 +38,21 @@ public class FollowServiceImpl implements FollowService {
     public FollowServiceImpl(UserRepository userRepository, FollowRepository followRepository) throws IOException {
         this.userRepository = userRepository;
         this.followRepository = followRepository;
+        FileInputStream serviceAccount = null;
+        FirebaseOptions options = null;
+        try {
+            serviceAccount = new FileInputStream("/usr/local/images/curation-ba2c2-firebase-adminsdk-gl2mk-740878546b.json");
+        } catch (IOException e){
+            serviceAccount = new FileInputStream("src/main/resources/static/images/curation-ba2c2-firebase-adminsdk-gl2mk-740878546b.json");
+        }finally {
+            options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setDatabaseUrl("https://curation-ba2c2.firebaseio.com")
+                    .build();
+            FirebaseApp.initializeApp(options);
+        }
 
-        FileInputStream serviceAccount =
-//                new FileInputStream("/usr/local/images/curation-ba2c2-firebase-adminsdk-gl2mk-740878546b.json");
-                new FileInputStream("src/main/resources/static/images/curation-ba2c2-firebase-adminsdk-gl2mk-740878546b.json");
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setDatabaseUrl("https://curation-ba2c2.firebaseio.com")
-                .build();
 
-        FirebaseApp.initializeApp(options);
     }
 
     @Override
