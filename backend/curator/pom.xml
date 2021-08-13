@@ -89,8 +89,9 @@
         <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.66.Final</version>
+            <artifactId>netty-tcnative-boringssl-static</artifactId>
+            <version>2.0.20.Final</version> <!-- See table for correct version -->
+            <scope>runtime</scope>
         </dependency>
 
 
