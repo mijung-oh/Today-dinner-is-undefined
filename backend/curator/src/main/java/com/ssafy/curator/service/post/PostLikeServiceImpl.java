@@ -37,10 +37,14 @@ public class PostLikeServiceImpl implements PostLikeService{
             return "현재 유저가 존재하지 않습니다";
         }
         PostLikeEntity postLikeEntity = new PostLikeEntity();
-        postLikeEntity.setPostEntity(postEntity);
-        postLikeEntity.setUserEntity(userEntity);
+        if (postLikeRepository.existsByUserEntityAndPostEntity(userEntity, postEntity)) {
+            postLikeRepository.deleteByUserEntityAndPostEntity(userEntity, postEntity);
 
-        postLikeRepository.save(postLikeEntity);
+        } else {
+            postLikeEntity.setPostEntity(postEntity);
+            postLikeEntity.setUserEntity(userEntity);
+            postLikeRepository.save(postLikeEntity);
+        }
 
         return "success";
     }
