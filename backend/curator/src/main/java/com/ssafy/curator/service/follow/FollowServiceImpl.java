@@ -40,8 +40,8 @@ public class FollowServiceImpl implements FollowService {
         this.followRepository = followRepository;
 
         FileInputStream serviceAccount =
-                new FileInputStream("/usr/local/images/curation-ba2c2-firebase-adminsdk-gl2mk-740878546b.json");
-//                new FileInputStream("src/main/resources/static/images/curation-ba2c2-firebase-adminsdk-gl2mk-740878546b.json"); <-- Local Config
+//                new FileInputStream("/usr/local/images/curation-ba2c2-firebase-adminsdk-gl2mk-740878546b.json");
+                new FileInputStream("src/main/resources/static/images/curation-ba2c2-firebase-adminsdk-gl2mk-740878546b.json");
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setDatabaseUrl("https://curation-ba2c2.firebaseio.com")
