@@ -12,15 +12,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
-
     @Value("${spring.redis.host}")
     private String redisHost;
 
     @Value("${spring.redis.session.port}")
     private int redisSessionPort;
-
-    @Value("${spring.redis.cache.port}")
-    private int redisCachePort;
 
     @Bean({"redisConnectionFactory", "redisSessionConnectionFactory"})
     public RedisConnectionFactory redisSessionConnectionFactory() {
@@ -33,32 +29,12 @@ public class RedisConfig {
         return lettuceConnectionFactory;
     }
 
-    @Bean({"redisConnectionFactory", "redisCacheConnectionFactory"})
-    public RedisConnectionFactory redisCacheConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName(redisHost);
-        redisStandaloneConfiguration.setPort(redisCachePort);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
-                redisStandaloneConfiguration);
-        return lettuceConnectionFactory;
-    }
-
     @Bean
-    public RedisTemplate<String, UserSessionDto> redisSessionTemplate() {
+    public RedisTemplate<String, UserSessionDto> redisTemplate() {
         RedisTemplate<String, UserSessionDto> template = new RedisTemplate<String, UserSessionDto>();
         template.setConnectionFactory(redisSessionConnectionFactory());
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new StringRedisSerializer());
         return template;
     }
-
-    @Bean
-    public RedisTemplate<String, UserSessionDto> redisCacheTemplate() {
-        RedisTemplate<String, UserSessionDto> template = new RedisTemplate<String, UserSessionDto>();
-        template.setConnectionFactory(redisSessionConnectionFactory());
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new StringRedisSerializer());
-        return template;
-    }
-
 }
