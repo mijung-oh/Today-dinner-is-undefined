@@ -14,7 +14,7 @@ public class CommonService {
 
     public String rnd(String originName, byte[] fileData, String path) throws Exception {
         UUID uuid = UUID.randomUUID();
-        String savedName = uuid.toString() + "_" + originName;
+        String savedName = uuid.toString();
         File target = new File(path, savedName);
 
         FileCopyUtils.copy(fileData, target);
