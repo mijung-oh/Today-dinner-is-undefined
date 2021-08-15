@@ -39,7 +39,7 @@ public class GetRecipeFromAPI {
     @GetMapping("/addRecipe")
     public void getRecipe() {
         try {
-            File file = new File("src/main/resources/recipe.xml");
+            File file = new File("/usr/local/images/recipe.xml");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = db.parse(file);
@@ -96,7 +96,7 @@ public class GetRecipeFromAPI {
     @GetMapping("/addRecipeProcess")
     public void addRecipeProcess() {
         try {
-            File file = new File("src/main/resources/recipeProcess.xml");
+            File file = new File("/usr/local/images/recipeProcess.xml");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = db.parse(file);
@@ -137,7 +137,7 @@ public class GetRecipeFromAPI {
     @GetMapping("/addRecipeIngredient")
     public void addRecipeIngredient() {
         try {
-            File file = new File("src/main/resources/recipeIngredient.xml");
+            File file = new File("/usr/local/images/recipeIngredient.xml");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = db.parse(file);
