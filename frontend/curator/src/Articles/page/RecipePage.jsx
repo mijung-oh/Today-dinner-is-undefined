@@ -20,8 +20,9 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import axios from "axios";
-
+import ButtonBase from "@material-ui/core/ButtonBase";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -65,12 +66,86 @@ const useStyles = makeStyles((theme) => ({
   header: {
     height: "20",
   },
+
+  rootss: {
+    display: "flex",
+    flexWrap: "wrap",
+    minWidth: 300,
+    width: "100%",
+  },
+  image: {
+    position: "relative",
+    height: 200,
+    [theme.breakpoints.down("xs")]: {
+      width: "100% !important", // Overrides inline-style
+      height: 100,
+    },
+    "&:hover, &$focusVisible": {
+      zIndex: 1,
+      "& $imageBackdrop": {
+        opacity: 0.15,
+      },
+      "& $imageMarked": {
+        opacity: 0,
+      },
+      "& $imageTitle": {
+        border: "4px solid currentColor",
+      },
+    },
+  },
+  focusVisible: {},
+  imageButton: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.palette.common.white,
+  },
+  imageSrc: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: "cover",
+    backgroundPosition: "center 40%",
+  },
+  imageBackdrop: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: theme.palette.common.black,
+    opacity: 0.4,
+    transition: theme.transitions.create("opacity"),
+  },
+  imageTitle: {
+    position: "relative",
+    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
+      theme.spacing(1) + 6
+    }px`,
+  },
+  imageMarked: {
+    height: 3,
+    width: 18,
+    backgroundColor: theme.palette.common.white,
+    position: "absolute",
+    bottom: -2,
+    left: "calc(50% - 9px)",
+    transition: theme.transitions.create("opacity"),
+  },
 }));
 
 function RecipePage({ allRecipe }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const [check, setCheck] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -78,6 +153,16 @@ function RecipePage({ allRecipe }) {
 
   const handleOpen = () => {
     setOpen(true);
+    const scrapStatus = async () => {
+      const scrap = await axios.get(
+        `http://i5c207.p.ssafy.io/curation/scrap/${allRecipe.recipe_ID}/userList`
+      );
+      const nickname = "오잉";
+      if (scrap.data.includes(nickname)) {
+        setCheck(true);
+      }
+    };
+    scrapStatus();
   };
 
   const handleClose = () => {
@@ -96,6 +181,7 @@ function RecipePage({ allRecipe }) {
         const response = await axios.get(
           `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${allRecipe.recipe_ID}`
         );
+
         setRecipe(response.data);
       } catch (e) {
         setError(e);
@@ -103,11 +189,11 @@ function RecipePage({ allRecipe }) {
       setLoading(false);
     };
     fetchRecipe();
+    return () => setLoading(false);
   }, []);
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!recipe) return null;
-
   const onToScrap = async () => {
     let formData = new FormData();
 
@@ -122,17 +208,51 @@ function RecipePage({ allRecipe }) {
         },
       }
     );
-    const btnChange = response.data;
-    if (btnChange === "delete success") {
-    }
+    setCheck(!check);
   };
 
-  console.log("TEST", allRecipe.recipe_ID);
   return (
     <>
-      <Button type="button" onClick={handleOpen}>
-        <img src={allRecipe.img_URL} width="300px" height="300px" />
-      </Button>
+      <Link to={`/RecoRecipe/detail/${allRecipe.recipe_ID}`}>
+        <>
+          <ButtonBase
+            onClick={handleOpen}
+            focusRipple
+            key={allRecipe.recipe_ID}
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
+            style={{
+              width: "400px",
+              height: "250px",
+              margin: "10px",
+
+              // outline: "none",
+              // boxShadow: "none",
+              // backgroundColor: "white",
+            }}
+          >
+            <span
+              className={classes.imageSrc}
+              style={{
+                backgroundImage: `url(${allRecipe.img_URL})`,
+                // borderRadius: "60px",
+              }}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                className={classes.imageTitle}
+              >
+                {allRecipe.recipe_NM_KO}
+                <span className={classes.imageMarked} />
+              </Typography>
+            </span>
+          </ButtonBase>
+        </>
+      </Link>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -172,7 +292,7 @@ function RecipePage({ allRecipe }) {
               </CardContent>
               <CardActions disableSpacing>
                 <IconButton onClick={onToScrap} aria-label="add to favorites">
-                  <FavoriteIcon />
+                  {check ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
 
                 <IconButton

@@ -44,11 +44,8 @@ function ArticleHome() {
       <Link to="/articles/create">
         <button>create</button>
       </Link>
-      {articles.map((article) => (
-        <div key={article.id}>
-          <Media article={article} />
-        </div>
-      ))}
+
+      <Media article={articles} />
     </>
   );
 }
