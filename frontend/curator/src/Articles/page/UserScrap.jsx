@@ -6,7 +6,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { Avatar } from "@material-ui/core";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import Card from "@material-ui/core/Card";
 function UserScrap() {
   const [scrap, setScrap] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -47,11 +47,18 @@ function UserScrap() {
       }}
     >
       {scrap.map((item) => (
-        <Box key={item.id} width={300} marginRight={0.5} my={4} py={5}>
+        <Box
+          key={item.id}
+          width={300}
+          marginRight={3}
+          my={4}
+          py={5}
+          style={{ marginBottom: "3px" }}
+        >
           {item ? (
             <Link to={`/userRecipe/detail/${item.recipe_ID}`}>
               <img
-                style={{ width: 290, height: 200, borderRadius: 50 }}
+                style={{ width: 290, height: 300, borderRadius: 10 }}
                 src={item.img_URL}
               />
             </Link>
@@ -65,10 +72,13 @@ function UserScrap() {
                 <Typography
                   style={{
                     fontWeight: "bold",
-                    margin: "auto",
+                    margin: "10px",
                   }}
                 >
-                  {item.sumry}
+                  {item.recipe_NM_KO} <br />
+                  <Typography style={{ fontSize: "15px" }}>
+                    {item.sumry}
+                  </Typography>
                 </Typography>
               </div>
               <Typography

@@ -1,3 +1,4 @@
+import DetailPage from "Articles/page/DetailPage";
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import ArticleCreate from "../components/ArticleCreate";

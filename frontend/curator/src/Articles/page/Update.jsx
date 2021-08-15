@@ -58,6 +58,8 @@ function Update({
         display: "flex",
         justifyContent: "center",
         alignContent: "center",
+        marginBottom: "50px",
+        padding: "30px",
       }}
     >
       <div style={{ margin: "auto" }}>

@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   root: {
-    maxWidth: 500,
+    maxWidth: "100%",
     flexGrow: 1,
   },
   header: {
@@ -64,9 +64,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   img: {
-    height: 255,
+    height: "50%",
     display: "block",
-    maxWidth: 400,
+    maxWidth: "50%",
     overflow: "hidden",
     width: "100%",
   },
@@ -130,6 +130,8 @@ function UserRecipeDetail({ article }) {
         alignContent: "center",
         justifyContent: "center",
         width: "100%",
+        marginBottom: "3%",
+        padding: "3%",
       }}
     >
       <div
@@ -137,20 +139,17 @@ function UserRecipeDetail({ article }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: "100%",
         }}
-      >
-        {/* <img src={back} width="40%" /> */}
-      </div>
+      ></div>
       <div className={classes.roots}>
-        <Card style={{ width: "45%", padding: "0" }}>
+        <Card style={{ width: "70%", padding: "2px" }}>
           <h1 style={{ display: "flex", justifyContent: "center" }}>
             {article.recipe_NM_KO}
           </h1>
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                <img src={article.img_URL} style={{ width: "150%" }} />
+                <img src={article.img_URL} style={{ width: "100%" }} />
               </Avatar>
             }
             title={article.sumry}
@@ -174,8 +173,8 @@ function UserRecipeDetail({ article }) {
               style={{
                 display: "flex",
                 text: "center",
-                height: "auto",
-                flexWrap: "wrap",
+                width: "100%",
+                // flexWrap: "wrap",
                 fontSize: "13px",
               }}
             >
@@ -188,7 +187,7 @@ function UserRecipeDetail({ article }) {
               <Typography
                 style={{
                   fontSize: "14px",
-                  maxHeight: "auto",
+                  margin: "auto",
                   overflow: "auto",
                 }}
               >
