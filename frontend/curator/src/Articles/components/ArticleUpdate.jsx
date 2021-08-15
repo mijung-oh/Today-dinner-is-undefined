@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Update from "../page/Update";
+import { history } from "react-router-dom";
 
 function ArticleUpdate({ history, match }) {
   const prevState = history.location.state;
   const post_id = match.params.id;
-  console.log("idtest", post_id);
+  console.log("idtest", prevState);
   const [postfiles, setPostfiles] = useState({
     file: [],
     previewURL: "",
@@ -59,6 +60,7 @@ function ArticleUpdate({ history, match }) {
           "Content-Type": `multipart/form-data`,
         },
       });
+      history.push(`/articles/detail/${post_id}`);
     } catch (e) {
       console.log(e);
     }
