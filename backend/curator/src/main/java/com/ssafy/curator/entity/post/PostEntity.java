@@ -53,7 +53,7 @@ public class PostEntity {
 
 
     // 게시글 좋아요
-    @OneToMany(mappedBy = "postEntity")
+    @OneToMany(mappedBy = "postEntity", cascade=CascadeType.REMOVE)
     @JsonIgnore
     private List<PostLikeEntity> postLikeEntities = new ArrayList<>();
 
