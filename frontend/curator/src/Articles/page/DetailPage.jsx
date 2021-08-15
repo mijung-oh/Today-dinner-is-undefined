@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     // maxWidth: ,
     display: "flex",
     justifyContent: "center",
+    maxWidth: "2600px",
   },
   media: {
     height: 0,
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#00ff0000",
   },
   root: {
-    maxWidth: 500,
+    maxWidth: 1000,
     flexGrow: 1,
   },
   header: {
@@ -58,9 +59,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   img: {
-    height: 255,
+    height: 500,
     display: "block",
-    maxWidth: 400,
+    maxWidth: 2500,
     overflow: "hidden",
     width: "100%",
   },
@@ -103,7 +104,9 @@ function DetailPage({ article, onDelete }) {
         flexDirection: "column",
         alignContent: "center",
         justifyContent: "center",
-        width: "100%",
+        // width: "100%",
+        marginBottom: "5%",
+        padding: "3%",
       }}
     >
       <div
@@ -111,13 +114,13 @@ function DetailPage({ article, onDelete }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: "100%",
+          width: "2500px",
         }}
       >
         {/* <img src={back} width="40%" /> */}
       </div>
       <div className={classes.roots}>
-        <Card style={{ width: "45%", padding: "0" }}>
+        <Card style={{ width: "100%", padding: "0" }}>
           <h1 style={{ display: "flex", justifyContent: "center" }}>
             🥨{article.title}🥨
           </h1>

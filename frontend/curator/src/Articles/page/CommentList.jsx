@@ -98,10 +98,24 @@ function CommentList({ post_id }) {
       setLoading(false);
     };
     fetchArticle();
+    window.scrollTo = window.scrollY;
   };
 
   return (
     <div>
+      {article.comment.map((content, index) => (
+        <div key={index} style={{ display: "flex" }}>
+          <Avatar aria-label="recipe">
+            <img src={article.profileImage} style={{ width: "100%" }} />
+          </Avatar>
+          <p key={content.id}>
+            {content.content}
+            <a href={`/articles/detail/${post_id}`}>
+              <button onClick={() => onDelete(content.id)}>삭제임시</button>
+            </a>
+          </p>
+        </div>
+      ))}
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           value={content}
@@ -118,19 +132,6 @@ function CommentList({ post_id }) {
           }}
         />
       </form>
-      {article.comment.map((content) => (
-        <div style={{ display: "flex" }}>
-          <Avatar aria-label="recipe">
-            <img src={article.profileImage} style={{ width: "100%" }} />
-          </Avatar>
-          <p key={content.id}>
-            {content.content}
-            <a href={`/articles/detail/${post_id}`}>
-              <button onClick={() => onDelete(content.id)}>삭제임시</button>
-            </a>
-          </p>
-        </div>
-      ))}
     </div>
   );
 }

@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   root: {
-    maxWidth: 500,
+    maxWidth: "100%",
     flexGrow: 1,
   },
   header: {
@@ -58,9 +58,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   img: {
-    height: 255,
+    height: "50%",
     display: "block",
-    maxWidth: 400,
+    maxWidth: "50%",
     overflow: "hidden",
     width: "100%",
   },
@@ -78,6 +78,15 @@ function RecoRecipePage({ article }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const userCheck = async () => {
+    const response = await axios.get(
+      `http://i5c207.p.ssafy.io/curation/scrap/${article.recipe_ID}/userList`
+    );
+    const nickname = "오잉";
+    if (response.data.includes(nickname)) {
+      setCheck(true);
+    }
+  };
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -86,6 +95,7 @@ function RecoRecipePage({ article }) {
         const response = await axios.get(
           `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${article.recipe_ID}`
         );
+
         setRecipe(response.data);
       } catch (e) {
         setError(e);
@@ -93,6 +103,7 @@ function RecoRecipePage({ article }) {
       setLoading(false);
     };
     fetchRecipe();
+    userCheck();
   }, []);
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
@@ -112,8 +123,8 @@ function RecoRecipePage({ article }) {
         },
       }
     );
-    setCheck(true);
-    console.log("SDS", check);
+
+    setCheck(!check);
   };
 
   return (
@@ -124,6 +135,8 @@ function RecoRecipePage({ article }) {
         alignContent: "center",
         justifyContent: "center",
         width: "100%",
+        marginBottom: "3%",
+        padding: "3%",
       }}
     >
       <div
@@ -137,14 +150,14 @@ function RecoRecipePage({ article }) {
         {/* <img src={back} width="40%" /> */}
       </div>
       <div className={classes.roots}>
-        <Card style={{ width: "45%", padding: "0" }}>
+        <Card style={{ width: "70%", padding: "0" }}>
           <h1 style={{ display: "flex", justifyContent: "center" }}>
-            {article.recipe_NM_KO}
+            🍚{article.recipe_NM_KO}🍚
           </h1>
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                <img src={article.img_URL} style={{ width: "150%" }} />
+                <img src={article.img_URL} style={{ width: "100%" }} />
               </Avatar>
             }
             title={article.sumry}

@@ -213,46 +213,44 @@ function RecipePage({ allRecipe }) {
 
   return (
     <>
-      <Link to={`/RecoRecipe/detail/${allRecipe.recipe_ID}`}>
-        <>
-          <ButtonBase
-            onClick={handleOpen}
-            focusRipple
-            key={allRecipe.recipe_ID}
-            className={classes.image}
-            focusVisibleClassName={classes.focusVisible}
-            style={{
-              width: "400px",
-              height: "250px",
-              margin: "10px",
+      <>
+        <ButtonBase
+          onClick={handleOpen}
+          focusRipple
+          key={allRecipe.recipe_ID}
+          className={classes.image}
+          focusVisibleClassName={classes.focusVisible}
+          style={{
+            width: "400px",
+            height: "250px",
+            margin: "10px",
 
-              // outline: "none",
-              // boxShadow: "none",
-              // backgroundColor: "white",
+            // outline: "none",
+            // boxShadow: "none",
+            // backgroundColor: "white",
+          }}
+        >
+          <span
+            className={classes.imageSrc}
+            style={{
+              backgroundImage: `url(${allRecipe.img_URL})`,
             }}
-          >
-            <span
-              className={classes.imageSrc}
-              style={{
-                backgroundImage: `url(${allRecipe.img_URL})`,
-                // borderRadius: "60px",
-              }}
-            />
-            <span className={classes.imageBackdrop} />
-            <span className={classes.imageButton}>
-              <Typography
-                component="span"
-                variant="subtitle1"
-                color="inherit"
-                className={classes.imageTitle}
-              >
-                {allRecipe.recipe_NM_KO}
-                <span className={classes.imageMarked} />
-              </Typography>
-            </span>
-          </ButtonBase>
-        </>
-      </Link>
+          />
+          <span className={classes.imageBackdrop} />
+          <span className={classes.imageButton}>
+            <Typography
+              component="span"
+              variant="subtitle1"
+              color="inherit"
+              className={classes.imageTitle}
+            >
+              {allRecipe.recipe_NM_KO}
+              <span className={classes.imageMarked} />
+            </Typography>
+          </span>
+        </ButtonBase>
+      </>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
