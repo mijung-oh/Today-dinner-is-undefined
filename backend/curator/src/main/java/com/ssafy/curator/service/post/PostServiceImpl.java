@@ -121,8 +121,8 @@ public class PostServiceImpl implements PostService {
             String originalName = f.getOriginalFilename();
             pi.setFileOriName(originalName);
 
-            String path = "src/main/resources/static/images/";
-//            String path = "/usr/local/images/";
+//            String path = "src/main/resources/static/images/";
+            String path = "/usr/local/images/";
 
             String newFileName = commonService.rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
@@ -206,8 +206,8 @@ public class PostServiceImpl implements PostService {
             String originalName = f.getOriginalFilename();
             pi.setFileOriName(originalName);
 
-            String path = "src/main/resources/static/images/";
-//            String path = "/usr/local/images/";
+//            String path = "src/main/resources/static/images/";
+            String path = "/usr/local/images/";
 
             String newFileName = commonService.rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
