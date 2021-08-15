@@ -6,3 +6,32 @@ export interface ArticleProps {
   ingredients: string;
   createDate: string;
 }
+
+export interface Ingredient {
+  name:
+    | "acorn"
+    | "beef"
+    | "carrot"
+    | "chickenBreast"
+    | "chicken"
+    | "chives"
+    | "eggs"
+    | "greenOnion"
+    | "hairtail"
+    | "jelly"
+    | "mackerel"
+    | "noodles"
+    | "nori"
+    | "octopus"
+    | "paprika"
+    | "pork"
+    | "potato"
+    | "pumpkin"
+    | "ramen"
+    | "riceCake"
+    | "sesameLeaf"
+    | "vegetables"
+    | "wheat";
+  korean: string;
+  alt?: string; // 헉 대박 .. 콜론 앞에 ? 붙이면 | undefined와 같다
+}

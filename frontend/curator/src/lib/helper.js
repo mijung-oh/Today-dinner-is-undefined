@@ -1,5 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import { RECOMMEND_LIST_URL } from "@lib/constants";
 
 // Google URL 주소에서 code 뽑아주는 함수
 export const codeExtractor = (URL) => {
@@ -76,5 +77,111 @@ export const nicknameCheck = (username, email) => {
         }
       }
     },
+  });
+};
+
+export const findRecommandFood = (data, config) => {
+  Swal.fire({
+    text: "이 재료들로 메뉴를 추천해드릴까요?",
+    confirmButtonText: "네 좋아요",
+    preConfirm: async () => {
+      Swal.showLoading();
+      return await axios
+        .post(RECOMMEND_LIST_URL, data, config)
+        .then((response) => {
+          if (response.status !== 200) {
+            throw new Error(response.statusText);
+          }
+          console.log(response);
+          const foodies = response.data;
+          const recommandedFood = foodies?.[0];
+          const altFoodOne = foodies?.[1];
+          const altFoodTwo = foodies?.[2];
+          const altFoodThree = foodies?.[3];
+          const altFoodFour = foodies?.[4];
+          const { img_URL, recipe_ID, recipe_NM_KO } = recommandedFood;
+          const {
+            img_URL: alt_img_URL1,
+            recipe_ID: alt_recipe_ID1,
+            recipe_NM_KO: alt_recipe_NM_KO1,
+          } = altFoodOne;
+          const {
+            img_URL: alt_img_URL2,
+            recipe_ID: alt_recipe_ID2,
+            recipe_NM_KO: alt_recipe_NM_KO2,
+          } = altFoodTwo;
+          const {
+            img_URL: alt_img_URL3,
+            recipe_ID: alt_recipe_ID3,
+            recipe_NM_KO: alt_recipe_NM_KO3,
+          } = altFoodThree;
+          const {
+            img_URL: alt_img_URL4,
+            recipe_ID: alt_recipe_ID4,
+            recipe_NM_KO: alt_recipe_NM_KO4,
+          } = altFoodFour;
+          Swal.fire({
+            title: "오늘의 저녁은 이거다!",
+            text: `${recipe_NM_KO}`,
+            imageUrl: `${img_URL}`,
+            showDenyButton: true,
+            confirmButtonText: "좋아요",
+            denyButtonText: "음...별로에요",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // 그리고 여기에 투표 요청 하나 넣어야지
+              // history.push(`/RecoRecipe/detail/${recipe_ID}`); // 여기를 레시피 ID로 이동하도록 수정 ( 여기 history 대신에 href 사용 --> 바꿀 수 있음 바꿔라)
+              window.location.href = `/RecoRecipe/detail/${recipe_ID}`;
+            }
+            if (result.isDenied) {
+              Swal.fire({
+                title: "그럼 이건 어때요?",
+                html:
+                  "<div>" +
+                  `<div style=" width:100%; height:72px; position:relative ">` +
+                  `<div style=" width:100%; height:72px; position:absolute; background:black; border-radius:15px;">` +
+                  `<a href="/RecoRecipe/detail/${alt_recipe_ID1}" style='position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white;font-size:1.3rem; z-index:10; text-decoration:none;'>` +
+                  `${alt_recipe_NM_KO1}` +
+                  `</a>` +
+                  `<img style=" width:100%; height:100%; object-fit:cover; border-radius:15px; opacity:0.45" src=${alt_img_URL1} alt="${alt_recipe_NM_KO1}"/>` +
+                  "</div>" +
+                  "</div>" +
+                  "<div style='padding-top:1% '>" +
+                  `<div style=" width:100%; height:72px; position:relative ">` +
+                  `<div style=" width:100%; height:72px; position:absolute; background:black; border-radius:15px;">` +
+                  `<a href="/RecoRecipe/detail/${alt_recipe_ID2}" style='position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white;font-size:1.3rem; z-index:10; text-decoration:none;'>` +
+                  `${alt_recipe_NM_KO2}` +
+                  `</a>` +
+                  `<img style=" width:100%; height:100%; object-fit:cover; border-radius:15px; opacity:0.45" src=${alt_img_URL2} alt="${alt_recipe_NM_KO2}"/>` +
+                  "</div>" +
+                  "</div>" +
+                  "<div style='padding-top:1% '>" +
+                  `<div style=" width:100%; height:72px; position:relative ">` +
+                  `<div style=" width:100%; height:72px; position:absolute; background:black; border-radius:15px;">` +
+                  `<a href="/RecoRecipe/detail/${alt_recipe_ID3}" style='position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white;font-size:1.3rem; z-index:10; text-decoration:none;'>` +
+                  `${alt_recipe_NM_KO3}` +
+                  `</a>` +
+                  `<img style=" width:100%; height:100%; object-fit:cover; border-radius:15px; opacity:0.45" src=${alt_img_URL3} alt="${alt_recipe_NM_KO3}"/>` +
+                  "</div>" +
+                  "</div>" +
+                  "<div style='padding-top:1% '>" +
+                  `<div style=" width:100%; height:72px; position:relative ">` +
+                  `<div style=" width:100%; height:72px; position:absolute; background:black; border-radius:15px;">` +
+                  `<a href="/RecoRecipe/detail/${alt_recipe_ID4}" style='position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white;font-size:1.3rem; z-index:10; text-decoration:none;'>` +
+                  `${alt_recipe_NM_KO4}` +
+                  `</a>` +
+                  `<img style=" width:100%; height:100%; object-fit:cover; border-radius:15px; opacity:0.45" src=${alt_img_URL4} alt="${alt_recipe_NM_KO4}"/>` +
+                  "</div>" +
+                  "</div>",
+                confirmButtonText: "잠시만요. 다시 골라볼래요",
+              });
+            }
+          });
+        })
+        .catch((error) => {
+          Swal.showValidationMessage(`에러가 발생했습니다.${error}`);
+        });
+    },
+    allowOutsideClick: () => !Swal.isLoading(),
   });
 };
