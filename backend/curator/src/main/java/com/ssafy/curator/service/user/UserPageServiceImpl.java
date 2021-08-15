@@ -6,8 +6,10 @@ import com.ssafy.curator.dto.user.UserDto;
 import com.ssafy.curator.dto.user.UserPageDto;
 import com.ssafy.curator.entity.follow.FollowingsEntity;
 import com.ssafy.curator.entity.post.PostEntity;
+import com.ssafy.curator.entity.post.PostImageEntity;
 import com.ssafy.curator.entity.user.UserEntity;
 import com.ssafy.curator.entity.user.UserPageEntity;
+import com.ssafy.curator.repository.post.PostImageRepository;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserPageRepository;
 import com.ssafy.curator.repository.user.UserRepository;
@@ -38,6 +40,9 @@ public class UserPageServiceImpl implements UserPageService{
 
     @Autowired
     CommonService commonService;
+
+    @Autowired
+    PostImageRepository postImageRepository;
 
     @Override
     public UserPageDto createUserInfo(String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) {
@@ -119,12 +124,17 @@ public class UserPageServiceImpl implements UserPageService{
             myPagePostDto.setDescription(postEntity.getDescription());
             myPagePostDto.setIngredients(postEntity.getIngredients());
             myPagePostDto.setCreateDate(postEntity.getCreateDate());
-            List<String> imagePaths = postEntity.getImagePaths();
+
+            List<PostImageEntity> Images = postImageRepository.findByPostId(postEntity.getId());
+            List<String> imagePaths = new ArrayList();
+            for (PostImageEntity i : Images) {
+                imagePaths.add(i.getFilePath());
+            }
             if (imagePaths.size() >= 1) {
                 String firstImage = imagePaths.get(0);
                 myPagePostDto.setImagePaths(Collections.singletonList(commonService.imageEncoding(firstImage)));
             } else {
-                myPagePostDto.setImagePaths(postEntity.getImagePaths());
+                myPagePostDto.setImagePaths(imagePaths);
             }
 
             myPagePostDtos.add(myPagePostDto);
@@ -161,8 +171,8 @@ public class UserPageServiceImpl implements UserPageService{
                 File pre = new File(userPageEntity.getProfileImg());
                 pre.delete();
             }
-//            String path = "src/main/resources/static/images/";
-            String path = "/usr/local/images/";
+            String path = "src/main/resources/static/images/";
+//            String path = "/usr/local/images/";
             String newFileName = commonService.rnd(multipartFile1.getOriginalFilename(), multipartFile1.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setProfileImg(newPath);
@@ -181,8 +191,8 @@ public class UserPageServiceImpl implements UserPageService{
                 File pre = new File(userPageEntity.getBgImg());
                 pre.delete();
             }
-//            String path = "src/main/resources/static/images/";
-            String path = "/usr/local/images/";
+            String path = "src/main/resources/static/images/";
+//            String path = "/usr/local/images/";
             String newFileName = commonService.rnd(multipartFile2.getOriginalFilename(), multipartFile2.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setBgImg(newPath);

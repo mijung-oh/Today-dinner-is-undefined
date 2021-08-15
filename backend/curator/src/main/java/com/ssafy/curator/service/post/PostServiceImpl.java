@@ -79,13 +79,16 @@ public class PostServiceImpl implements PostService {
             String profileImage = userPageRepository.findByUser(p.getUser()).getProfileImg();
             pp.setProfileImage(commonService.imageEncoding(profileImage));
 
-
-            List<String> imagePaths = p.getImagePaths();
+            List<PostImageEntity> Images = postImageRepository.findByPostId(p.getId());
+            List<String> imagePaths = new ArrayList();
+            for (PostImageEntity i : Images) {
+                imagePaths.add(i.getFilePath());
+            }
             if (imagePaths.size() >= 1) {
                 String firstImage = imagePaths.get(0);
                 pp.setImagePath(Collections.singletonList(commonService.imageEncoding(firstImage)));
             } else {
-                pp.setImagePath(p.getImagePaths());
+                pp.setImagePath(imagePaths);
             }
 
             pp.setComment(comments);
@@ -111,7 +114,6 @@ public class PostServiceImpl implements PostService {
         post.setIngredients(ingredients);
 
         List<MultipartFile> fileList = mtfRequest.getFiles("files");
-        List<String> paths = new ArrayList();
 
         for (MultipartFile f : fileList) {
 
@@ -119,18 +121,18 @@ public class PostServiceImpl implements PostService {
             String originalName = f.getOriginalFilename();
             pi.setFileOriName(originalName);
 
-//            String path = "src/main/resources/static/images/";
-            String path = "/usr/local/images/";
+            String path = "src/main/resources/static/images/";
+//            String path = "/usr/local/images/";
 
             String newFileName = commonService.rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
-            paths.add(newPath);
 
             pi.setFilename(newFileName);
+            pi.setFilePath(newPath);
             pi.setPost(post);
             postImageRepository.save(pi);
         }
-        post.setImagePaths(paths);
+
         postRepository.save(post);
 
 
@@ -153,13 +155,14 @@ public class PostServiceImpl implements PostService {
         String profileImage = userPageRepository.findByUser(post.getUser()).getProfileImg();
         postWithImageDto.setProfileImage(commonService.imageEncoding(profileImage));
 
-        List<String> imageInfos = new ArrayList<String>();
-        List<String> imagePaths = post.getImagePaths();
-        for (String path : imagePaths) {
-            imageInfos.add(commonService.imageEncoding(path));
+
+        List<PostImageEntity> Images = postImageRepository.findByPostId(postId);
+        List<String> imagePaths = new ArrayList();
+        for (PostImageEntity i : Images) {
+            imagePaths.add(commonService.imageEncoding(i.getFilePath()));
         }
 
-        postWithImageDto.setImagePath(imageInfos);
+        postWithImageDto.setImagePath(imagePaths);
 
         List<CommentEntity> Comments = commentRepository.findByPostId(p);
 
@@ -170,7 +173,6 @@ public class PostServiceImpl implements PostService {
 
         postWithImageDto.setComment(comments);
 
-
         return postWithImageDto;
     }
 
@@ -178,11 +180,17 @@ public class PostServiceImpl implements PostService {
         Long p = Long.parseLong(String.valueOf(postId));
 
         PostEntity post = postRepository.findById(p);
-        List<String> PathList = post.getImagePaths();
-        for (String path : PathList) {
+
+        List<PostImageEntity> Images = postImageRepository.findByPostId(p);
+        List<String> imagePaths = new ArrayList();
+        for (PostImageEntity i : Images) {
+            imagePaths.add(i.getFilePath());
+        }
+        for (String path : imagePaths) {
             File file = new File(path);
             file.delete();
         }
+
         List<PostImageEntity> postImages = postImageRepository.findByPostId(p);
         postImageRepository.deleteAll(postImages);
 
@@ -191,7 +199,6 @@ public class PostServiceImpl implements PostService {
         post.setIngredients(postDetails.getIngredients());
 
         List<MultipartFile> fileList = mtfRequest.getFiles("files");
-        List<String> paths = new ArrayList();
 
         for (MultipartFile f : fileList) {
 
@@ -199,34 +206,33 @@ public class PostServiceImpl implements PostService {
             String originalName = f.getOriginalFilename();
             pi.setFileOriName(originalName);
 
-//            String path = "src/main/resources/static/images/";
-            String path = "/usr/local/images/";
+            String path = "src/main/resources/static/images/";
+//            String path = "/usr/local/images/";
+
             String newFileName = commonService.rnd(originalName, f.getBytes(), path);
             String newPath = path+newFileName;
-            paths.add(newPath);
 
             pi.setFilename(newFileName);
+            pi.setFilePath(newPath);
             pi.setPost(post);
             postImageRepository.save(pi);
         }
-        post.setImagePaths(paths);
 
         PostEntity updatePost = postRepository.save(post);
         return updatePost;
     }
 
     public ResponseEntity deletePost(@PathVariable("post_id") Long postId) {
+
         Long p = Long.parseLong(String.valueOf(postId));
         PostEntity post = postRepository.findById(p);
-        List<String> PathList = post.getImagePaths();
-        for (String path : PathList) {
-            File file = new File(path);
+        List<PostImageEntity> Images = postImageRepository.findByPostId(p);
+
+        for (PostImageEntity i : Images) {
+            File file = new File(i.getFilePath());
             file.delete();
         }
-        List<PostImageEntity> postImages = postImageRepository.findByPostId(p);
-        List<CommentEntity> comments = commentRepository.findByPostId(p);
-        commentRepository.deleteAll(comments);
-        postImageRepository.deleteAll(postImages);
+
         postRepository.delete(post);
 
         return ResponseEntity.ok().build();

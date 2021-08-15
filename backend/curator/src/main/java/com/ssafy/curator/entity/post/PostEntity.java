@@ -34,9 +34,11 @@ public class PostEntity {
     String title;
 
     @NotNull
+    @Column(length=3000)
     String description;
 
     @NotNull
+    @Column(length=3000)
     String ingredients;
 
     @CreationTimestamp
@@ -45,12 +47,13 @@ public class PostEntity {
     @UpdateTimestamp
     Timestamp updateDate;
 
-    @ElementCollection(targetClass=String.class)
-    @CollectionTable(
-            name = "post_image_path",
-            joinColumns = @JoinColumn(name = "post_id"))
-    List<String> imagePaths;
+    @OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
+    @JsonIgnore
+    private List<PostImageEntity> postImageEntities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
+    @JsonIgnore
+    private List<CommentEntity> commentEntities = new ArrayList<>();
 
     // 게시글 좋아요
     @OneToMany(mappedBy = "postEntity", cascade=CascadeType.REMOVE)

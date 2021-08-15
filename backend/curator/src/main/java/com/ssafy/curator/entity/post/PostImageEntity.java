@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -22,7 +23,13 @@ public class PostImageEntity {
     @JoinColumn(name = "postId")
     PostEntity post;
 
+    @NotNull
     String filename;
+
+    @NotNull
     String fileOriName;
+
+    @NotNull
+    String filePath;
 
 }
