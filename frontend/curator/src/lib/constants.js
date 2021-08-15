@@ -21,3 +21,6 @@ export const FOLLOW_URL = (nickname) => {
 export const UNFOLLOW_URL = (nickname) => {
   return `http://i5c207.p.ssafy.io:9000/curation/follow/${nickname}`;
 };
+
+export const RECOMMEND_LIST_URL =
+  "http://i5c207.p.ssafy.io:9000/curation/getRecommendList";

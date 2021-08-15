@@ -5,13 +5,14 @@ import "./style.css";
 import useIntersect from "./useintersect";
 import RecipePage from "../page/RecipePage";
 import gif from "./images/123.gif";
+import PlzScrap from "../page/UserScrap";
 
 const fakeFetch = (delay = 1000) =>
   new Promise((res) => setTimeout(res, delay));
 
 function RecipeList() {
   const [posts, setPosts] = useState([]);
-
+  const [check, setCheck] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get(
@@ -44,10 +45,15 @@ function RecipeList() {
   }, {});
   const { itemCount, isLoading } = state;
   if (!itemCount) return null;
+
   return (
     <div style={{ backgroundColor: "grey", padding: "50px" }} className="App">
       {[...Array(itemCount)].map((_, i) => {
-        return <RecipePage key={i} allRecipe={posts[i]} />;
+        return (
+          <>
+            <RecipePage key={i} allRecipe={posts[i]} />
+          </>
+        );
       })}
       <div ref={setRef} className="Loading">
         {isLoading && <img src={gif} width="100px" />}

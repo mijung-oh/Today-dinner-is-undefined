@@ -4,12 +4,21 @@ import TestPage from "@pages/TestPage";
 import MainPage from "@pages/MainPage";
 import ProfilePage from "@pages/ProfilePage";
 import AuthloginPage from "@pages/AuthloginPage";
+import RecommandPage from "@pages/RecommandPage";
 import Appbar from "@components/Appbar";
 import BottomNav from "@components/BottomNav";
 import { useSelector } from "react-redux";
 
 import { RootState } from "modules";
 import Articles from "../Articles/route/Articles";
+import RecoRecipe from "../Articles/components/RecoRecipe";
+import UserScrap from "../Articles/page/UserScrap";
+import RecipeList from "../Articles/components/RecipeList";
+import ArticleUpdate from "../Articles/components/ArticleUpdate";
+import UserRecipe from "../Articles/components/UserRecipe";
+import ArticleCreate from "../Articles/components/ArticleCreate";
+import ArticleDetail from "../Articles/components/ArticleDetail";
+import ArticleHome from "../Articles/components/ArticleHome";
 //App.tsx에서 내려주는 props들의 타입 여기서 지정
 interface BRouterProps {}
 
@@ -37,8 +46,15 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/test" exact component={TestPage} />
         <Route path="/profile/:nickname" component={ProfilePage} />
         <Route path="/oauth/:socialCompany" component={AuthloginPage} />
-        <Route path="/articles" component={Articles} />
-        <Route path="/recipe" component={Articles} />
+        <Route path="/RecoRecipe/detail/:id" component={RecoRecipe} />
+        <Route path="/userScrap" component={UserScrap} />
+        <Route path="/recipe" component={RecipeList} />
+        <Route path="/update/:id" component={ArticleUpdate} />
+        <Route path="/userRecipe/detail/:id" component={UserRecipe} />
+        <Route path="/articles/create" component={ArticleCreate} />
+        <Route path="/articles/detail/:id" component={ArticleDetail} />
+        <Route path="/articles" component={ArticleHome} />
+        <Route path="/recommand" component={RecommandPage} />
       </Switch>
       {/* {isAuth ? <BottomNav /> : null} */}
       <BottomNav />

@@ -1,31 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import CommentCreate from "./CommentCreate";
+import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import CommentList from "./CommentList";
 import back from "../components/images/qq.png";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+
 import MobileStepper from "@material-ui/core/MobileStepper";
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
+import EditIcon from "@material-ui/icons/Edit";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import axios from "axios";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     // maxWidth: ,
     display: "flex",
     justifyContent: "center",
+    maxWidth: "2600px",
   },
   media: {
     height: 0,
@@ -49,10 +45,10 @@ const useStyles = makeStyles((theme) => ({
     transform: "rotate(180deg)",
   },
   avatar: {
-    backgroundColor: red[500],
+    backgroundColor: "#00ff0000",
   },
   root: {
-    maxWidth: 500,
+    maxWidth: 1000,
     flexGrow: 1,
   },
   header: {
@@ -63,15 +59,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   img: {
-    height: 255,
+    height: 500,
     display: "block",
-    maxWidth: 400,
+    maxWidth: 2500,
     overflow: "hidden",
     width: "100%",
   },
 }));
 
 function DetailPage({ article, onDelete }) {
+  const [check, setCheck] = useState(false);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -93,6 +90,13 @@ function DetailPage({ article, onDelete }) {
     setActiveStep(step);
   };
 
+  const userLike = async () => {
+    const response = await axios.post(
+      `http://i5c207.p.ssafy.io/curation/like/${article.id}/?userNickname=오잉`
+    );
+    setCheck(true);
+  };
+
   return (
     <div
       style={{
@@ -100,7 +104,9 @@ function DetailPage({ article, onDelete }) {
         flexDirection: "column",
         alignContent: "center",
         justifyContent: "center",
-        width: "100%",
+        // width: "100%",
+        marginBottom: "5%",
+        padding: "3%",
       }}
     >
       <div
@@ -108,20 +114,22 @@ function DetailPage({ article, onDelete }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: "100%",
+          width: "2500px",
         }}
       >
-        <img src={back} width="40%" />
+        {/* <img src={back} width="40%" /> */}
       </div>
       <div className={classes.roots}>
-        <Card style={{ width: "45%", padding: "0" }}>
+        <Card style={{ width: "100%", padding: "0" }}>
+          <h1 style={{ display: "flex", justifyContent: "center" }}>
+            🥨{article.title}🥨
+          </h1>
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                <img src={article.profileImage} style={{ width: "150%" }} />
+                <img src={article.profileImage} style={{ width: "100%" }} />
               </Avatar>
             }
-            title={article.title}
             subheader={article.user.nickname}
           />
           <div>
@@ -180,14 +188,25 @@ function DetailPage({ article, onDelete }) {
               />
             </div>
           </div>
-
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
+            <IconButton aria-label="add to favorites" onClick={userLike}>
+              {check ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton>
+            <Link
+              to={{
+                pathname: `/update/${article.id}`,
+                state: {
+                  title: article.title,
+                  description: article.description,
+                  ingredients: article.ingredients,
+                },
+              }}
+            >
+              <IconButton aria-label="add to favorites">
+                <EditIcon />
+              </IconButton>
+            </Link>
+
             <IconButton
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expanded,
@@ -196,17 +215,16 @@ function DetailPage({ article, onDelete }) {
               aria-expanded={expanded}
               aria-label="show more"
             >
-              <ExpandMoreIcon />
+              <QuestionAnswerIcon />
             </IconButton>
           </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>
-                <CommentList post_id={article.id} />
-                <CommentCreate post_id={article.id} />
-              </Typography>
-            </CardContent>
-          </Collapse>
+          <h3 style={{ display: "flex", justifyContent: "center" }}>
+            재료: {article.ingredients}
+          </h3>
+          <h4 style={{ display: "flex", justifyContent: "center" }}>
+            레시피 {article.description}
+          </h4>
+          <CommentList post_id={article.id} />
         </Card>
       </div>
     </div>

@@ -66,6 +66,7 @@ function ArticleCreate({ history }) {
             .then((res) => {
               console.log(res.data);
               let post_id = res.data[res.data.length - 1].id;
+              history.push(`/articles/detail/${post_id}`);
             });
         });
     } catch (e) {
