@@ -1,7 +1,5 @@
 import React, { MouseEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
-import { RECOMMEND_LIST_URL } from "@lib/constants";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import acorn from "@recommand/static/image/acorn.svg";
@@ -31,9 +29,7 @@ import { Paper, Avatar, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Ingredient } from "@lib/interfaces";
-import RecommandModal from "@recommand/components/RecommandModal";
-import Swal from "sweetalert2";
-import { useHistory } from "react-router";
+import { findRecommandFood } from "@lib/helper";
 
 const imageObject = {
   acorn,
@@ -211,9 +207,8 @@ const subIngredientMappingList: Ingredient[] = [
 const RecommandPage: React.FC = () => {
   const [ingredients, setIngredients] = useState<Array<string | null>>([]);
   const [check, setCheck] = useState<Boolean>(false);
-  const [open, setOpen] = useState<Boolean>(false);
 
-  const history = useHistory();
+  // const history = useHistory();
 
   const toggleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     let checked = event.currentTarget.checked;
@@ -245,61 +240,12 @@ const RecommandPage: React.FC = () => {
     const config = {
       withCredentials: true,
     };
-    console.log(data);
-    setOpen(!open);
-    Swal.fire({
-      text: "이 재료들로 메뉴를 추천해드릴까요?",
-      preConfirm: async () => {
-        Swal.showLoading();
-        // Swal.showValidationMessage("잠시만 기다려주세요");
-        return await axios
-          .post(RECOMMEND_LIST_URL, data, config)
-          .then((response) => {
-            if (response.status !== 200) {
-              throw new Error(response.statusText);
-            }
-            console.log(response);
-            const foodies = response.data;
-            const recommandedFood = foodies?.[0];
-            const { img_URL, recipe_ID, recipe_NM_KO } = recommandedFood;
-            Swal.fire({
-              title: "오늘의 저녁은 이거다!",
-              text: `${recipe_NM_KO}`,
-              imageUrl: `${img_URL}`,
-              showDenyButton: true,
-              confirmButtonText: "좋아요",
-              denyButtonText: "음...별로에요",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // 그리고 여기에 투표 요청 하나 넣어야지
-                history.push(`/RecoRecipe/detail/${recipe_ID}`); // 여기를 레시피 ID로 이동하도록 수정
-              }
-              if (result.isDenied) {
-                Swal.fire({
-                  title: "그럼 이건 어때요?",
-                  html:
-                    `<div style=" width:100%; height:72px; position:relative ">` +
-                    "<span style='position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:white'>테스트dddddddddd</span>" +
-                    `<img style=" width:100%; height:100%; object-fit:cover; border-radius:15px" src=${img_URL} alt="이미지"/>` +
-                    "</div>",
-                });
-              }
-            });
-          })
-          .catch((error) => {
-            Swal.showValidationMessage(`에러가 발생했습니다.${error}`);
-          });
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    });
-    // const res = await axios.post(RECOMMEND_LIST_URL, data, config);
-    // console.log(res);
+    findRecommandFood(data, config);
   };
-  const classes = useStyles();
 
+  const classes = useStyles();
   return (
     <Paper className={classes.rootContainer}>
-      {open && <RecommandModal />}
       <h1>우리 집 냉장고에는??</h1>
       <Paper className={classes.container} elevation={3}>
         <section className={classes.ingredientBox}>
