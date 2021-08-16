@@ -47,7 +47,7 @@ public class RecommendServiceImpl implements RecommendService {
         // 기본 양념이 있는 경우
         if (requestIngredient.isCheck()) {
             for (String s : defaultSource) {
-                leftmap.put(s, 1.0);
+                leftmap.put(s, 0.5);
             }
         } else{
             for (String s : defaultSource) {
