@@ -4,8 +4,6 @@ package com.ssafy.curator.service.recommend;
 import com.ssafy.curator.dto.recipe.RecipeRecommendDto;
 import com.ssafy.curator.entity.recipe.RecipeEntity;
 import com.ssafy.curator.entity.recipe.RecipeIngredientEntity;
-import com.ssafy.curator.entity.recipe.RecipeIngredientMap;
-import com.ssafy.curator.repository.recipe.RecipeIngredientMapRepository;
 import com.ssafy.curator.repository.recipe.RecipeIngredientRepository;
 import com.ssafy.curator.repository.recipe.RecipeRepository;
 import com.ssafy.curator.service.recipe.RecipeService;
@@ -22,9 +20,6 @@ public class RecommendServiceImpl implements RecommendService {
 
     @Autowired
     RecipeService recipeService;
-
-    @Autowired
-    RecipeIngredientMapRepository recipeIngredientMapRepository;
 
     @Autowired
     RecipeIngredientRepository recipeIngredientRepository;
@@ -60,7 +55,7 @@ public class RecommendServiceImpl implements RecommendService {
             HashMap<CharSequence, Double> rightmap = new HashMap();
             for (RecipeIngredientEntity recipeIngredientEntity : recipeIngredientEntities) {
                 String name = recipeIngredientEntity.getIRDNT_NM();
-                if (recipeIngredientMapRepository.findByName(name) == null) {
+                if (!leftmap.containsKey(name)) {
                     rightmap.put(name, 0.0);
                 } else {
                     rightmap.put(name, 2.0);
