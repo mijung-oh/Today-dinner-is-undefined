@@ -144,7 +144,7 @@ function UserRecipeDetail({ article }) {
       <div className={classes.roots}>
         <Card style={{ width: "70%", padding: "2px" }}>
           <h1 style={{ display: "flex", justifyContent: "center" }}>
-            {article.recipe_NM_KO}
+            🍚{article.recipe_NM_KO}🍚
           </h1>
           <CardHeader
             avatar={
@@ -158,6 +158,7 @@ function UserRecipeDetail({ article }) {
             className={classes.media}
             image={article.img_URL}
             title="Paella dish"
+            style={{ width: "100%" }}
           />
 
           <CardActions disableSpacing>
