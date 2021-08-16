@@ -50,11 +50,22 @@ function Media({ article }) {
       }}
     >
       {article.map((item) => (
-        <Box key={item.id} width={300} marginRight={3} my={4} py={5}>
+        <Box
+          key={item.id}
+          width={300}
+          marginRight={3}
+          my={4}
+          py={5}
+          // style={{ border: "outset", borderColor: "black", border }}
+        >
           {item ? (
             <Link to={`/articles/detail/${item.id}`}>
               <img
-                style={{ width: 290, height: 300, borderRadius: 10 }}
+                style={{
+                  width: 300,
+                  height: 370,
+                  borderRadius: 10,
+                }}
                 src={item.imagePath}
               />
             </Link>

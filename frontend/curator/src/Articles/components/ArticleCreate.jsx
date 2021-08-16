@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Create from "../page/Create";
+import { couldStartTrivia } from "typescript";
 
 function ArticleCreate({ history }) {
   const [postfiles, setPostfiles] = useState({
     file: [],
     previewURL: "",
   });
-
+  const [postId, setPostId] = useState([]);
   const uploadFile = (e) => {
     e.stopPropagation();
     let reader = new FileReader();
@@ -65,15 +66,18 @@ function ArticleCreate({ history }) {
             .get("http://i5c207.p.ssafy.io/curation/post/list")
             .then((res) => {
               console.log(res.data);
-              let post_id = res.data[res.data.length - 1].id;
+              var post_id = res.data[res.data.length - 1].id;
               history.push(`/articles/detail/${post_id}`);
+              // post = post_id;
+              // setPostId(post_id);
+
+              window.location.href = `/articles/detail/${post_id}`;
             });
         });
     } catch (e) {
       console.log(e);
     }
   };
-
   return (
     <>
       <Create

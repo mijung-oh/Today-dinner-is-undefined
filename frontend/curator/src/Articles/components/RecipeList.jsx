@@ -5,7 +5,6 @@ import "./style.css";
 import useIntersect from "./useintersect";
 import RecipePage from "../page/RecipePage";
 import gif from "./images/123.gif";
-import PlzScrap from "../page/UserScrap";
 
 const fakeFetch = (delay = 1000) =>
   new Promise((res) => setTimeout(res, delay));
@@ -47,7 +46,7 @@ function RecipeList() {
   if (!itemCount) return null;
 
   return (
-    <div style={{ backgroundColor: "grey", padding: "50px" }} className="App">
+    <div style={{ backgroundColor: "yellow", padding: "50px" }} className="App">
       {[...Array(itemCount)].map((_, i) => {
         return (
           <>

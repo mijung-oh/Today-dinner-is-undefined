@@ -50,7 +50,7 @@ function UserScrap() {
         <Box
           key={item.id}
           width={300}
-          marginRight={3}
+          marginRight={2}
           my={4}
           py={5}
           style={{ marginBottom: "3px" }}
@@ -58,7 +58,7 @@ function UserScrap() {
           {item ? (
             <Link to={`/userRecipe/detail/${item.recipe_ID}`}>
               <img
-                style={{ width: 290, height: 300, borderRadius: 10 }}
+                style={{ width: 300, height: 370, borderRadius: 10 }}
                 src={item.img_URL}
               />
             </Link>

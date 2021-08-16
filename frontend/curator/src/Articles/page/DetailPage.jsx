@@ -21,6 +21,7 @@ import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import axios from "axios";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { Typography } from "@material-ui/core";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
@@ -129,13 +130,13 @@ function DetailPage({ article, onDelete }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: "2500px",
+          width: "2000px",
         }}
       >
         {/* <img src={back} width="40%" /> */}
       </div>
       <div className={classes.roots}>
-        <Card style={{ width: "100%", padding: "0" }}>
+        <Card style={{ width: "70%", padding: "0" }}>
           <h1 style={{ display: "flex", justifyContent: "center" }}>
             🥨{article.title}🥨
           </h1>
@@ -222,7 +223,7 @@ function DetailPage({ article, onDelete }) {
               </IconButton>
             </Link>
 
-            <IconButton
+            {/* <IconButton
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expanded,
               })}
@@ -231,17 +232,23 @@ function DetailPage({ article, onDelete }) {
               aria-label="show more"
             >
               <QuestionAnswerIcon />
-            </IconButton>
+            </IconButton> */}
           </CardActions>
-          {/* <Collapse in={expanded} timeout="auto" unmountOnExit> */}
-          <h3 style={{ display: "flex", justifyContent: "center" }}>
-            재료: {article.ingredients}
-          </h3>
           <h4 style={{ display: "flex", justifyContent: "center" }}>
-            {article.description}
+            Ingredients: {article.ingredients}
           </h4>
+          <Typography
+            style={{
+              // display: "flex",
+              // justifyContent: "center",
+              margin: "35px",
+              textAlign: "center",
+            }}
+          >
+            Recipe <br />
+            {article.description}
+          </Typography>
           <CommentList post_id={article.id} />
-          {/* </Collapse> */}
         </Card>
       </div>
     </div>

@@ -147,8 +147,9 @@ function Update({
               onChange={uploadFile}
             />
           </div>
-
-          <button onClick={onCreate}>등록</button>
+          <a href={`/articles/detail/${post_id}`}>
+            <button onClick={onCreate}>등록</button>
+          </a>
         </div>
       </div>
     </div>

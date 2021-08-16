@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import SaveIcon from "@material-ui/icons/Save";
 import WarningIcon from "@material-ui/icons/Warning";
+import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -109,10 +110,11 @@ function Create({
             <TextField
               onChange={onChange}
               id="standard-basic"
-              label="제목"
+              label="제목을 입력해주세요"
               name="title"
               value={title}
               style={{ width: "100%" }}
+              required
             />
           </div>
           <div>
@@ -123,16 +125,18 @@ function Create({
               name="description"
               style={{ width: "100%", height: "300px" }}
               placeholder="레시피 입력"
+              required
             />
           </div>
           <div>
             <TextField
               onChange={onChange}
               id="outlined-basic"
-              label="-Ingredients"
+              label="재료를 써주세요"
               value={ingredients}
               name="ingredients"
               style={{ width: "100%" }}
+              required
             />
           </div>
           <div style={{ margin: "8px" }}>
@@ -142,6 +146,7 @@ function Create({
               accept="image/*"
               multiple
               onChange={uploadFile}
+              required
             />
           </div>
 
