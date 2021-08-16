@@ -9,7 +9,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
-
+import Collapse from "@material-ui/core/Collapse";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -90,11 +90,26 @@ function DetailPage({ article, onDelete }) {
     setActiveStep(step);
   };
 
+  const userCheck = async () => {
+    const response = await axios.get(
+      `http://i5c207.p.ssafy.io/curation/like/${article.id}/list`
+    );
+    const user = "오잉";
+
+    {
+      response.data.map((item) =>
+        item.nickname.includes(user) ? setCheck(true) : setCheck(false)
+      );
+    }
+  };
+  userCheck();
   const userLike = async () => {
     const response = await axios.post(
       `http://i5c207.p.ssafy.io/curation/like/${article.id}/?userNickname=오잉`
     );
-    setCheck(true);
+    // setCheck(true);
+    userCheck();
+    setCheck(!check);
   };
 
   return (
@@ -218,13 +233,15 @@ function DetailPage({ article, onDelete }) {
               <QuestionAnswerIcon />
             </IconButton>
           </CardActions>
+          {/* <Collapse in={expanded} timeout="auto" unmountOnExit> */}
           <h3 style={{ display: "flex", justifyContent: "center" }}>
             재료: {article.ingredients}
           </h3>
           <h4 style={{ display: "flex", justifyContent: "center" }}>
-            레시피 {article.description}
+            {article.description}
           </h4>
           <CommentList post_id={article.id} />
+          {/* </Collapse> */}
         </Card>
       </div>
     </div>
