@@ -4,14 +4,12 @@ import com.ssafy.curator.dto.recipe.RecipeDto;
 import com.ssafy.curator.service.recipe.RecipeService;
 import com.ssafy.curator.vo.recipe.ResponseIngredients;
 import com.ssafy.curator.vo.recipe.ResponseProcess;
+import com.ssafy.curator.vo.recipe.ResponseRanking;
 import com.ssafy.curator.vo.recipe.ResponseRecipeDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,6 +50,18 @@ public class RecipeController {
     @GetMapping("/getRecipe/{id}")
     public ResponseEntity<RecipeDto> getRecipe(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(recipeService.getRecipe(id));
+    }
+
+    @GetMapping("getRanking")
+    public ResponseEntity<List<ResponseRanking>> getRecipeRanking(){
+        List<ResponseRanking> list = recipeService.getRanking();
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @PostMapping("addRanking")
+    public ResponseEntity<String> addRecipeRanking(@RequestParam(name = "recipeId") String recipeId){
+        recipeService.addRanking(recipeId);
+        return ResponseEntity.status(HttpStatus.OK).body("추가되었습니다.");
     }
 
 }

@@ -11,21 +11,29 @@ import com.ssafy.curator.repository.recipe.RecipeProcessRepository;
 import com.ssafy.curator.repository.recipe.RecipeRepository;
 import com.ssafy.curator.vo.recipe.ResponseIngredients;
 import com.ssafy.curator.vo.recipe.ResponseProcess;
+import com.ssafy.curator.vo.recipe.ResponseRanking;
 import com.ssafy.curator.vo.recipe.ResponseRecipeDetail;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import javax.annotation.Resource;
+import java.util.*;
 
 @Service
 public class RecipeServiceImpl implements RecipeService{
 
+    private final String KEY = "recipeRanking";
+
     RecipeRepository recipeRepository;
     RecipeIngredientRepository recipeIngredientRepository;
     RecipeProcessRepository recipeProcessRepository;
+
+    @Resource(name = "redisRankingTemplate")
+    RedisTemplate<String, String> redisTemplate;
+    ZSetOperations<String, String> zSetOperations;
 
     ModelMapper mapper;
 
@@ -96,6 +104,40 @@ public class RecipeServiceImpl implements RecipeService{
             ingredientList.add(recipeIngredientDto);
         }
         return ingredientList;
+    }
+
+    @Override
+    public List<ResponseRanking> getRanking() {
+        zSetOperations = redisTemplate.opsForZSet();
+
+        Set<ZSetOperations.TypedTuple<String>> typedTuples = zSetOperations.reverseRangeWithScores(KEY, 0, 4);
+        Iterator<ZSetOperations.TypedTuple<String>> iterator = typedTuples.iterator();
+
+        List<ResponseRanking> list = new ArrayList<>();
+        int ranking = 1;
+        while (iterator.hasNext()) {
+            ZSetOperations.TypedTuple<String> next = iterator.next();
+            RecipeDto oneRecipe = getOneRecipe(Long.parseLong(next.getValue()));
+            list.add(ResponseRanking.builder()
+                        .ranking(ranking++)
+                        .score(next.getScore().intValue())
+                        .recipeDto(oneRecipe)
+                        .build());
+        }
+        return list;
+    }
+
+    @Override
+    public void addRanking(String recipeId) {
+        zSetOperations = redisTemplate.opsForZSet();
+        Double score = zSetOperations.score(KEY,recipeId);
+        if(score == null){
+            zSetOperations.add(KEY,recipeId,1);
+        }
+        else {
+            zSetOperations.add(KEY,recipeId,score + 1);
+        }
+
     }
 
     public List<RecipeProcessDto> getProcessListFromRecipe(Long id){

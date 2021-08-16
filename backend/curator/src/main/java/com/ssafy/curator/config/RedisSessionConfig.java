@@ -4,6 +4,7 @@ import com.ssafy.curator.dto.user.UserSessionDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -11,14 +12,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-public class RedisConfig {
+public class RedisSessionConfig {
+
     @Value("${spring.redis.host}")
     private String redisHost;
 
     @Value("${spring.redis.session.port}")
     private int redisSessionPort;
 
-    @Bean({"redisConnectionFactory", "redisSessionConnectionFactory"})
+    @Bean
+    @Primary
     public RedisConnectionFactory redisSessionConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(redisHost);
@@ -30,11 +33,12 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, UserSessionDto> redisTemplate() {
+    public RedisTemplate<String, UserSessionDto> redisSessionTemplate() {
         RedisTemplate<String, UserSessionDto> template = new RedisTemplate<String, UserSessionDto>();
         template.setConnectionFactory(redisSessionConnectionFactory());
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new StringRedisSerializer());
         return template;
     }
+
 }
