@@ -35,9 +35,9 @@ public class CommonController {
     @GetMapping("/currentLogin/test")
     public UserSessionDto currentLoginTest(){
         UserSessionDto userSessionDto = new UserSessionDto();
-        userSessionDto.setEmail("zang9412@naver.com");
-        userSessionDto.setName("이주선");
-        userSessionDto.setNickname("김서방");
+        userSessionDto.setEmail("rlatngur10@naver.com");
+        userSessionDto.setName("김수혁");
+        userSessionDto.setNickname("김김서서방방");
         return userSessionDto;
     }
 

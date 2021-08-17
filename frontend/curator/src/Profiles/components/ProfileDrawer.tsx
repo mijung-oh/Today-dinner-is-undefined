@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingTop: "1%",
     backgroundColor: theme.palette.grey[300],
   },
-  test2: {
-    background: "red !important",
-  },
   editBtn: {
     "& span": {
       fontSize: "1rem",

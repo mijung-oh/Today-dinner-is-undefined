@@ -28,8 +28,11 @@ public class RecommendServiceImpl implements RecommendService {
         ArrayList<Double[]> sorted = new ArrayList<>();
 
         HashMap<CharSequence, Double> leftmap = new HashMap();
-        for (String s : requestIngredient.getIngredients()) {
-            leftmap.put(s, 2.0);
+        for (String s : requestIngredient.getMainIngredients()) {
+            leftmap.put(s, 3.0);
+        }
+        for (String s : requestIngredient.getSubIngredients()) {
+            leftmap.put(s, 1.5);
         }
 
         List<String> defaultSource = new ArrayList<>();
@@ -84,7 +87,11 @@ public class RecommendServiceImpl implements RecommendService {
             RecipeRecommendDto recipeRecommendDto = new ModelMapper().map(recipeRepository.findById(id).get(), RecipeRecommendDto.class);
             recipeRecommendDto.setIngredientEntities(ingredients2);
             recipeRecommendDto.setRate(sorted.get(i)[0]);
-            recipeRecommendDto.setUserSelectIngredients(requestIngredient.getIngredients());
+
+            List<String> userSelects = new ArrayList<>();
+            userSelects.addAll(requestIngredient.getMainIngredients());
+            userSelects.addAll(requestIngredient.getSubIngredients());
+            recipeRecommendDto.setUserSelectIngredients(userSelects);
 
             recipeRecommendDtos.add(recipeRecommendDto);
 
