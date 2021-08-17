@@ -37,7 +37,7 @@ public class PostController {
 
 
     @GetMapping("/{post_id}")
-    PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception{
+    public PostWithImageDto getPostById(@PathVariable("post_id") Long postId) throws Exception{
         return postService.getPostById(postId);
     }
 
@@ -56,6 +56,12 @@ public class PostController {
     @PostMapping("/{post_id}/commentList")
     public ResponseEntity createComment(@PathVariable("post_id") Long postId, HttpServletRequest request) throws Exception {
         return commentService.createComment(postId, request);
+    }
+
+    @GetMapping("/{post_id}/commentList")
+    public List<CommentDto> getCommentList(@PathVariable("post_id") Long postId) throws Exception {
+        return commentService.getCommentList(postId);
+
     }
 
     @GetMapping("/{post_id}/commentList/{comment_id}")
