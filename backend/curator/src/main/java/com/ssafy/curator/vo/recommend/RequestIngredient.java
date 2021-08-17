@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class RequestIngredient {
-    private List<String> ingredients;
+    private List<String> mainIngredients;
+    private List<String> subIngredients;
     private boolean check;
 }
