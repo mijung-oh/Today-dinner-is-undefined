@@ -181,41 +181,44 @@ public class PostServiceImpl implements PostService {
 
         PostEntity post = postRepository.findById(p);
 
-        List<PostImageEntity> Images = postImageRepository.findByPostId(p);
-        List<String> imagePaths = new ArrayList();
-        for (PostImageEntity i : Images) {
-            imagePaths.add(i.getFilePath());
-        }
-        for (String path : imagePaths) {
-            File file = new File(path);
-            file.delete();
-        }
-
-        List<PostImageEntity> postImages = postImageRepository.findByPostId(p);
-        postImageRepository.deleteAll(postImages);
-
         post.setTitle(postDetails.getTitle());
         post.setDescription(postDetails.getDescription());
         post.setIngredients(postDetails.getIngredients());
 
         List<MultipartFile> fileList = mtfRequest.getFiles("files");
 
-        for (MultipartFile f : fileList) {
+        if (fileList.size() >= 1) {
+            List<PostImageEntity> Images = postImageRepository.findByPostId(p);
+            List<String> imagePaths = new ArrayList();
+            for (PostImageEntity i : Images) {
+                imagePaths.add(i.getFilePath());
+            }
+            for (String path : imagePaths) {
+                File file = new File(path);
+                file.delete();
+            }
 
-            PostImageEntity pi = new PostImageEntity();
-            String originalName = f.getOriginalFilename();
-            pi.setFileOriName(originalName);
+            List<PostImageEntity> postImages = postImageRepository.findByPostId(p);
+            postImageRepository.deleteAll(postImages);
 
-//            String path = "src/main/resources/static/images/";
-            String path = "/usr/local/images/";
+            for (MultipartFile f : fileList) {
 
-            String newFileName = commonService.rnd(originalName, f.getBytes(), path);
-            String newPath = path+newFileName;
+                PostImageEntity pi = new PostImageEntity();
+                String originalName = f.getOriginalFilename();
+                pi.setFileOriName(originalName);
 
-            pi.setFilename(newFileName);
-            pi.setFilePath(newPath);
-            pi.setPost(post);
-            postImageRepository.save(pi);
+//                String path = "src/main/resources/static/images/";
+                String path = "/usr/local/images/";
+
+                String newFileName = commonService.rnd(originalName, f.getBytes(), path);
+                String newPath = path+newFileName;
+
+                pi.setFilename(newFileName);
+                pi.setFilePath(newPath);
+                pi.setPost(post);
+                postImageRepository.save(pi);
+            }
+
         }
 
         PostEntity updatePost = postRepository.save(post);
