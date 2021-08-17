@@ -24,7 +24,6 @@ import IconButton from "@material-ui/core/IconButton";
 import { Link, withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "modules";
-import { logoutRequest } from "@lib/helper";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -33,12 +32,15 @@ const useStyles = makeStyles((theme: any) => ({
     right: theme.spacing(2),
     "z-index": "100",
   },
-  appbar: {
-    backgroundColor: "#EA4C4C",
+  bar: {
+    backgroundColor: "#EA4C4C", // 여기서 색깔 바꿈
   },
   title: {
     flexGrow: 1,
     display: "block",
+    // [theme.breakpoints.up("sm")]: {
+    //   display: "block",
+    // },
   },
   search: {
     position: "relative",
@@ -73,6 +75,7 @@ const useStyles = makeStyles((theme: any) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -187,7 +190,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
         <p>Profile</p>
       </MenuItem>
       <MenuItem>
-        <IconButton color="inherit" onClick={logoutRequest}>
+        <IconButton color="inherit">
           <ExitToAppIcon />
         </IconButton>
         <p>Log out</p>
@@ -197,11 +200,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
 
   return (
     <div className={classes.grow}>
-<<<<<<< HEAD
       <AppBar className={classes.bar}>
-=======
-      <AppBar className={classes.appbar}>
->>>>>>> FE_recommand_alert_feat
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             <Link to="/">프로젝트</Link>
@@ -230,7 +229,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
             <IconButton onClick={pushProfile} color="inherit">
               <AccountCircleIcon />
             </IconButton>
-            <IconButton color="inherit" onClick={logoutRequest}>
+            <IconButton color="inherit">
               <ExitToAppIcon />
             </IconButton>
           </div>
