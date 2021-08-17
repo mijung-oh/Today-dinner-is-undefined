@@ -1,6 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import { RECOMMEND_LIST_URL } from "@lib/constants";
+import { RECOMMEND_LIST_URL, LOGOUT_URL } from "@lib/constants";
 
 // Google URL 주소에서 code 뽑아주는 함수
 export const codeExtractor = (URL) => {
@@ -184,4 +184,10 @@ export const findRecommandFood = (data, config) => {
     },
     allowOutsideClick: () => !Swal.isLoading(),
   });
+};
+
+export const logoutRequest = async () => {
+  const config = { withCredentials: true };
+  await axios.get(LOGOUT_URL, config);
+  window.location.href = "http://i5c207.p.ssafy.io/";
 };

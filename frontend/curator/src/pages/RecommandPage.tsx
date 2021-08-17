@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "left",
     padding: "5px 10px",
     borderRadius: "40px",
-    backgroundColor: "#BADA55",
+    backgroundColor: "#A1C45A",
   },
   foodFieldset: {
     border: `solid thin ${theme.palette.grey[400]}`,
@@ -227,9 +227,6 @@ const RecommandPage: React.FC = () => {
     } else {
       setIngredients([...ingredients, v]);
     }
-    console.log(target);
-    console.log(target.classList);
-    // console.log(target);
   };
 
   const onSubmit = async () => {
@@ -287,7 +284,7 @@ const RecommandPage: React.FC = () => {
                   key={uuidv4()}
                   style={{
                     backgroundColor: ` ${
-                      ingredients.includes(item.korean) ? "red" : "#e0e0e0"
+                      ingredients.includes(item.korean) ? "#A1C45A" : "#e0e0e0"
                     }`,
                   }}
                 />
