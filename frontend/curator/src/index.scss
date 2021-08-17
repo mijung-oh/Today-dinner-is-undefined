@@ -7,7 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fff0c9;
+  background-color: $lightegg;
 }
 
 // font-size 조정
@@ -25,5 +25,12 @@ body {
 @include desktop {
   html {
     font-size: 18px;
+  }
+}
+
+.Mui-selected {
+  color: white;
+  & svg {
+    color: white;
   }
 }

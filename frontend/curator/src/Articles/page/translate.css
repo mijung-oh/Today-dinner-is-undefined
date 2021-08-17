@@ -1,0 +1,33 @@
+.sides-recipe {
+  --b: 2px;
+  --s: 10px;
+  padding: 10px;
+  font-size: 1.5rem;
+  background: linear-gradient(currentColor 0 0) top / var(--d, 0) var(--b),
+    linear-gradient(currentColor 0 0) bottom/var(--d, 0) var(--b),
+    linear-gradient(currentColor 0 0) left / var(--b) var(--d, 0),
+    linear-gradient(currentColor 0 0) right / var(--b) var(--d, 0),
+    linear-gradient(currentColor 0 0) left var(--s) top
+      var(--p, calc(-1 * var(--s))) / var(--b) var(--s),
+    linear-gradient(currentColor 0 0) left var(--p, calc(-1 * var(--s))) top
+      var(--s) / var(--s) var(--b),
+    linear-gradient(currentColor 0 0) left var(--s) bottom
+      var(--p, calc(-1 * var(--s))) / var(--b) var(--s),
+    linear-gradient(currentColor 0 0) left var(--p, calc(-1 * var(--s))) bottom
+      var(--s) / var(--s) var(--b),
+    linear-gradient(currentColor 0 0) right var(--s) bottom
+      var(--p, calc(-1 * var(--s))) / var(--b) var(--s),
+    linear-gradient(currentColor 0 0) right var(--p, calc(-1 * var(--s))) bottom
+      var(--s) / var(--s) var(--b),
+    linear-gradient(currentColor 0 0) right var(--s) top
+      var(--p, calc(-1 * var(--s))) / var(--b) var(--s),
+    linear-gradient(currentColor 0 0) right var(--p, calc(-1 * var(--s))) top
+      var(--s) / var(--s) var(--b);
+  background-repeat: no-repeat;
+  transition: 0.2s linear, background-size 0.4s 0.2s;
+}
+.sides-4:hover {
+  --d: calc(100% - 2 * var(--s));
+  --p: var(--b);
+  transition: 0.4s, background-position 0.2s 0.4s linear;
+}
