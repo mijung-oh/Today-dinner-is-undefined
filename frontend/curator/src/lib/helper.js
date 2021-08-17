@@ -1,6 +1,12 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import { RECOMMEND_LIST_URL, LOGOUT_URL } from "@lib/constants";
+import {
+  RECOMMEND_LIST_URL,
+  LOGOUT_URL,
+  USER_CHECK_URL,
+  CHECKOUT_URL,
+} from "@lib/constants";
+import { db } from "../fbInstance";
 
 // Google URL 주소에서 code 뽑아주는 함수
 export const codeExtractor = (URL) => {
@@ -190,4 +196,32 @@ export const logoutRequest = async () => {
   const config = { withCredentials: true };
   await axios.get(LOGOUT_URL, config);
   window.location.href = "http://i5c207.p.ssafy.io/";
+};
+
+// 아직 읽지 않은 알림의 갯수를 return 하는 함수
+export const countNewAlert = async () => {
+  const ress = await axios.get(USER_CHECK_URL);
+  const nickname = ress.data.nickname;
+  const res = await axios.get(
+    `http://i5c207.p.ssafy.io/curation/${nickname}/followers`
+  );
+  return res.data.length;
+};
+
+export const listener = async () => {
+  db.collection("Follow")
+    .doc("김서방") //2. params 넣은다 음에 실행
+    .onSnapshot((doc) => {
+      console.log(doc);
+      console.log(doc.data().follower.length);
+      console.log(" data: ", doc.data()); //3. 이떄부터 firebase를 listen중
+    });
+};
+
+// 나중에 딜리트 로직 만들면 되겠는데,.... db.collection.doc.delete로
+
+export const getUserNickname = async () => {
+  const res = await axios.get(USER_CHECK_URL);
+  const { nickname } = res.data;
+  return nickname;
 };
