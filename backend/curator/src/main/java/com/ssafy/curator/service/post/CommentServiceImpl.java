@@ -8,6 +8,7 @@ import com.ssafy.curator.entity.user.UserEntity;
 import com.ssafy.curator.repository.post.CommentRepository;
 import com.ssafy.curator.repository.post.PostRepository;
 import com.ssafy.curator.repository.user.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -48,6 +51,17 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.save(comment);
 
         return ResponseEntity.ok().build();
+    }
+
+    public List<CommentDto> getCommentList(@PathVariable("post_id") Long postId) throws Exception {
+        List<CommentEntity> Comments = commentRepository.findByPostId(postId);
+
+        List comments = new ArrayList();
+        for (CommentEntity c : Comments) {
+            CommentDto commentDto = new ModelMapper().map(c, CommentDto.class);
+            comments.add(commentDto);
+        }
+        return comments;
     }
 
     public CommentDto getCommentById(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId) throws Exception {
