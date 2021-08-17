@@ -15,7 +15,7 @@ function ArticleHome() {
         setArticles(null);
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:9000/curation/post/list"
+          "http://i5c207.p.ssafy.io/curation/post/list"
         );
         setArticles(response.data);
       } catch (e) {

@@ -186,7 +186,6 @@ public class PostServiceImpl implements PostService {
         post.setIngredients(postDetails.getIngredients());
 
         List<MultipartFile> fileList = mtfRequest.getFiles("files");
-        System.out.println("파일리스트" + fileList);
 
         if (fileList.size() >= 1) {
             List<PostImageEntity> Images = postImageRepository.findByPostId(p);
@@ -208,8 +207,8 @@ public class PostServiceImpl implements PostService {
                 String originalName = f.getOriginalFilename();
                 pi.setFileOriName(originalName);
 
-                String path = "src/main/resources/static/images/";
-//                String path = "/usr/local/images/";
+//                String path = "src/main/resources/static/images/";
+                String path = "/usr/local/images/";
 
                 String newFileName = commonService.rnd(originalName, f.getBytes(), path);
                 String newPath = path+newFileName;
