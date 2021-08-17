@@ -22,4 +22,7 @@ export const UNFOLLOW_URL = (nickname) => {
   return `http://i5c207.p.ssafy.io:9000/curation/follow/${nickname}`;
 };
 
-export const RECOMMEND_LIST_URL = "http://i5c207.p.ssafy.io:9000/curation/getRecommendList";
+export const RECOMMEND_LIST_URL =
+  "http://i5c207.p.ssafy.io:9000/curation/getRecommendList";
+
+export const LOGOUT_URL = "http://127.0.0.1:9000/curation/user/logout";

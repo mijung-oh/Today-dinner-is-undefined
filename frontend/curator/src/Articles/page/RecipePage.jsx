@@ -23,6 +23,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import axios from "axios";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import "./translate.css";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -238,15 +239,7 @@ function RecipePage({ allRecipe }) {
           />
           <span className={classes.imageBackdrop} />
           <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              className={classes.imageTitle}
-            >
-              {allRecipe.recipe_NM_KO}
-              <span className={classes.imageMarked} />
-            </Typography>
+            <div className="sides-recipe">{allRecipe.recipe_NM_KO}</div>
           </span>
         </ButtonBase>
       </>
