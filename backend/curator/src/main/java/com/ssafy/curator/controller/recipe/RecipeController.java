@@ -58,8 +58,8 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @PostMapping("addRanking")
-    public ResponseEntity<String> addRecipeRanking(@RequestParam(name = "recipeId") String recipeId){
+    @PostMapping("addRanking/{recipeId}")
+    public ResponseEntity<String> addRecipeRanking(@PathVariable String recipeId){
         recipeService.addRanking(recipeId);
         return ResponseEntity.status(HttpStatus.OK).body("추가되었습니다.");
     }
