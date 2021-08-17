@@ -138,6 +138,8 @@ public class OAuthController {
         String email = kakao_account.path("email").asText();
         String name = properties.path("nickname").asText();
 
+        if(email == null) email = name;
+
         UserDto userDto = null;
         if (userService.existUser(email)) {
             userDto = userService.getUserByUserEmail(email);
