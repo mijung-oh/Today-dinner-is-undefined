@@ -107,7 +107,7 @@ public class OAuthController {
         params.add("client_secret", "RNMA2iMdTojasvVPW6Mx9y3B353OS1LZ");
         params.add("code", authCode);
 //        params.add("redirect_uri", "http://127.0.0.1:3000/oauth/kakao");
-        params.add("redirect_uri", "http://I5C207.p.ssafy.io:3000/oauth/kakao");
+        params.add("redirect_uri", "http://I5C207.p.ssafy.io/oauth/kakao");
         params.add("grant_type", "authorization_code");
 
         HttpHeaders header = new HttpHeaders();
