@@ -26,7 +26,7 @@
   background-repeat: no-repeat;
   transition: 0.2s linear, background-size 0.4s 0.2s;
 }
-.sides-4:hover {
+.sides-recipe:hover {
   --d: calc(100% - 2 * var(--s));
   --p: var(--b);
   transition: 0.4s, background-position 0.2s 0.4s linear;

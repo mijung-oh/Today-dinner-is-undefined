@@ -9,7 +9,8 @@ import {
   useScrollTrigger,
   Zoom,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useSelector } from "react-redux";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Menu from "@material-ui/core/Menu";
@@ -24,6 +25,12 @@ import IconButton from "@material-ui/core/IconButton";
 import { Link, withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import { RootState } from "modules";
+import { getUserNickname } from "@lib/helper";
+import Badge from "@material-ui/core/Badge";
+import { db } from "../fbInstance";
+import Modal from "@material-ui/core/Modal";
+import { CHECKOUT_URL } from "@lib/constants";
+import { v4 as uuidv4 } from "uuid";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -60,6 +67,14 @@ const useStyles = makeStyles((theme: any) => ({
     [theme.breakpoints.down("xs")]: {
       display: "none",
     },
+  },
+  paper: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -109,13 +124,42 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   location,
   match,
 }) => {
+  useEffect(() => {
+    // const getNewAlert = async () => {
+    //   const test = await countNewAlert();
+    //   setalertCount(test);
+    // };
+    // getNewAlert();
+    const fetchUserNickname = async () => {
+      const nickname = await getUserNickname();
+      setUserNickname(nickname);
+      db.collection("Follow")
+        .doc(nickname)
+        .onSnapshot((doc) => {
+          const followers = doc.data()?.follower;
+          setalertCount(followers);
+        });
+    };
+    fetchUserNickname();
+  }, []);
+
   const classes = useStyles();
   const nickname = useSelector(
     (state: RootState) => state.clientLogin.nickname
   );
-
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [alertCount, setalertCount] = useState<Array<string | undefined>>([]);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<any>(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [open, setOpen] = useState<boolean>(false);
+  const [userNickname, setUserNickname] = useState<string | undefined>("");
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const mobileMenuId = "primary-search-account-menu-mobile";
 
   const handleMobileMenuClose = () => {
@@ -156,6 +200,18 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   const pushProfile = (event: any) => {
     history.push(`/profile/${nickname}`);
   };
+
+  const test = (userNickname: any, target: any) => {
+    const data = {
+      user: userNickname,
+      target: target,
+    };
+    const config = {
+      withCredentials: true,
+    };
+    axios.post(CHECKOUT_URL, data, config);
+  };
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -174,7 +230,9 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
       </MenuItem>
       <MenuItem>
         <IconButton color="inherit">
-          <NotificationsIcon />
+          <Badge badgeContent={alertCount.length} color="primary">
+            <NotificationsIcon />
+          </Badge>
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
@@ -200,6 +258,19 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
 
   return (
     <div className={classes.grow}>
+      <Modal open={open} onClose={handleClose}>
+        <div className={classes.paper}>
+          <h2>미확인 알람들 </h2>
+          <hr />
+          {alertCount.map((data) => {
+            return (
+              <p onClick={() => test(userNickname, data)} id={uuidv4()}>
+                {data}님이 팔로우 중!
+              </p>
+            );
+          })}
+        </div>
+      </Modal>
       <AppBar className={classes.bar}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
@@ -223,8 +294,10 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
             <IconButton color="inherit">
               <CreateIcon />
             </IconButton>
-            <IconButton color="inherit">
-              <NotificationsIcon />
+            <IconButton color="inherit" onClick={handleOpen}>
+              <Badge badgeContent={alertCount.length} color="primary">
+                <NotificationsIcon />
+              </Badge>
             </IconButton>
             <IconButton onClick={pushProfile} color="inherit">
               <AccountCircleIcon />
