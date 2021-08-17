@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme: any) => ({
     right: theme.spacing(2),
     "z-index": "100",
   },
+  bar: {
+    backgroundColor: "#EA4C4C", // 여기서 색깔 바꿈
+  },
   title: {
     flexGrow: 1,
     display: "block",
@@ -197,7 +200,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
 
   return (
     <div className={classes.grow}>
-      <AppBar>
+      <AppBar className={classes.bar}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             <Link to="/">프로젝트</Link>
