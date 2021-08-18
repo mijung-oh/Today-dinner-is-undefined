@@ -1,32 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import CommentList from "./CommentList";
-import back from "../components/images/qq.png";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import MobileStepper from "@material-ui/core/MobileStepper";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import axios from "axios";
+import "./translate.css";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +60,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function UserRecipeDetail({ article }) {
+  const [user, setUser] = useState(null);
+  const authLogin = async () => {
+    const auth = await axios.get(
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+    );
+    if (auth.data.nickname === "") {
+    }
+    setUser(auth.data.nickname);
+  };
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -98,6 +94,7 @@ function UserRecipeDetail({ article }) {
       }
       setLoading(false);
     };
+    authLogin();
     fetchRecipe();
   }, []);
   if (loading) return <div>로딩중..</div>;
@@ -106,7 +103,7 @@ function UserRecipeDetail({ article }) {
   const onToScrap = async () => {
     let formData = new FormData();
 
-    formData.append("nickname", "오잉");
+    formData.append("nickname", user);
 
     const response = await axios.post(
       `http://i5c207.p.ssafy.io/curation/scrap/${article.recipe_ID}`,
@@ -139,26 +136,37 @@ function UserRecipeDetail({ article }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          width: "100%",
         }}
       ></div>
       <div className={classes.roots}>
-        <Card style={{ width: "70%", padding: "2px" }}>
-          <h1 style={{ display: "flex", justifyContent: "center" }}>
-            🍚{article.recipe_NM_KO}🍚
-          </h1>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="recipe" className={classes.avatar}>
-                <img src={article.img_URL} style={{ width: "100%" }} />
-              </Avatar>
-            }
-            title={article.sumry}
-          />
+        <Card>
+          <h3
+            style={{
+              fontFamily: "'Poor Story', cursive",
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px",
+              margin: "10px",
+            }}
+          >
+            ▪ {recipe.recipe_NM_KO} ▪
+          </h3>
+          <h4
+            style={{
+              fontFamily: "'Poor Story', cursive",
+              display: "flex",
+              justifyContent: "center",
+              padding: "15px",
+              margin: "10px",
+            }}
+          >
+            {recipe.sumry}
+          </h4>
           <CardMedia
             className={classes.media}
-            image={article.img_URL}
+            image={recipe.img_URL}
             title="Paella dish"
-            style={{ width: "100%" }}
           />
 
           <CardActions disableSpacing>
@@ -168,34 +176,48 @@ function UserRecipeDetail({ article }) {
               </IconButton>
             </a>
           </CardActions>
-
-          <CardContent>
-            <div
-              style={{
-                display: "flex",
-                text: "center",
-                width: "100%",
-                // flexWrap: "wrap",
-                fontSize: "13px",
-              }}
-            >
-              {recipe.ingredients.map((item) => (
-                <p> ▪&nbsp;{item.irdnt_NM} &nbsp; </p>
-              ))}
-            </div>
-            <br />
-            {recipe.process.map((item) => (
-              <Typography
+          <div>
+            <CardContent>
+              <h3
                 style={{
-                  fontSize: "14px",
-                  margin: "auto",
-                  overflow: "auto",
+                  display: "flex",
+                  text: "center",
+                  height: "auto",
+                  flexWrap: "wrap",
+                  fontSize: "13px",
+                  fontFamily: "'Poor Story', cursive",
                 }}
               >
-                {item.cooking_DC}
-              </Typography>
-            ))}
-          </CardContent>
+                {recipe.ingredients.map((item) => (
+                  <p paragraph> ▪&nbsp;{item.irdnt_NM} &nbsp; </p>
+                ))}
+              </h3>
+              <br />
+              <div>
+                <h2>요리 순서</h2>
+                {recipe.process.map((item) => (
+                  <Typography
+                    style={{
+                      fontSize: "14px",
+                      maxHeight: "auto",
+                      overflow: "auto",
+                    }}
+                  >
+                    <h3 style={{ fontFamily: "'Poor Story', cursive" }}>
+                      Step.{item.cooking_NO}
+                    </h3>
+                    <img
+                      src={item.stre_STEP_IMAGE_URL}
+                      style={{ width: "60%" }}
+                    />
+                    <p style={{ fontFamily: "'Poor Story', cursive" }}>
+                      {item.cooking_DC}
+                    </p>
+                  </Typography>
+                ))}
+              </div>
+            </CardContent>
+          </div>
         </Card>
       </div>
     </div>

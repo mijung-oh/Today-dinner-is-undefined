@@ -3,11 +3,22 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import gif from "./images/123.gif";
 import Media from "../page/Home";
+import { loginAlert } from "./Alert";
 function ArticleHome() {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [user, setUser] = useState(null);
+  const [postId, setPostId] = useState("");
+  const authLogin = async () => {
+    const auth = await axios.get(
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+    );
+    if (auth.data.nickname === "") {
+      loginAlert();
+    }
+    setUser(auth.data.nickname);
+  };
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -17,6 +28,7 @@ function ArticleHome() {
         const response = await axios.get(
           "http://i5c207.p.ssafy.io/curation/post/list"
         );
+
         setArticles(response.data);
       } catch (e) {
         setError(e);
@@ -24,7 +36,17 @@ function ArticleHome() {
       setLoading(false);
     };
     fetchArticles();
+    authLogin();
   }, []);
+  const IdCheck = async () => {
+    const response = axios
+      .get("http://i5c207.p.ssafy.io/curation/post/list")
+      .then((res) => {
+        let post_id = res.data[res.data.length - 1].id;
+        setPostId(post_id);
+      });
+  };
+  IdCheck();
   if (loading)
     return (
       <div
@@ -41,11 +63,19 @@ function ArticleHome() {
   if (!articles) return null;
   return (
     <>
-      <Link to="/articles/create">
+      <Link
+        to={{
+          pathname: "/articles/create",
+          state: {
+            nickname: user,
+            postId: postId,
+          },
+        }}
+      >
         <button>create</button>
       </Link>
 
-      <Media article={articles} />
+      <Media article={articles} user={user} />
     </>
   );
 }

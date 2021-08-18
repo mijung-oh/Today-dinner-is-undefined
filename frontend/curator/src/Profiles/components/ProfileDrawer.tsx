@@ -127,6 +127,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const [showButtons, setShowButtons] = useState<Boolean>(true);
 
   // console.log("I am props!", props);
+  // console.log("dd", window.innerWidth);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -156,7 +157,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
-      console.log(res);
+      // console.log(res);
     } catch (error) {
       console.log(error.response);
     }
@@ -222,7 +223,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       setShowButtons(true);
       // setTriggerCheck(true);
     }
-    console.log(res);
+    // console.log(res);
   };
   const introductionChange = (e: any) => {
     setIntroduction(e.target.value);

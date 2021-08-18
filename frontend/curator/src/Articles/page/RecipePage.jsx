@@ -16,15 +16,16 @@ import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import axios from "axios";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
+import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import "./translate.css";
 const useStyles = makeStyles((theme) => ({
+  font: {
+    fontFamily: "'Poor Story', cursive",
+  },
   root: {
     "& > *": {
       margin: theme.spacing(1),
@@ -140,6 +141,24 @@ const useStyles = makeStyles((theme) => ({
     left: "calc(50% - 9px)",
     transition: theme.transitions.create("opacity"),
   },
+  scroll: {
+    minWidth: "450px",
+
+    height: "80%;",
+    overflow: "auto;",
+  },
+  "@global": {
+    // "*::-webkit-scrollbar": {
+    //   width: "0.4em",
+    // },
+    // "*::-webkit-scrollbar-track": {
+    //   "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+    // },
+    // "*::-webkit-scrollbar-thumb": {
+    //   backgroundColor: "rgba(0,0,0,.1)",
+    //   outline: "1px solid slategrey",
+    // },
+  },
 }));
 
 function RecipePage({ allRecipe }) {
@@ -147,6 +166,15 @@ function RecipePage({ allRecipe }) {
   const [open, setOpen] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [check, setCheck] = useState(false);
+  const [user, setUser] = useState("");
+  const authLogin = async () => {
+    const auth = await axios.get(
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+    );
+    if (auth.data.nickname === "") {
+    }
+    setUser(auth.data.nickname);
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -158,7 +186,7 @@ function RecipePage({ allRecipe }) {
       const scrap = await axios.get(
         `http://i5c207.p.ssafy.io/curation/scrap/${allRecipe.recipe_ID}/userList`
       );
-      const nickname = "오잉";
+      const nickname = user;
       if (scrap.data.includes(nickname)) {
         setCheck(true);
       }
@@ -190,6 +218,7 @@ function RecipePage({ allRecipe }) {
       setLoading(false);
     };
     fetchRecipe();
+    authLogin();
     return () => setLoading(false);
   }, []);
   if (loading) return <div>로딩중..</div>;
@@ -198,7 +227,7 @@ function RecipePage({ allRecipe }) {
   const onToScrap = async () => {
     let formData = new FormData();
 
-    formData.append("nickname", "오잉");
+    formData.append("nickname", user);
 
     const response = await axios.post(
       `http://i5c207.p.ssafy.io/curation/scrap/${allRecipe.recipe_ID}`,
@@ -225,10 +254,6 @@ function RecipePage({ allRecipe }) {
             width: "400px",
             height: "250px",
             margin: "10px",
-
-            // outline: "none",
-            // boxShadow: "none",
-            // backgroundColor: "white",
           }}
         >
           <span
@@ -257,76 +282,111 @@ function RecipePage({ allRecipe }) {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
-            <Card className={classes.roots}>
-              <CardHeader
-                className={classes.header}
-                avatar={
-                  <Avatar aria-label="recipe" className={classes.avatar}>
-                    <img src={allRecipe.img_URL} alt="" />
-                  </Avatar>
-                }
-                title={allRecipe.recipe_NM_KO}
-                subheader={allRecipe.sumry}
-              />
-              <CardMedia
-                className={classes.media}
-                image={allRecipe.img_URL}
-                title="Paella dish"
-              />
-              <CardContent>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  component="p"
-                ></Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton onClick={onToScrap} aria-label="add to favorites">
-                  {check ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                </IconButton>
-
-                <IconButton
-                  className={clsx(classes.expand, {
-                    [classes.expandOpen]: expanded,
-                  })}
-                  onClick={handleExpandClick}
-                  aria-expanded={expanded}
-                  aria-label="show more"
+          <div className={classes.scroll}>
+            <div className={classes.paper}>
+              <Card className={classes.roots}>
+                <h3
+                  style={{
+                    fontFamily: "'Poor Story', cursive",
+                    display: "flex",
+                    justifyContent: "center",
+                    padding: "10px",
+                    margin: "10px",
+                  }}
                 >
-                  <ExpandMoreIcon />
-                </IconButton>
-              </CardActions>
-              <Collapse in={expanded} timeout="auto" unmountOnExit>
+                  ▪ {allRecipe.recipe_NM_KO} ▪
+                </h3>
+                <h4
+                  style={{
+                    fontFamily: "'Poor Story', cursive",
+                    display: "flex",
+                    justifyContent: "center",
+                    padding: "15px",
+                    margin: "10px",
+                  }}
+                >
+                  {allRecipe.sumry}
+                </h4>
+                <CardMedia
+                  className={classes.media}
+                  image={allRecipe.img_URL}
+                  title="Paella dish"
+                />
                 <CardContent>
-                  <div
-                    style={{
-                      display: "flex",
-                      text: "center",
-                      height: "auto",
-                      flexWrap: "wrap",
-                      fontSize: "13px",
-                    }}
-                  >
-                    {recipe.ingredients.map((item) => (
-                      <p paragraph> ▪&nbsp;{item.irdnt_NM} &nbsp; </p>
-                    ))}
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  ></Typography>
+                </CardContent>
+                <CardActions
+                  disableSpacing
+                  style={{ display: "flex;", justifyContent: "space-between" }}
+                >
+                  <div>
+                    <IconButton
+                      onClick={onToScrap}
+                      aria-label="add to favorites"
+                    >
+                      {check ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+                    </IconButton>
                   </div>
-                  <br />
-                  {recipe.process.map((item) => (
-                    <Typography
+                  <div>
+                    <span style={{ fontFamily: "'Poor Story', cursive" }}>
+                      요리법
+                    </span>
+                    <IconButton
+                      className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                      })}
+                      onClick={handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label="show more"
+                    >
+                      <ExpandMoreIcon />
+                    </IconButton>
+                  </div>
+                </CardActions>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                  <CardContent>
+                    <h3
                       style={{
-                        fontSize: "14px",
-                        maxHeight: "auto",
-                        overflow: "auto",
+                        display: "flex",
+                        text: "center",
+                        height: "auto",
+                        flexWrap: "wrap",
+                        fontSize: "13px",
+                        fontFamily: "'Poor Story', cursive",
                       }}
                     >
-                      {item.cooking_DC}
-                    </Typography>
-                  ))}
-                </CardContent>
-              </Collapse>
-            </Card>
+                      {recipe.ingredients.map((item) => (
+                        <p paragraph> ▪&nbsp;{item.irdnt_NM} &nbsp; </p>
+                      ))}
+                    </h3>
+                    <br />
+                    <div>
+                      <h2>요리 순서</h2>
+                      {recipe.process.map((item) => (
+                        <Typography
+                          style={{
+                            fontSize: "14px",
+                            maxHeight: "auto",
+                            overflow: "auto",
+                          }}
+                        >
+                          <h3 style={{ fontFamily: "'Poor Story', cursive" }}>
+                            Step.{item.cooking_NO}
+                          </h3>
+                          <p style={{ fontFamily: "'Poor Story', cursive" }}>
+                            {item.cooking_DC}
+                          </p>
+                        </Typography>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Collapse>
+              </Card>
+            </div>
           </div>
         </Fade>
       </Modal>

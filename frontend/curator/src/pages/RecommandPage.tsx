@@ -205,7 +205,12 @@ const subIngredientMappingList: Ingredient[] = [
 ];
 
 const RecommandPage: React.FC = () => {
-  const [ingredients, setIngredients] = useState<Array<string | null>>([]);
+  const [mainIngredients, setMainIngredients] = useState<Array<string | null>>(
+    []
+  );
+  const [subIngredients, setSubIngredients] = useState<Array<string | null>>(
+    []
+  );
   const [check, setCheck] = useState<Boolean>(false);
 
   // const history = useHistory();
@@ -216,22 +221,35 @@ const RecommandPage: React.FC = () => {
     console.log(check);
   };
 
-  const toggleIngredient = (event: MouseEvent) => {
+  const toggleMainIngredient = (event: MouseEvent) => {
     event.preventDefault();
     let target = event.currentTarget;
     let item = target.childNodes?.[1];
     let v = item.textContent;
-    if (ingredients.includes(v)) {
-      ingredients.splice(ingredients.indexOf(v), 1);
-      setIngredients([...ingredients]);
+    if (mainIngredients.includes(v)) {
+      mainIngredients.splice(mainIngredients.indexOf(v), 1);
+      setMainIngredients([...mainIngredients]);
     } else {
-      setIngredients([...ingredients, v]);
+      setMainIngredients([...mainIngredients, v]);
+    }
+  };
+  const toggleSubIngredient = (event: MouseEvent) => {
+    event.preventDefault();
+    let target = event.currentTarget;
+    let item = target.childNodes?.[1];
+    let v = item.textContent;
+    if (subIngredients.includes(v)) {
+      subIngredients.splice(subIngredients.indexOf(v), 1);
+      setSubIngredients([...subIngredients]);
+    } else {
+      setSubIngredients([...subIngredients, v]);
     }
   };
 
   const onSubmit = async () => {
     const data = {
-      ingredients,
+      mainIngredients,
+      subIngredients,
       check,
     };
     const config = {
@@ -256,11 +274,13 @@ const RecommandPage: React.FC = () => {
                   }
                   label={item.korean}
                   className={classes.ingredientChip}
-                  onClick={toggleIngredient}
+                  onClick={toggleMainIngredient}
                   key={uuidv4()}
                   style={{
                     backgroundColor: ` ${
-                      ingredients.includes(item.korean) ? "red" : "#e0e0e0"
+                      mainIngredients.includes(item.korean)
+                        ? "#A1C45A"
+                        : "#e0e0e0"
                     }`,
                   }}
                 />
@@ -279,12 +299,14 @@ const RecommandPage: React.FC = () => {
                   }
                   label={item.korean}
                   className={classes.ingredientChip}
-                  onClick={toggleIngredient}
+                  onClick={toggleSubIngredient}
                   clickable
                   key={uuidv4()}
                   style={{
                     backgroundColor: ` ${
-                      ingredients.includes(item.korean) ? "#A1C45A" : "#e0e0e0"
+                      subIngredients.includes(item.korean)
+                        ? "#A1C45A"
+                        : "#e0e0e0"
                     }`,
                   }}
                 />

@@ -2,17 +2,28 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DetailPage from "../page/DetailPage";
 import gif from "./images/123.gif";
-function ArticleDetail({ match }) {
+
+import { loginAlert } from "./Alert";
+function ArticleDetail({ match, history }) {
   const post_id = match.params.id;
+  const prevState = history.location.state;
 
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [user, setUser] = useState(null);
   useEffect(() => {
+    const authLogin = async () => {
+      const auth = await axios.get(
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      );
+      if (auth.data.nickname === "") {
+        loginAlert();
+      }
+      setUser(auth.data.nickname);
+    };
     const fetchArticle = async () => {
       try {
-        // setError(null);
         setArticle(null);
         setLoading(true);
         const response = await axios.get(
@@ -26,6 +37,7 @@ function ArticleDetail({ match }) {
 
       setLoading(false);
     };
+    authLogin();
     fetchArticle();
   }, []);
   if (loading)
@@ -45,12 +57,11 @@ function ArticleDetail({ match }) {
 
   const onDelete = (post_id) => {
     axios.delete(`http://i5c207.p.ssafy.io/curation/post/${post_id}`);
-    // history.push("/articles");
+    history.push("/articles");
   };
-
   return (
     <>
-      <DetailPage article={article} onDelete={onDelete} />
+      <DetailPage article={article} onDelete={onDelete} user={user} />
     </>
   );
 }
