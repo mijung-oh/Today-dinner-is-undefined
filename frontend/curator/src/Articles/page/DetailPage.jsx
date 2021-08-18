@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CommentList from "./CommentList";
-import back from "../components/images/qq.png";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
-import Collapse from "@material-ui/core/Collapse";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -17,11 +14,11 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import EditIcon from "@material-ui/icons/Edit";
-import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import axios from "axios";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { Typography } from "@material-ui/core";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DetailPage({ article, onDelete }) {
+function DetailPage({ article, onDelete, user, currentUser }) {
   const [check, setCheck] = useState(false);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -95,20 +92,19 @@ function DetailPage({ article, onDelete }) {
     const response = await axios.get(
       `http://i5c207.p.ssafy.io/curation/like/${article.id}/list`
     );
-    const user = "오잉";
+    const users = user;
 
     {
       response.data.map((item) =>
-        item.nickname.includes(user) ? setCheck(true) : setCheck(false)
+        item.nickname.includes(users) ? setCheck(true) : setCheck(false)
       );
     }
   };
   userCheck();
   const userLike = async () => {
     const response = await axios.post(
-      `http://i5c207.p.ssafy.io/curation/like/${article.id}/?userNickname=오잉`
+      `http://i5c207.p.ssafy.io/curation/like/${article.id}/?userNickname=${user}`
     );
-    // setCheck(true);
     userCheck();
     setCheck(!check);
   };
@@ -120,7 +116,6 @@ function DetailPage({ article, onDelete }) {
         flexDirection: "column",
         alignContent: "center",
         justifyContent: "center",
-        // width: "100%",
         marginBottom: "5%",
         padding: "3%",
       }}
@@ -132,9 +127,7 @@ function DetailPage({ article, onDelete }) {
           alignItems: "center",
           width: "2000px",
         }}
-      >
-        {/* <img src={back} width="40%" /> */}
-      </div>
+      ></div>
       <div className={classes.roots}>
         <Card style={{ width: "70%", padding: "0" }}>
           <h1 style={{ display: "flex", justifyContent: "center" }}>
@@ -150,7 +143,7 @@ function DetailPage({ article, onDelete }) {
           />
           <div>
             <div className={classes.root} style={{ margin: "auto" }}>
-              <AutoPlaySwipeableViews
+              <div
                 axis={theme.direction === "rtl" ? "x-reverse" : "x"}
                 index={activeStep}
                 onChangeIndex={handleStepChange}
@@ -167,7 +160,7 @@ function DetailPage({ article, onDelete }) {
                     ) : null}
                   </div>
                 ))}
-              </AutoPlaySwipeableViews>
+              </div>
               <MobileStepper
                 steps={maxSteps}
                 position="static"
@@ -205,9 +198,11 @@ function DetailPage({ article, onDelete }) {
             </div>
           </div>
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites" onClick={userLike}>
-              {check ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            </IconButton>
+            {article.user.nickname === user ? (
+              <IconButton aria-label="add to favorites" onClick={userLike}>
+                {check ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              </IconButton>
+            ) : null}
             <Link
               to={{
                 pathname: `/update/${article.id}`,
@@ -215,32 +210,23 @@ function DetailPage({ article, onDelete }) {
                   title: article.title,
                   description: article.description,
                   ingredients: article.ingredients,
+                  imagePath: article.imagePath,
                 },
               }}
             >
               <IconButton aria-label="add to favorites">
-                <EditIcon />
+                {article.user.nickname === user ? <EditIcon /> : null}
               </IconButton>
             </Link>
-
-            {/* <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <QuestionAnswerIcon />
-            </IconButton> */}
+            <IconButton aria-label="delete" onClick={onDelete}>
+              {article.user.nickname === user ? <DeleteForeverIcon /> : null}
+            </IconButton>
           </CardActions>
           <h4 style={{ display: "flex", justifyContent: "center" }}>
             Ingredients: {article.ingredients}
           </h4>
           <Typography
             style={{
-              // display: "flex",
-              // justifyContent: "center",
               margin: "35px",
               textAlign: "center",
             }}
@@ -248,7 +234,12 @@ function DetailPage({ article, onDelete }) {
             Recipe <br />
             {article.description}
           </Typography>
-          <CommentList post_id={article.id} />
+          <CommentList
+            post_id={article.id}
+            currentUser={currentUser}
+            // comment={comment}
+            user={user}
+          />
         </Card>
       </div>
     </div>

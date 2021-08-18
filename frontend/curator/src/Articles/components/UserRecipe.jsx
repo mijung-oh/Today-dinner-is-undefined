@@ -12,7 +12,6 @@ function UserRecipe({ match }) {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        // setError(null);
         setArticle(null);
         setLoading(true);
         const response = await axios.get(

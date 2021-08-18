@@ -60,7 +60,6 @@ function ArticleUpdate({ history, match }) {
           "Content-Type": `multipart/form-data`,
         },
       });
-      // history.push(`/articles/detail/${post_id}`);
     } catch (e) {
       console.log(e);
     }

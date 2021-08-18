@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import BorderColorRoundedIcon from "@material-ui/icons/BorderColorRounded";
 import IconButton from "@material-ui/core/IconButton";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -14,29 +14,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CommentList({ post_id }) {
+function CommentList({ post_id, user }) {
+  const [comment, setComment] = useState(null);
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const classes = useStyles();
-  const [text, setText] = useState({
-    nickname: "",
-    content: "",
-    postId: post_id,
-  });
-  const { nickname, content, postId } = text;
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    setText({
-      ...text,
-      [name]: value,
-    });
-  };
-
+  console.log("처음유저", user);
   useEffect(() => {
+    const authLogin = async () => {
+      const auth = await axios.get(
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      );
+      if (auth.data.nickname === "") {
+      }
+      setCurrentUser(auth.data.nickname);
+    };
+    const commentList = async () => {
+      const response = await axios.get(
+        `http://i5c207.p.ssafy.io:9000/curation/post/${post_id}/commentList`
+      );
+      setComment(response.data);
+    };
     const fetchArticle = async () => {
       try {
-        // setError(null);
         setArticle(null);
         setLoading(true);
         const response = await axios.get(
@@ -50,23 +52,44 @@ function CommentList({ post_id }) {
 
       setLoading(false);
     };
+    commentList();
+    authLogin();
     fetchArticle();
   }, []);
+
+  const [text, setText] = useState({
+    nickname: user,
+    content: "",
+    postId: post_id,
+  });
+  console.log("testset", text);
+  const { nickname, content, postId } = text;
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    setText({
+      ...text,
+      [name]: value,
+    });
+  };
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!article) return null;
-  const onDelete = (comment_id) => {
-    axios.delete(
-      ` http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList/${comment_id}`
-    );
-    console.log("testtest ", post_id, comment_id);
-  };
+
   const onCreate = () => {
     let formData = new FormData();
 
     formData.append("nickname", nickname);
     formData.append("content", content);
     formData.append("postId", postId);
+
+    const authLogin = async () => {
+      const auth = await axios.get(
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      );
+      if (auth.data.nickname === "") {
+      }
+      setCurrentUser(auth.data.nickname);
+    };
 
     try {
       axios.post(
@@ -81,7 +104,7 @@ function CommentList({ post_id }) {
     } catch (e) {
       console.log(e);
     }
-    setText("");
+    setText({ nickname: user });
     const fetchArticle = async () => {
       try {
         setArticle(null);
@@ -97,25 +120,65 @@ function CommentList({ post_id }) {
 
       setLoading(false);
     };
+    authLogin();
+    fetchArticle();
+
+    window.scrollTo = window.scrollY;
+  };
+  const onDelete = (comment_id) => {
+    const authLogin = async () => {
+      const auth = await axios.get(
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      );
+      if (auth.data.nickname === "") {
+      }
+      setCurrentUser(auth.data.nickname);
+    };
+    axios.delete(
+      ` http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList/${comment_id}`
+    );
+    const fetchArticle = async () => {
+      try {
+        setArticle(null);
+        setLoading(true);
+        const response = await axios.get(
+          `http://i5c207.p.ssafy.io/curation/post/${post_id}`
+        );
+
+        setArticle(response.data);
+        authLogin();
+      } catch (e) {
+        setError(e);
+      }
+
+      setLoading(false);
+    };
+    fetchArticle();
     fetchArticle();
     window.scrollTo = window.scrollY;
   };
 
   return (
     <div>
-      {article.comment.map((content, index) => (
-        <div key={index} style={{ display: "flex" }}>
-          <Avatar aria-label="recipe">
-            <img src={article.profileImage} style={{ width: "100%" }} />
-          </Avatar>
-          <p key={content.id}>
-            {content.content}
-            <a href={`/articles/detail/${post_id}`}>
-              <button onClick={() => onDelete(content.id)}>삭제임시</button>
-            </a>
-          </p>
-        </div>
-      ))}
+      {article.comment.length >= 1 ? (
+        article.comment.map((com, index) => (
+          <div key={index} style={{ display: "flex" }}>
+            <p key={com.id}>
+              {com.user.nickname}: {com.content}
+              {com.user.nickname === user ? (
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => onDelete(com.id)}
+                >
+                  <HighlightOffIcon />
+                </IconButton>
+              ) : null}
+            </p>
+          </div>
+        ))
+      ) : (
+        <p>댓글이 없어요^^</p>
+      )}
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           value={content}
@@ -123,6 +186,12 @@ function CommentList({ post_id }) {
           name="content"
           id="standard-basic"
           label="칭찬과 격려의 댓글:)"
+          hidden="hidden"
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              onCreate();
+            }
+          }}
           InputProps={{
             endAdornment: (
               <IconButton onClick={onCreate}>

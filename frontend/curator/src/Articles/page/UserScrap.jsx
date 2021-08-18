@@ -3,25 +3,33 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { Avatar } from "@material-ui/core";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Card from "@material-ui/core/Card";
-function UserScrap() {
+function UserScrap({ history }) {
+  const prevState = history.location.state;
+  const [user, setUser] = useState("");
   const [scrap, setScrap] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const authLogin = async () => {
+    const auth = await axios.get(
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+    );
+    if (auth.data.nickname === "") {
+    }
+    setUser(auth.data.nickname);
+  };
   useEffect(() => {
+    authLogin();
     const fetchArticles = async () => {
       try {
-        // setError(null);
-        setScrap(null);
         setLoading(true);
+
         const response = await axios.get(
-          "http://i5c207.p.ssafy.io/curation/scrap/오잉/recipeList"
+          `http://i5c207.p.ssafy.io/curation/scrap/${prevState.user}/recipeList`
         );
         setScrap(response.data);
+        authLogin();
       } catch (e) {
         setError(e);
       }
@@ -29,10 +37,13 @@ function UserScrap() {
     };
     fetchArticles();
   }, []);
-  console.log("TES", scrap);
+  console.log(
+    "TES",
+    `http://i5c207.p.ssafy.io/curation/scrap/${user}/recipeList`
+  );
 
   if (loading) return <div>로딩중..</div>;
-  if (error) return <div>에러가 발생했습니다</div>;
+  if (error) return error.message;
   if (!scrap) return null;
   return (
     <Grid

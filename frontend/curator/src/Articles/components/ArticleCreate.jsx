@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Create from "../page/Create";
-import { couldStartTrivia } from "typescript";
-
+import { loginAlert } from "./Alert";
 function ArticleCreate({ history }) {
+  const prevState = history.location.state;
+  const authLogin = async () => {
+    const auth = await axios.get(
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+    );
+    if (auth.data.nickname === "") {
+      loginAlert();
+    }
+  };
+  authLogin();
+  console.log("preveState", prevState);
   const [postfiles, setPostfiles] = useState({
     file: [],
     previewURL: "",
@@ -31,7 +41,7 @@ function ArticleCreate({ history }) {
     title: "",
     description: "",
     ingredients: "",
-    nickname: "김서방",
+    nickname: prevState.nickname,
   });
   const { title, description, ingredients, nickname } = text;
   const onChange = (e) => {
@@ -54,26 +64,11 @@ function ArticleCreate({ history }) {
     });
 
     try {
-      axios
-        .post("http://i5c207.p.ssafy.io/curation/post/list", formData, {
-          headers: {
-            "Content-Type": `multipart/form-data`,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          const response = axios
-            .get("http://i5c207.p.ssafy.io/curation/post/list")
-            .then((res) => {
-              console.log(res.data);
-              var post_id = res.data[res.data.length - 1].id;
-              history.push(`/articles/detail/${post_id}`);
-              // post = post_id;
-              // setPostId(post_id);
-
-              window.location.href = `/articles/detail/${post_id}`;
-            });
-        });
+      axios.post("http://i5c207.p.ssafy.io/curation/post/list", formData, {
+        headers: {
+          "Content-Type": `multipart/form-data`,
+        },
+      });
     } catch (e) {
       console.log(e);
     }
@@ -87,6 +82,7 @@ function ArticleCreate({ history }) {
         ingredients={ingredients}
         uploadFile={uploadFile}
         onCreate={onCreate}
+        postId={prevState.postId + 1}
       />
     </>
   );

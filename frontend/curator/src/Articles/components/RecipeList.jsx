@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import axios from "axios";
 import "./style.css";
 import useIntersect from "./useintersect";
 import RecipePage from "../page/RecipePage";
 import gif from "./images/123.gif";
+import { loginAlert } from "./Alert";
 
 const fakeFetch = (delay = 1000) =>
   new Promise((res) => setTimeout(res, delay));
@@ -13,18 +13,26 @@ function RecipeList() {
   const [posts, setPosts] = useState([]);
   const [check, setCheck] = useState([]);
   useEffect(() => {
+    const authLogin = async () => {
+      const auth = await axios.get(
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      );
+      if (auth.data.nickname === "") {
+        loginAlert();
+      }
+    };
     const fetchPosts = async () => {
       const res = await axios.get(
-        "http://i5c207.p.ssafy.io/curation/recipe/getAllRecipe"
+        "http://i5c207.p.ssafy.io/curation/scrap/getAllRecipe/orderByScrapCount"
       );
       setPosts(res.data);
     };
 
+    authLogin();
     fetchPosts();
   }, []);
 
   const [state, setState] = useState({ itemCount: 0, isLoading: false });
-  /* fake async fetch */
   const fetchItems = async () => {
     setState((prev) => ({ ...prev, isLoading: true }));
     await fakeFetch();
@@ -33,7 +41,6 @@ function RecipeList() {
       isLoading: false,
     }));
   };
-  /* initial fetch */
   useEffect(() => {
     fetchItems();
   }, []);
@@ -46,7 +53,7 @@ function RecipeList() {
   if (!itemCount) return null;
 
   return (
-    <div style={{ backgroundColor: "yellow", padding: "50px" }} className="App">
+    <div style={{ backgroundColor: "white", padding: "50px" }} className="App">
       {[...Array(itemCount)].map((_, i) => {
         return (
           <>
