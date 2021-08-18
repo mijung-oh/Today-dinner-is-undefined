@@ -31,6 +31,7 @@ import { db } from "../fbInstance";
 import Modal from "@material-ui/core/Modal";
 import { CHECKOUT_URL } from "@lib/constants";
 import { v4 as uuidv4 } from "uuid";
+import nyanCat from "@static/images/cat-nyan-cat.gif";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -45,9 +46,6 @@ const useStyles = makeStyles((theme: any) => ({
   title: {
     flexGrow: 1,
     display: "block",
-    // [theme.breakpoints.up("sm")]: {
-    //   display: "block",
-    // },
   },
   search: {
     position: "relative",
@@ -68,14 +66,31 @@ const useStyles = makeStyles((theme: any) => ({
       display: "none",
     },
   },
+
   paper: {
     position: "absolute",
-    width: 400,
+    [theme.breakpoints.down("xs")]: {
+      width: 150,
+    },
+    [theme.breakpoints.between("xs", "sm")]: {
+      width: 200,
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: 350,
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: 750,
+    },
+    top: "30%",
+    fontSize: "0.785rem",
+    minHeight: "300px",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
+    borderRadius: "15px",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+
   searchIcon: {
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -90,7 +105,6 @@ const useStyles = makeStyles((theme: any) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -125,11 +139,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   match,
 }) => {
   useEffect(() => {
-    // const getNewAlert = async () => {
-    //   const test = await countNewAlert();
-    //   setalertCount(test);
-    // };
-    // getNewAlert();
     const fetchUserNickname = async () => {
       const nickname = await getUserNickname();
       setUserNickname(nickname);
@@ -152,7 +161,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [open, setOpen] = useState<boolean>(false);
   const [userNickname, setUserNickname] = useState<string | undefined>("");
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -228,7 +236,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleOpen}>
         <IconButton color="inherit">
           <Badge badgeContent={alertCount.length} color="primary">
             <NotificationsIcon />
@@ -258,17 +266,41 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
 
   return (
     <div className={classes.grow}>
-      <Modal open={open} onClose={handleClose}>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <div className={classes.paper}>
           <h2>미확인 알람들 </h2>
           <hr />
-          {alertCount.map((data) => {
-            return (
-              <p onClick={() => test(userNickname, data)} id={uuidv4()}>
-                {data}님이 팔로우 중!
-              </p>
-            );
-          })}
+
+          {alertCount.length > 0 ? (
+            alertCount.map((data) => {
+              return (
+                <p onClick={() => test(userNickname, data)} key={uuidv4()}>
+                  {data}님이 팔로우 중!
+                </p>
+              );
+            })
+          ) : (
+            <div style={{ background: "#2c", borderRadius: "15px" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img src={nyanCat} alt="nyancat gif" />
+              </div>
+              <Typography
+                align="center"
+                variant="h5"
+                style={{ color: "white" }}
+              >
+                새로운 알림이 없어요
+              </Typography>
+            </div>
+          )}
         </div>
       </Modal>
       <AppBar className={classes.bar}>
