@@ -8,7 +8,8 @@
       "@container/*": ["./container/*"],
       "@lib/*": ["./lib/*"],
       "@profiles/*": ["./Profiles/*"],
-      "@recommand/*": ["./Recommand/*"]
+      "@recommand/*": ["./Recommand/*"],
+      "@Index/*": ["./Index/*"]
     }
   }
 }

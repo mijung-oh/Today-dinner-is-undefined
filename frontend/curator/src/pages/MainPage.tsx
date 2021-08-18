@@ -1,76 +1,24 @@
 import React, { useEffect } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../modules/clientLogin";
 import { codeExtractor } from "@lib/helper";
-import { GOOGLE_URL, NAVER_URL, KAKAO_URL } from "@lib/constants";
-import Glogo from "@static/logos/G-logo";
-import Nlogo from "@static/logos/N-logo";
-import Klogo from "@static/logos/K-logo";
+// import { url } from "inspector";
+import SocialLogin from "@Index/components/SocialLogin";
+import AppPreview from "@Index/components/AppPreview";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     textAlign: "center",
     width: "100%",
-  },
-  imageBox: {
-    width: "70%",
-    height: "70%",
-    margin: "3% auto",
-  },
-  buttonBox: {
-    padding: "5% 0%",
-  },
-  button: {
-    width: "30%",
-    minWidth: "212px",
-    height: "3.2rem",
-    padding: "0 0",
-    margin: "2% 0%",
-  },
-  GoogleBtn: {
-    backgroundColor: "#FFF",
-    "&:hover": {
-      transition: theme.transitions.create("all", {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.short,
-      }),
-    },
-  },
-  NaverBtn: {
-    backgroundColor: "#3EAF0E",
-    "&:hover": {
-      backgroundColor: "#449f1e",
-      transition: theme.transitions.create("all", {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.short,
-      }),
-    },
-  },
-  KakaoBtn: {
-    backgroundColor: "#FEE500",
-    "&:hover": {
-      backgroundColor: "#e5d119",
-      transition: theme.transitions.create("all", {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.short,
-      }),
-    },
+    display: "flex",
+    padding: "10%  0",
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));
-
-const onClickGoogle = (e: any) => {
-  window.location.href = `${GOOGLE_URL}`;
-};
-const onClickNaver = (e: any) => {
-  window.location.href = `${NAVER_URL}`;
-};
-const onClickKakao = (e: any) => {
-  window.location.href = `${KAKAO_URL}`;
-};
 
 interface MainProps {}
 
@@ -103,49 +51,8 @@ const Main: React.FC<MainProps> = (props) => {
   const classes = useStyles();
   return (
     <section className={classes.container}>
-      <div className={classes.imageBox}>
-        <img
-          src="https://images-na.ssl-images-amazon.com/images/I/51kWtSPhfBL._SY445_SX342_QL70_ML2_.jpg"
-          alt="placeholder"
-          width="100%"
-          height="100%"
-        />
-      </div>
-      <div className={classes.buttonBox}>
-        <Button
-          className={`${classes.button} ${classes.GoogleBtn}`}
-          variant="outlined"
-          name="google"
-          onClick={onClickGoogle}
-          startIcon={<Glogo />}
-          size="large"
-        >
-          구글로 로그인
-        </Button>
-        <br></br>
-        <Button
-          className={`${classes.button} ${classes.NaverBtn}`}
-          variant="outlined"
-          name="naver"
-          onClick={onClickNaver}
-          startIcon={<Nlogo />}
-          size="large"
-        >
-          네이버로 로그인
-        </Button>
-        <br></br>
-        <Button
-          className={`${classes.button} ${classes.KakaoBtn}`}
-          variant="outlined"
-          name="kakao"
-          onClick={onClickKakao}
-          startIcon={<Klogo />}
-          size="large"
-        >
-          카카오톡으로 로그인
-        </Button>
-      </div>
-      <p>TODO: 각 회사에 맞는 버튼들로 교체</p>
+      <AppPreview />
+      <SocialLogin />
     </section>
   );
 };

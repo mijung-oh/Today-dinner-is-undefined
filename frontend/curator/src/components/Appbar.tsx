@@ -1,7 +1,6 @@
 import {
   AppBar,
   Fab,
-  InputBase,
   alpha,
   makeStyles,
   Toolbar,
@@ -15,11 +14,13 @@ import { useSelector } from "react-redux";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
 import CreateIcon from "@material-ui/icons/Create";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import ViewModuleIcon from "@material-ui/icons/ViewModule";
+import StyleIcon from "@material-ui/icons/Style";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import { Link, withRouter } from "react-router-dom";
@@ -32,6 +33,7 @@ import Modal from "@material-ui/core/Modal";
 import { CHECKOUT_URL } from "@lib/constants";
 import { v4 as uuidv4 } from "uuid";
 import nyanCat from "@static/images/cat-nyan-cat.gif";
+import omijungClear from "@static/images/omijung-clear.png";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -46,25 +48,6 @@ const useStyles = makeStyles((theme: any) => ({
   title: {
     flexGrow: 1,
     display: "block",
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-      display: "block",
-    },
-    [theme.breakpoints.down("xs")]: {
-      display: "none",
-    },
   },
 
   paper: {
@@ -91,27 +74,6 @@ const useStyles = makeStyles((theme: any) => ({
     padding: theme.spacing(2, 4, 3),
   },
 
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
   grow: {
     flexGrow: 1,
   },
@@ -208,6 +170,9 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   const pushProfile = (event: any) => {
     history.push(`/profile/${nickname}`);
   };
+  const pushRecipe = (event: any) => {
+    history.push("/recipe");
+  };
 
   const test = (userNickname: any, target: any) => {
     const data = {
@@ -235,6 +200,12 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
           <CreateIcon />
         </IconButton>
         <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton color="inherit" onClick={pushRecipe}>
+          <StyleIcon />
+        </IconButton>
+        <p>Recipes</p>
       </MenuItem>
       <MenuItem onClick={handleOpen}>
         <IconButton color="inherit">
@@ -305,26 +276,31 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
       </Modal>
       <AppBar className={classes.bar}>
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+          {/* <Typography className={classes.title} variant="h6" noWrap>
             <Link to="/">프로젝트</Link>
-          </Typography>
-          <Link to="/test">테스트 페이지</Link>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+          </Typography> */}
+          <div className={classes.title}>
+            <div
+              style={{ display: "flex", alignItems: "center", height: "60px" }}
+            >
+              <img
+                src={omijungClear}
+                style={{ height: "100%" }}
+                alt="오미정 로고"
+              ></img>
+              <div style={{ marginLeft: "10px", display: "inline-block" }}>
+                오늘의 저녁은 미정
+              </div>
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
           </div>
+          <Link to="/test">테스트 페이지</Link>
+
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit">
               <CreateIcon />
+            </IconButton>
+            <IconButton color="inherit" onClick={pushRecipe}>
+              <StyleIcon />
             </IconButton>
             <IconButton color="inherit" onClick={handleOpen}>
               <Badge badgeContent={alertCount.length} color="primary">
