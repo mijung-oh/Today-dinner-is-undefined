@@ -127,6 +127,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const [showButtons, setShowButtons] = useState<Boolean>(true);
 
   // console.log("I am props!", props);
+  console.log("dd", window.innerWidth);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
