@@ -148,16 +148,16 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto;",
   },
   "@global": {
-    "*::-webkit-scrollbar": {
-      width: "0.4em",
-    },
-    "*::-webkit-scrollbar-track": {
-      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
-    },
-    "*::-webkit-scrollbar-thumb": {
-      backgroundColor: "rgba(0,0,0,.1)",
-      outline: "1px solid slategrey",
-    },
+    // "*::-webkit-scrollbar": {
+    //   width: "0.4em",
+    // },
+    // "*::-webkit-scrollbar-track": {
+    //   "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+    // },
+    // "*::-webkit-scrollbar-thumb": {
+    //   backgroundColor: "rgba(0,0,0,.1)",
+    //   outline: "1px solid slategrey",
+    // },
   },
 }));
 
@@ -243,17 +243,6 @@ function RecipePage({ allRecipe }) {
 
   return (
     <>
-      {/* 유저스크랩 - 유저정보 링크 to state로 */}
-      <Link
-        to={{
-          pathname: "userScrap",
-          state: {
-            user: user,
-          },
-        }}
-      >
-        스크랩임시
-      </Link>
       <>
         <ButtonBase
           onClick={handleOpen}

@@ -17,6 +17,7 @@ const useStyles = makeStyles({
     left: 0,
     right: "auto",
     backgroundColor: "#ea4c4c",
+    zIndex: 1,
   },
 });
 interface paramsProps {}

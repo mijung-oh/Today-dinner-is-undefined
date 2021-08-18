@@ -5,12 +5,16 @@ import TextField from "@material-ui/core/TextField";
 import BorderColorRoundedIcon from "@material-ui/icons/BorderColorRounded";
 import IconButton from "@material-ui/core/IconButton";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import "./translate.css";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
       width: "25ch",
     },
+  },
+  font: {
+    fontFamily: "'Poor Story', cursive",
   },
 }));
 
@@ -162,11 +166,19 @@ function CommentList({ post_id, user }) {
     <div>
       {article.comment.length >= 1 ? (
         article.comment.map((com, index) => (
-          <div key={index} style={{ display: "flex" }}>
+          <div
+            key={index}
+            style={{
+              // display: "flex",
+              fontFamily: "'Poor Story', cursive",
+              margin: "20px",
+            }}
+          >
             <p key={com.id}>
               {com.user.nickname}: {com.content}
               {com.user.nickname === user ? (
                 <IconButton
+                  style={{ padding: "0px" }}
                   aria-label="delete"
                   onClick={() => onDelete(com.id)}
                 >
@@ -177,7 +189,7 @@ function CommentList({ post_id, user }) {
           </div>
         ))
       ) : (
-        <p>댓글이 없어요^^</p>
+        <p style={{ margin: "20px" }}> 댓글이 없어요😅</p>
       )}
       <form className={classes.root} noValidate autoComplete="off">
         <TextField

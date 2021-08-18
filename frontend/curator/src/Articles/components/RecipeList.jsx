@@ -53,7 +53,7 @@ function RecipeList() {
   if (!itemCount) return null;
 
   return (
-    <div style={{ backgroundColor: "white", padding: "50px" }} className="App">
+    <div style={{ padding: "50px" }} className="App">
       {[...Array(itemCount)].map((_, i) => {
         return (
           <>

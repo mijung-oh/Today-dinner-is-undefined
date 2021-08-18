@@ -19,9 +19,14 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { Typography } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import "./translate.css";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
+  font: {
+    fontFamily: "'Poor Story', cursive",
+  },
+
   roots: {
     // maxWidth: ,
     display: "flex",
@@ -129,11 +134,18 @@ function DetailPage({ article, onDelete, user, currentUser }) {
         }}
       ></div>
       <div className={classes.roots}>
-        <Card style={{ width: "70%", padding: "0" }}>
+        <Card
+          style={{
+            width: "70%",
+            padding: "0",
+            fontFamily: "'Poor Story', cursive",
+          }}
+        >
           <h1 style={{ display: "flex", justifyContent: "center" }}>
             🥨{article.title}🥨
           </h1>
           <CardHeader
+            style={{ fontFamily: "'Poor Story', cursive" }}
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
                 <img src={article.profileImage} style={{ width: "100%" }} />
@@ -218,7 +230,10 @@ function DetailPage({ article, onDelete, user, currentUser }) {
                 {article.user.nickname === user ? <EditIcon /> : null}
               </IconButton>
             </Link>
-            <IconButton aria-label="delete" onClick={onDelete}>
+            <IconButton
+              aria-label="delete"
+              onClick={() => onDelete(article.id)}
+            >
               {article.user.nickname === user ? <DeleteForeverIcon /> : null}
             </IconButton>
           </CardActions>
@@ -229,6 +244,7 @@ function DetailPage({ article, onDelete, user, currentUser }) {
             style={{
               margin: "35px",
               textAlign: "center",
+              fontFamily: "'Poor Story', cursive",
             }}
           >
             Recipe <br />
