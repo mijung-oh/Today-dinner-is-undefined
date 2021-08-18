@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: "#bdbdbd",
   },
   keynoteBox: {
-    border: "6px solid #bdbdbd",
+    border: "4px solid #bdbdbd",
     borderRadius: "15px",
     backgroundColor: "#f5f5f5",
     padding: "10% 0",
@@ -97,6 +97,7 @@ const SocialLogin: React.FC = () => {
         <img src={omijung} style={{ width: "200px" }} alt="logo" />
       </div>
       <div className={classes.keynoteBox}>
+        {/* <div style={{ fontSize: "2rem" }}> ❝</div> */}
         <Tween
           from={{ opacity: 0, x: 20 }}
           stagger={0.2}
@@ -107,8 +108,7 @@ const SocialLogin: React.FC = () => {
               <div
                 style={{
                   display: "inline-block",
-                  fontSize: "1rem",
-
+                  fontSize: "0.8rem",
                   fontStyle: "italic",
                   fontWeight: "bold",
                 }}
@@ -118,6 +118,7 @@ const SocialLogin: React.FC = () => {
             당신의 가장 따뜻한 저녁
           </SplitChars>
         </Tween>
+        {/* <div style={{ fontSize: "2rem", marginTop: 10 }}>❞</div> */}
       </div>
       <div className={classes.lineWrapper}>
         <div className={classes.fakeLine} />

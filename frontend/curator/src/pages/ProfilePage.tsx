@@ -137,7 +137,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     const userInfo = async () => {
       try {
         const res = await axios.get(PROFILE_URL);
-        console.log("fectched data", res.data);
+        // console.log("fectched data", res.data);
         const {
           bgImg,
           followers,
@@ -154,7 +154,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           myPagePostDtos,
           profileImg,
         });
-        console.log(fetchedUserData);
+        // console.log(fetchedUserData);
         setIsFollowing(Boolean(followers.includes(nickname)));
       } catch (err) {
         console.log(err.response); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
@@ -170,7 +170,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     userInfo();
     currentUser();
   }, [PROFILE_URL, fetchedUserData, nickname]); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
-  console.log("fectimage", fetchedUserData.profileImg);
+  // console.log("fectimage", fetchedUserData.profileImg);
 
   const onClickFollow = (e: MouseEvent) => {
     const data = {};

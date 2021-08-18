@@ -71,6 +71,7 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
         icon={<KitchenIcon />}
         component={Link}
         to="/recommand"
+        // to={{ pathname: "recommand", state: { user: "test" } }}
         value="recommand"
       />
     </BottomNavigation>
