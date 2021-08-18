@@ -47,9 +47,9 @@ function Create({
   description,
   ingredients,
   uploadFile,
+  postId,
 }) {
   const classes = useStyles();
-
   return (
     <div
       style={{
@@ -105,7 +105,7 @@ function Create({
             </AccordionDetails>
           </Accordion>
         </div>
-        <div>
+        <form onSubmit={() => onCreate()} action={`/articles/detail/${postId}`}>
           <div>
             <TextField
               onChange={onChange}
@@ -150,8 +150,8 @@ function Create({
             />
           </div>
 
-          <button onClick={onCreate}>등록</button>
-        </div>
+          <button>등록</button>
+        </form>
       </div>
     </div>
   );

@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { Link, Redirect } from "react-router-dom";
-import Button from "@material-ui/core/Button";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-import SaveIcon from "@material-ui/icons/Save";
 import WarningIcon from "@material-ui/icons/Warning";
 
 const useStyles = makeStyles((theme) => ({
@@ -107,7 +104,10 @@ function Update({
             </AccordionDetails>
           </Accordion>
         </div>
-        <div>
+        <form
+          onSubmit={() => onCreate()}
+          action={`/articles/detail/${post_id}`}
+        >
           <div>
             <TextField
               onChange={onChange}
@@ -116,6 +116,7 @@ function Update({
               name="title"
               value={title}
               style={{ width: "100%" }}
+              required
             />
           </div>
           <div>
@@ -126,6 +127,7 @@ function Update({
               name="description"
               style={{ width: "100%", height: "300px" }}
               placeholder="레시피 입력"
+              required
             />
           </div>
           <div>
@@ -136,6 +138,7 @@ function Update({
               value={ingredients}
               name="ingredients"
               style={{ width: "100%" }}
+              required
             />
           </div>
           <div style={{ margin: "8px" }}>
@@ -147,10 +150,9 @@ function Update({
               onChange={uploadFile}
             />
           </div>
-          <a href={`/articles/detail/${post_id}`}>
-            <button onClick={onCreate}>등록</button>
-          </a>
-        </div>
+
+          <button>등록</button>
+        </form>
       </div>
     </div>
   );
