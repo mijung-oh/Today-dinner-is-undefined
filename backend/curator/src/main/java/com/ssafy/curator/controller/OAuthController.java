@@ -135,10 +135,14 @@ public class OAuthController {
         JsonNode jsonNode = mapper.readTree(userRequest.getBody());
         JsonNode properties = jsonNode.path("properties");
         JsonNode kakao_account = jsonNode.path("kakao_account");
-        String email = kakao_account.path("email").asText();
-        String name = properties.path("nickname").asText();
 
-        if(email == null) email = name;
+        String email = "";
+        String name = properties.path("nickname").asText();
+        try {
+            email = kakao_account.path("email").asText();
+        }catch (Exception e){
+            email = name;
+        }
 
         UserDto userDto = null;
         if (userService.existUser(email)) {
