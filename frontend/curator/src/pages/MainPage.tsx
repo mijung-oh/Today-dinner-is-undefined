@@ -10,67 +10,28 @@ import { GOOGLE_URL, NAVER_URL, KAKAO_URL } from "@lib/constants";
 import Glogo from "@static/logos/G-logo";
 import Nlogo from "@static/logos/N-logo";
 import Klogo from "@static/logos/K-logo";
+import Castle from "@static/images/castle.jpg";
+import { url } from "inspector";
+import SocialLogin from "@Index/components/SocialLogin";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     textAlign: "center",
     width: "100%",
+    display: "flex",
+    padding: "10%  0",
+    justifyContent: "center",
   },
   imageBox: {
-    width: "70%",
-    height: "70%",
-    margin: "3% auto",
-  },
-  buttonBox: {
-    padding: "5% 0%",
-  },
-  button: {
-    width: "30%",
-    minWidth: "212px",
-    height: "3.2rem",
-    padding: "0 0",
-    margin: "2% 0%",
-  },
-  GoogleBtn: {
-    backgroundColor: "#FFF",
-    "&:hover": {
-      transition: theme.transitions.create("all", {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.short,
-      }),
-    },
-  },
-  NaverBtn: {
-    backgroundColor: "#3EAF0E",
-    "&:hover": {
-      backgroundColor: "#449f1e",
-      transition: theme.transitions.create("all", {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.short,
-      }),
-    },
-  },
-  KakaoBtn: {
-    backgroundColor: "#FEE500",
-    "&:hover": {
-      backgroundColor: "#e5d119",
-      transition: theme.transitions.create("all", {
-        easing: theme.transitions.easing.easeIn,
-        duration: theme.transitions.duration.short,
-      }),
+    width: "40%",
+    height: "40%",
+    margin: "3% 5%",
+    display: "inline-block",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
     },
   },
 }));
-
-const onClickGoogle = (e: any) => {
-  window.location.href = `${GOOGLE_URL}`;
-};
-const onClickNaver = (e: any) => {
-  window.location.href = `${NAVER_URL}`;
-};
-const onClickKakao = (e: any) => {
-  window.location.href = `${KAKAO_URL}`;
-};
 
 interface MainProps {}
 
@@ -111,41 +72,7 @@ const Main: React.FC<MainProps> = (props) => {
           height="100%"
         />
       </div>
-      <div className={classes.buttonBox}>
-        <Button
-          className={`${classes.button} ${classes.GoogleBtn}`}
-          variant="outlined"
-          name="google"
-          onClick={onClickGoogle}
-          startIcon={<Glogo />}
-          size="large"
-        >
-          구글로 로그인
-        </Button>
-        <br></br>
-        <Button
-          className={`${classes.button} ${classes.NaverBtn}`}
-          variant="outlined"
-          name="naver"
-          onClick={onClickNaver}
-          startIcon={<Nlogo />}
-          size="large"
-        >
-          네이버로 로그인
-        </Button>
-        <br></br>
-        <Button
-          className={`${classes.button} ${classes.KakaoBtn}`}
-          variant="outlined"
-          name="kakao"
-          onClick={onClickKakao}
-          startIcon={<Klogo />}
-          size="large"
-        >
-          카카오톡으로 로그인
-        </Button>
-      </div>
-      <p>TODO: 각 회사에 맞는 버튼들로 교체</p>
+      <SocialLogin />
     </section>
   );
 };
