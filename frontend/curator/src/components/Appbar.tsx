@@ -83,6 +83,7 @@ const useStyles = makeStyles((theme: any) => ({
     },
     top: "30%",
     fontSize: "0.785rem",
+    minHeight: "300px",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     borderRadius: "15px",
@@ -104,7 +105,6 @@ const useStyles = makeStyles((theme: any) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -139,11 +139,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   match,
 }) => {
   useEffect(() => {
-    // const getNewAlert = async () => {
-    //   const test = await countNewAlert();
-    //   setalertCount(test);
-    // };
-    // getNewAlert();
     const fetchUserNickname = async () => {
       const nickname = await getUserNickname();
       setUserNickname(nickname);
@@ -155,7 +150,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
         });
     };
     fetchUserNickname();
-    setWindowInnerWidth(window.innerWidth);
   }, []);
 
   const classes = useStyles();
@@ -164,7 +158,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   );
   const [alertCount, setalertCount] = useState<Array<string | undefined>>([]);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<any>(null);
-  const [windowInnerWidth, setWindowInnerWidth] = useState<number>(0);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [open, setOpen] = useState<boolean>(false);
   const [userNickname, setUserNickname] = useState<string | undefined>("");
