@@ -7,6 +7,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import KitchenIcon from "@material-ui/icons/Kitchen";
 import { withRouter, Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
+import { getUserNickname } from "@lib/helper";
 
 const useStyles = makeStyles({
   root: {
@@ -35,10 +36,19 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
       setValue("Home");
     }
   }, [location]);
+
+  useEffect(() => {
+    const fetchUserNickName = async () => {
+      const nickname = await getUserNickname();
+      setUserNickName(nickname);
+    };
+    fetchUserNickName();
+  }, []);
   const classes = useStyles();
   const [value, setValue] = React.useState<string>("Home");
+  const [userNickName, setUserNickName] = React.useState<string>("");
   //TODO : 서버 복구 되면 각 기능과 연결하기
-  console.log("location in bottomNav", location);
+  // console.log("location in bottomNav", location);
 
   return (
     <BottomNavigation
@@ -63,7 +73,7 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
         label="Favorites"
         icon={<FavoriteIcon />}
         component={Link}
-        to="/test"
+        to={{ pathname: "userScrap", state: { user: `${userNickName}` } }}
         value="Favorites"
       />
       <BottomNavigationAction
@@ -71,7 +81,6 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
         icon={<KitchenIcon />}
         component={Link}
         to="/recommand"
-        // to={{ pathname: "recommand", state: { user: "test" } }}
         value="recommand"
       />
     </BottomNavigation>
