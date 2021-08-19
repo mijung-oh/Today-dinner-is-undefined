@@ -178,7 +178,7 @@ function UserRecipeDetail({ article }) {
           />
 
           <CardActions disableSpacing>
-            <a href="/userScrap">
+            <a href="/recipe">
               <IconButton onClick={onToScrap} aria-label="add to favorites">
                 <DeleteForeverIcon />
               </IconButton>
