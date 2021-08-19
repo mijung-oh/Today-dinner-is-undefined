@@ -176,7 +176,7 @@ public class PostServiceImpl implements PostService {
         return postWithImageDto;
     }
 
-    public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception {
+    public PostWithImageDto updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception {
         Long p = Long.parseLong(String.valueOf(postId));
 
         PostEntity post = postRepository.findById(p);
@@ -222,7 +222,9 @@ public class PostServiceImpl implements PostService {
         }
 
         PostEntity updatePost = postRepository.save(post);
-        return updatePost;
+        PostWithImageDto postWithImageDto = new ModelMapper().map(post, PostWithImageDto.class);
+
+        return postWithImageDto;
     }
 
     public ResponseEntity deletePost(@PathVariable("post_id") Long postId) {

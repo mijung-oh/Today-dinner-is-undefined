@@ -43,7 +43,7 @@ public class PostController {
 
 
     @PutMapping("/{id}")
-    public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception{
+    public PostWithImageDto updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception{
         return postService.updatePost(postId, postDetails, mtfRequest);
     }
 
@@ -71,7 +71,7 @@ public class PostController {
     }
 
     @PutMapping("/{post_id}/commentList/{comment_id}")
-    public CommentEntity updateComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId, CommentEntity commentDetails) throws Exception {
+    public CommentDto updateComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId, CommentEntity commentDetails) throws Exception {
         return commentService.updateComment(postId, commentId, commentDetails);
     }
 
