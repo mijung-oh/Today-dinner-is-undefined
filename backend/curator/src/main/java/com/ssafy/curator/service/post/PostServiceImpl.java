@@ -76,8 +76,16 @@ public class PostServiceImpl implements PostService {
             pp.setCreateDate(p.getCreateDate());
             pp.setUpdateDate(p.getUpdateDate());
 
-            String profileImage = userPageRepository.findByUser(p.getUser()).getProfileImg();
-            pp.setProfileImage(commonService.imageEncoding(profileImage));
+//            String profileImage = userPageRepository.findByUser(p.getUser()).getProfileImg();
+//            try{
+//                pp.setProfileImage(commonService.imageEncoding(profileImage));
+//            }catch (Exception e){
+//
+//            }
+//            finally {
+//
+//            }
+            pp.setProfileImage(null);
 
             List<PostImageEntity> Images = postImageRepository.findByPostId(p.getId());
             List<String> imagePaths = new ArrayList();
