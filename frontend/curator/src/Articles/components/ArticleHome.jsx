@@ -8,8 +8,8 @@ function ArticleHome() {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
   const [postId, setPostId] = useState("");
+  const [user, setUser] = useState(null);
   const authLogin = async () => {
     const config = {
       withCredentials: true,
@@ -74,7 +74,7 @@ function ArticleHome() {
   if (!articles) return null;
   return (
     <>
-      <Media article={articles} user={user} />
+      <Media article={articles} users={user} />
     </>
   );
 }
