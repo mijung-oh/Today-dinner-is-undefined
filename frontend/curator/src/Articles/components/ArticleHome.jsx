@@ -74,7 +74,7 @@ function ArticleHome() {
   if (!articles) return null;
   return (
     <>
-      <Media article={articles} users={user} />
+      <Media article={articles} user={user} />
     </>
   );
 }
