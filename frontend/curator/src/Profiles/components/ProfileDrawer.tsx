@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   imgContainer: {
-    margin: "0 auto",
+    margin: "1px auto",
     padding: "10% 10% 3% 10%",
     [theme.breakpoints.between("xs", "sm")]: {
       width: "48px",
@@ -66,8 +66,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: "3% 3% 3% 3%",
     },
     [theme.breakpoints.up("lg")]: {
-      width: "172px",
-      height: "172px",
+      width: "130px",
+      height: "130px",
       padding: "3% 1% 1% 1%",
     },
     "& img": {
@@ -78,10 +78,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "0 auto",
     padding: "10% 10% 3% 10%",
     [theme.breakpoints.between("xs", "sm")]: {
-      width: "120px",
+      width: "78px",
     },
     [theme.breakpoints.between("sm", "md")]: {
-      width: "78px",
+      width: "100px",
     },
     [theme.breakpoints.between("md", "lg")]: {
       width: "128px",
@@ -148,6 +148,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      console.log("ggg");
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||
@@ -181,10 +182,10 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         withCredentials: true,
       });
       // console.log(res.data);
+      setState(false);
     } catch (error) {
       console.log(error.response);
     }
-    toggleDrawer(false);
   };
 
   const onClickProfileInput = (e: MouseEvent) => {
@@ -274,9 +275,9 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       </Typography>
       <div className={classes.imgContainer}>
         <img
-          style={{ borderRadius: "50%" }}
+          style={{ borderRadius: "50%", width: "100%", height: "100%" }}
           src={profileImg ? profileImg : defaultProfileImage}
-          alt=""
+          alt="자기사진"
         />
       </div>
       <Typography
@@ -289,7 +290,11 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         프로필 사진 변경
       </Typography>
       <div className={classes.backgroundImgContainer}>
-        <img src={bgImg ? bgImg : defaultBG} alt="" />
+        <img
+          style={{ width: "100%", height: "100%" }}
+          src={bgImg ? bgImg : defaultBG}
+          alt="배경화면"
+        />
       </div>
       <Typography
         variant="subtitle1"
