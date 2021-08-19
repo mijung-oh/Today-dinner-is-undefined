@@ -19,12 +19,13 @@ import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
+      textAlign: "center",
     },
   },
   modal: {
@@ -68,14 +69,14 @@ const useStyles = makeStyles((theme) => ({
   rootss: {
     display: "flex",
     flexWrap: "wrap",
-    minWidth: 300,
+    minWidth: 100,
     width: "100%",
   },
   image: {
     position: "relative",
     height: 200,
     [theme.breakpoints.down("xs")]: {
-      width: "100% !important", // Overrides inline-style
+      width: "100% !important",
       height: 100,
     },
     "&:hover, &$focusVisible": {
@@ -111,6 +112,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     backgroundSize: "cover",
     backgroundPosition: "center 40%",
+    textAlign: "center",
   },
   imageBackdrop: {
     position: "absolute",
@@ -121,6 +123,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.black,
     opacity: 0.4,
     transition: theme.transitions.create("opacity"),
+    textAlign: "center",
   },
   imageTitle: {
     position: "relative",
@@ -236,9 +239,10 @@ function RecipePage({ allRecipe }) {
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
           style={{
-            width: "400px",
-            height: "250px",
-            margin: "10px",
+            width: "450px",
+            height: "300px",
+            margin: "7px",
+            textAlign: "center !important",
           }}
         >
           <span
@@ -311,7 +315,7 @@ function RecipePage({ allRecipe }) {
                       onClick={onToScrap}
                       aria-label="add to favorites"
                     >
-                      {check ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+                      {check ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                     </IconButton>
                   </div>
                   <div>
