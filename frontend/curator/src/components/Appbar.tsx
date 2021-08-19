@@ -123,6 +123,16 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [open, setOpen] = useState<boolean>(false);
   const [userNickname, setUserNickname] = useState<string | undefined>("");
+  const [postId, setPostId] = useState("");
+  const IdCheck = async () => {
+    const response = axios
+      .get("http://i5c207.p.ssafy.io/curation/post/list")
+      .then((res) => {
+        let post_id = res.data[res.data.length - 1].id;
+        setPostId(post_id);
+      });
+  };
+  IdCheck();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -195,12 +205,23 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton color="inherit">
-          <CreateIcon />
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
+      <Link
+        to={{
+          pathname: "/articles/create",
+          state: {
+            postId: postId,
+            nickname: userNickname,
+          },
+        }}
+        style={{ color: "black", textDecoration: "none" }}
+      >
+        <MenuItem>
+          <IconButton color="inherit">
+            <CreateIcon />
+          </IconButton>
+          <p>Messages</p>
+        </MenuItem>
+      </Link>
       <MenuItem>
         <IconButton color="inherit" onClick={pushRecipe}>
           <StyleIcon />
@@ -296,9 +317,20 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
           <Link to="/test">테스트 페이지</Link>
 
           <div className={classes.sectionDesktop}>
-            <IconButton color="inherit">
-              <CreateIcon />
-            </IconButton>
+            <Link
+              to={{
+                pathname: "articles/create",
+                state: {
+                  postId: postId,
+                  nickname: userNickname,
+                },
+              }}
+              style={{ color: "white" }}
+            >
+              <IconButton color="inherit">
+                <CreateIcon />
+              </IconButton>
+            </Link>
             <IconButton color="inherit" onClick={pushRecipe}>
               <StyleIcon />
             </IconButton>

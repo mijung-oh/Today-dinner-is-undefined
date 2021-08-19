@@ -56,24 +56,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     width: "100%",
   },
-  // scroll: {
-  //   minWidth: "450px",
-
-  //   height: "80%;",
-  //   overflow: "auto;",
-  // },
-  // "@global": {
-  //   "*::-webkit-scrollbar": {
-  //     width: "0.4em",
-  //   },
-  //   "*::-webkit-scrollbar-track": {
-  //     "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
-  //   },
-  //   "*::-webkit-scrollbar-thumb": {
-  //     backgroundColor: "rgba(0,0,0,.1)",
-  //     outline: "1px solid slategrey",
-  //   },
-  // },
 }));
 
 function RecoRecipePage({ article }) {
@@ -172,7 +154,6 @@ function RecoRecipePage({ article }) {
         <Card>
           <h3
             style={{
-              fontFamily: "'Poor Story', cursive",
               display: "flex",
               justifyContent: "center",
               padding: "10px",
@@ -183,7 +164,6 @@ function RecoRecipePage({ article }) {
           </h3>
           <h4
             style={{
-              fontFamily: "'Poor Story', cursive",
               display: "flex",
               justifyContent: "center",
               padding: "15px",
@@ -212,7 +192,6 @@ function RecoRecipePage({ article }) {
                   height: "auto",
                   flexWrap: "wrap",
                   fontSize: "13px",
-                  fontFamily: "'Poor Story', cursive",
                 }}
               >
                 {recipe.ingredients.map((item) => (
@@ -230,16 +209,12 @@ function RecoRecipePage({ article }) {
                       overflow: "auto",
                     }}
                   >
-                    <h3 style={{ fontFamily: "'Poor Story', cursive" }}>
-                      Step.{item.cooking_NO}
-                    </h3>
+                    <h3>Step.{item.cooking_NO}</h3>
                     <img
                       src={item.stre_STEP_IMAGE_URL}
                       style={{ width: "60%" }}
                     />
-                    <p style={{ fontFamily: "'Poor Story', cursive" }}>
-                      {item.cooking_DC}
-                    </p>
+                    <p>{item.cooking_DC}</p>
                   </Typography>
                 ))}
               </div>

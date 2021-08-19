@@ -6,7 +6,6 @@ import { history } from "react-router-dom";
 function ArticleUpdate({ history, match }) {
   const prevState = history.location.state;
   const post_id = match.params.id;
-  console.log("idtest", prevState);
   const [postfiles, setPostfiles] = useState({
     file: [],
     previewURL: "",

@@ -63,18 +63,6 @@ function ArticleHome() {
   if (!articles) return null;
   return (
     <>
-      <Link
-        to={{
-          pathname: "/articles/create",
-          state: {
-            nickname: user,
-            postId: postId,
-          },
-        }}
-      >
-        <button>create</button>
-      </Link>
-
       <Media article={articles} user={user} />
     </>
   );

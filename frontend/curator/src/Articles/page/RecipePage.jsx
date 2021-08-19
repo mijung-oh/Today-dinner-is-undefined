@@ -21,11 +21,7 @@ import axios from "axios";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
-import "./translate.css";
 const useStyles = makeStyles((theme) => ({
-  font: {
-    fontFamily: "'Poor Story', cursive",
-  },
   root: {
     "& > *": {
       margin: theme.spacing(1),
@@ -147,18 +143,7 @@ const useStyles = makeStyles((theme) => ({
     height: "80%;",
     overflow: "auto;",
   },
-  "@global": {
-    // "*::-webkit-scrollbar": {
-    //   width: "0.4em",
-    // },
-    // "*::-webkit-scrollbar-track": {
-    //   "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
-    // },
-    // "*::-webkit-scrollbar-thumb": {
-    //   backgroundColor: "rgba(0,0,0,.1)",
-    //   outline: "1px solid slategrey",
-    // },
-  },
+  "@global": {},
 }));
 
 function RecipePage({ allRecipe }) {
@@ -287,7 +272,6 @@ function RecipePage({ allRecipe }) {
               <Card className={classes.roots}>
                 <h3
                   style={{
-                    fontFamily: "'Poor Story', cursive",
                     display: "flex",
                     justifyContent: "center",
                     padding: "10px",
@@ -298,7 +282,6 @@ function RecipePage({ allRecipe }) {
                 </h3>
                 <h4
                   style={{
-                    fontFamily: "'Poor Story', cursive",
                     display: "flex",
                     justifyContent: "center",
                     padding: "15px",
@@ -332,9 +315,7 @@ function RecipePage({ allRecipe }) {
                     </IconButton>
                   </div>
                   <div>
-                    <span style={{ fontFamily: "'Poor Story', cursive" }}>
-                      요리법
-                    </span>
+                    <span>요리법</span>
                     <IconButton
                       className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -356,7 +337,6 @@ function RecipePage({ allRecipe }) {
                         height: "auto",
                         flexWrap: "wrap",
                         fontSize: "13px",
-                        fontFamily: "'Poor Story', cursive",
                       }}
                     >
                       {recipe.ingredients.map((item) => (
@@ -374,12 +354,8 @@ function RecipePage({ allRecipe }) {
                             overflow: "auto",
                           }}
                         >
-                          <h3 style={{ fontFamily: "'Poor Story', cursive" }}>
-                            Step.{item.cooking_NO}
-                          </h3>
-                          <p style={{ fontFamily: "'Poor Story', cursive" }}>
-                            {item.cooking_DC}
-                          </p>
+                          <h3>Step.{item.cooking_NO}</h3>
+                          <p>{item.cooking_DC}</p>
                         </Typography>
                       ))}
                     </div>

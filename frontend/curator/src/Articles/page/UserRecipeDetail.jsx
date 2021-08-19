@@ -13,7 +13,6 @@ import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import axios from "axios";
-import "./translate.css";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
@@ -143,7 +142,6 @@ function UserRecipeDetail({ article }) {
         <Card>
           <h3
             style={{
-              fontFamily: "'Poor Story', cursive",
               display: "flex",
               justifyContent: "center",
               padding: "10px",
@@ -154,7 +152,6 @@ function UserRecipeDetail({ article }) {
           </h3>
           <h4
             style={{
-              fontFamily: "'Poor Story', cursive",
               display: "flex",
               justifyContent: "center",
               padding: "15px",
@@ -185,7 +182,6 @@ function UserRecipeDetail({ article }) {
                   height: "auto",
                   flexWrap: "wrap",
                   fontSize: "13px",
-                  fontFamily: "'Poor Story', cursive",
                 }}
               >
                 {recipe.ingredients.map((item) => (
@@ -203,16 +199,12 @@ function UserRecipeDetail({ article }) {
                       overflow: "auto",
                     }}
                   >
-                    <h3 style={{ fontFamily: "'Poor Story', cursive" }}>
-                      Step.{item.cooking_NO}
-                    </h3>
+                    <h3>Step.{item.cooking_NO}</h3>
                     <img
                       src={item.stre_STEP_IMAGE_URL}
                       style={{ width: "60%" }}
                     />
-                    <p style={{ fontFamily: "'Poor Story', cursive" }}>
-                      {item.cooking_DC}
-                    </p>
+                    <p>{item.cooking_DC}</p>
                   </Typography>
                 ))}
               </div>
