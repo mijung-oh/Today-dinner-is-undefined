@@ -96,10 +96,10 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    @Cacheable(value = "recipe", key = "#id", cacheManager = "cacheManager")
+//    @Cacheable(value = "recipe", key = "#id", cacheManager = "cacheManager")
     public RecipeDto getRecipe(Long id) {
         RecipeDto oneRecipe = getOneRecipe(id);
-        setData(String.format("%s",id), oneRecipe);
+//        setData(String.format("%s",id), oneRecipe);
         return oneRecipe;
     }
 
@@ -117,13 +117,13 @@ public class RecipeServiceImpl implements RecipeService{
     @Override
     public List<ResponseRanking> getRanking() {
         zSetOperations = redisTemplate.opsForZSet();
-
-        Set<ZSetOperations.TypedTuple<String>> typedTuples = zSetOperations.reverseRangeWithScores(KEY, 0, 4);
+        Set<ZSetOperations.TypedTuple<String>> typedTuples = zSetOperations.reverseRangeWithScores(KEY, 0, 2);
         Iterator<ZSetOperations.TypedTuple<String>> iterator = typedTuples.iterator();
 
         List<ResponseRanking> list = new ArrayList<>();
         int ranking = 1;
         while (iterator.hasNext()) {
+            if(list.size() == 3) break;
             ZSetOperations.TypedTuple<String> next = iterator.next();
             RecipeDto oneRecipe = getOneRecipe(Long.parseLong(next.getValue()));
             list.add(ResponseRanking.builder()
@@ -131,6 +131,32 @@ public class RecipeServiceImpl implements RecipeService{
                         .score(next.getScore().intValue())
                         .recipeDto(oneRecipe)
                         .build());
+        }
+
+        // 하드코딩된 더미데이터
+        List<ResponseRanking> dummyList = new ArrayList<>();
+        if(list.size() < 3){
+            RecipeDto recipe1 = getRecipe(1L);
+            dummyList.add(ResponseRanking.builder()
+                    .ranking(1)
+                    .score(1)
+                    .recipeDto(recipe1)
+                    .build());
+
+            RecipeDto recipe2 = getRecipe(2L);
+            dummyList.add(ResponseRanking.builder()
+                    .ranking(2)
+                    .score(2)
+                    .recipeDto(recipe2)
+                    .build());
+
+            RecipeDto recipe3 = getRecipe(3L);
+            dummyList.add(ResponseRanking.builder()
+                    .ranking(3)
+                    .score(3)
+                    .recipeDto(recipe3)
+                    .build());
+            list = dummyList;
         }
         return list;
     }
