@@ -128,7 +128,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const [isDuplicate, setIsDuplicate] = useState<Boolean>(false);
   const [showButtons, setShowButtons] = useState<Boolean>(true);
 
-  // console.log("I am props!", props);
+  console.log("I am props!", props);
   // console.log("dd", window.innerWidth);
 
   const toggleDrawer =

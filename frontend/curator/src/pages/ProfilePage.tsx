@@ -174,8 +174,8 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     currentUser();
   }, [PROFILE_URL, nickname]); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
   // console.log("fectimage", fetchedUserData.profileImg);
-  console.log("nickname", nickname);
-  console.log("currentUserNickname", currentUserNickname);
+  // console.log("nickname", nickname);
+  // console.log("currentUserNickname", currentUserNickname);
   const onClickFollow = (e: MouseEvent) => {
     const data = {};
     const config = {
