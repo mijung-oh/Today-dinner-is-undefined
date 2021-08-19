@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles, Theme } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import nyancat from "@static/images/cat-nyan-cat.gif";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -22,11 +23,7 @@ const DefaultArticle: React.FC = () => {
   return (
     <Paper className={classes.container} elevation={3}>
       <div className={classes.imgContainer}>
-        <img
-          src="https://thumbs.gfycat.com/BouncyWelcomeGrassspider.webp"
-          alt="other"
-          style={{ width: "100%" }}
-        />
+        <img src={nyancat} alt="other" style={{ width: "100%" }} />
       </div>
       <Typography variant="h5">아직 아무런 게시글이 없어요</Typography>
     </Paper>

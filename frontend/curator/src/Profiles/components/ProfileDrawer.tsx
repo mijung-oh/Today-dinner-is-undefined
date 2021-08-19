@@ -153,11 +153,10 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
 
     const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
     try {
-      const res = await axios.put(PUT_URL, formData, {
+      await axios.put(PUT_URL, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
-      // console.log(res);
     } catch (error) {
       console.log(error.response);
     }

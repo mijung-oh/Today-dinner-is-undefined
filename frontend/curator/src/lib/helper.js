@@ -4,7 +4,6 @@ import {
   RECOMMEND_LIST_URL,
   LOGOUT_URL,
   USER_CHECK_URL,
-  CHECKOUT_URL,
   SET_RANK_URL,
 } from "@lib/constants";
 import { db } from "../fbInstance";
