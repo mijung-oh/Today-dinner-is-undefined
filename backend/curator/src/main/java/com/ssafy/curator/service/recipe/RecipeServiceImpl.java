@@ -96,10 +96,10 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-//    @Cacheable(value = "recipe", key = "#id", cacheManager = "cacheManager")
+    @Cacheable(value = "recipe", key = "#id", cacheManager = "cacheManager")
     public RecipeDto getRecipe(Long id) {
         RecipeDto oneRecipe = getOneRecipe(id);
-//        setData(String.format("%s",id), oneRecipe);
+        setData(String.format("%s",id), oneRecipe);
         return oneRecipe;
     }
 
