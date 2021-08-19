@@ -11,6 +11,8 @@ spring:
 
   redis:
     host: I5C207.p.ssafy.io
+    cache:
+      port: 6381
     ranking:
       port: 6380
     session:
