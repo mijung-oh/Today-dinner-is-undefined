@@ -76,7 +76,7 @@ export const nicknameCheck = (username, email) => {
               timer: 2000,
               timerProgressBar: true,
               willClose: () => {
-                window.location.href = "/articles";
+                window.location.href = "/";
               },
             })
           );
