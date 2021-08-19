@@ -31,6 +31,7 @@ import { CHECKOUT_URL } from "@lib/constants";
 import { v4 as uuidv4 } from "uuid";
 import nyanCat from "@static/images/cat-nyan-cat.gif";
 import omijungClear from "@static/images/omijung-clear.png";
+import { LOGOUT_URL } from "@lib/constants";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -178,6 +179,10 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   const pushRecipe = (event: any) => {
     history.push("/recipe");
   };
+  const logout = async () => {
+    await axios.get(LOGOUT_URL);
+    history.push("/");
+  };
 
   const clearAlertOnClick = (userNickname: any, target: any) => {
     const data = {
@@ -243,7 +248,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
         <p>내 프로필</p>
       </MenuItem>
       <MenuItem>
-        <IconButton color="inherit">
+        <IconButton color="inherit" onClick={logout}>
           <ExitToAppIcon />
         </IconButton>
         <p>로그아웃</p>
@@ -336,7 +341,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
             <IconButton onClick={pushProfile} color="inherit">
               <AccountCircleIcon />
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton color="inherit" onClick={logout}>
               <ExitToAppIcon />
             </IconButton>
           </div>
