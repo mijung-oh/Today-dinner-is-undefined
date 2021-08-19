@@ -178,10 +178,10 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
   // console.log("fectimage", fetchedUserData.profileImg);
   // console.log("nickname", nickname);
   // console.log("currentUserNickname", currentUserNickname);
-  console.log("in profileImg", fetchedUserData.profileImg);
-  console.log("type in profileImg", typeof fetchedUserData.profileImg);
-  console.log("in bgImg", fetchedUserData.bgImg);
-  console.log("type in bgImg", typeof fetchedUserData.bgImg);
+  // console.log("in profileImg", fetchedUserData.profileImg);
+  // console.log("type in profileImg", typeof fetchedUserData.profileImg);
+  // console.log("in bgImg", fetchedUserData.bgImg);
+  // console.log("type in bgImg", typeof fetchedUserData.bgImg);
   console.log("fetchedUserData", fetchedUserData);
   const onClickFollow = (e: MouseEvent) => {
     const data = {};

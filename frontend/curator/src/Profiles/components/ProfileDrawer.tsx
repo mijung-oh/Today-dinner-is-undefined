@@ -1,4 +1,10 @@
-import React, { useState, useRef, MouseEvent, ChangeEvent } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  MouseEvent,
+  ChangeEvent,
+} from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -120,16 +126,23 @@ interface profileProps {
 const ProfileDrawer: React.FC<profileProps> = (props) => {
   const classes = useStyles();
   const [state, setState] = useState<boolean>(false);
-  const [nickName, setNickName] = useState<string>(props.nickname);
-  const [introduction, setIntroduction] = useState<string>(props.introduction);
-  const [profileImg, setProfileImg] = useState<any>(props.profileImg);
-  const [bgImg, setBgImg] = useState<any>(props.bgImg);
+  const [nickName, setNickName] = useState<string>("");
+  const [introduction, setIntroduction] = useState<string>("");
+  const [profileImg, setProfileImg] = useState<any>(undefined);
+  const [bgImg, setBgImg] = useState<any>(undefined);
   const [triggerCheck, setTriggerCheck] = useState<Boolean>(false);
   const [isDuplicate, setIsDuplicate] = useState<Boolean>(false);
   const [showButtons, setShowButtons] = useState<Boolean>(true);
 
   console.log("I am props!", props);
-  // console.log("dd", window.innerWidth);
+  // props로 받은 값들을 상태관리하고자 할 때는 , 컴포넌트가 created 될 때 set 해줘라
+  // 처음부터 useState(props.)하면 부모가 가진 값 그대로로 고정된다.
+  useEffect(() => {
+    setNickName(props.nickname);
+    setIntroduction(props.introduction);
+    setProfileImg(props.profileImg);
+    setBgImg(props.bgImg);
+  }, [props.bgImg, props.introduction, props.nickname, props.profileImg]);
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -170,11 +183,6 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       console.log(error.response);
     }
   };
-  // formdata 넣는건 되는듯?
-  console.log("profileImg", profileImg);
-  console.log("typeof profileImg", typeof profileImg);
-  console.log("bgImg", bgImg);
-  console.log("typeof bgImg", typeof bgImg);
 
   const onClickProfileInput = (e: MouseEvent) => {
     if (profileInput.current !== null) {
