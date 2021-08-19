@@ -203,7 +203,7 @@ function CommentList({ post_id, user }) {
             }}
           >
             <p key={com.id}>
-              {com.user.nickname}: {com.content}
+              {com.user !== null ? com.user.nickname : null}: {com.content}
               {com.user.nickname === user ? (
                 <IconButton
                   style={{ padding: "0px" }}

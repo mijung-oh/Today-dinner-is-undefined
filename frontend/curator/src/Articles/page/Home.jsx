@@ -82,11 +82,11 @@ function Media({ article, user }) {
           {item ? (
             <Box pr={2}>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {/* <Avatar
+                <Avatar
                   alt="Ted talk"
                   src={item.profileImage}
                   style={{ marginLeft: "1" }}
-                /> */}
+                />
                 <Typography
                   style={{
                     fontWeight: "bold",

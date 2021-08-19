@@ -44,7 +44,7 @@ function RecipeList() {
     setState((prev) => ({ ...prev, isLoading: true }));
     await fakeFetch();
     setState((prev) => ({
-      itemCount: prev.itemCount + 5,
+      itemCount: prev.itemCount + 6,
       isLoading: false,
     }));
   };

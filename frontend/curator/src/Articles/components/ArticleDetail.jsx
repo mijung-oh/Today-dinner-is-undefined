@@ -72,7 +72,11 @@ function ArticleDetail({ match, history }) {
   };
   return (
     <>
-      <DetailPage article={article} onDelete={onDelete} user={user} />
+      <DetailPage
+        article={article}
+        onDelete={onDelete}
+        user={prevState.nickname}
+      />
     </>
   );
 }
