@@ -222,7 +222,7 @@ export const listener = async (nickname) => {
 };
 
 export const getUserNickname = async () => {
-  const res = await axios.get(USER_CHECK_URL);
+  const res = await axios.get(USER_CHECK_URL, { withCredentials: true });
   const { nickname } = res.data;
   return nickname;
 };
