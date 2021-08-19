@@ -251,8 +251,8 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
         </IconButton>
         <p>내 프로필</p>
       </MenuItem>
-      <MenuItem>
-        <IconButton color="inherit" onClick={logout}>
+      <MenuItem onClick={logout}>
+        <IconButton color="inherit">
           <ExitToAppIcon />
         </IconButton>
         <p>로그아웃</p>
