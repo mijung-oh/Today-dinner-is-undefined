@@ -12,9 +12,8 @@ import java.util.UUID;
 @Service
 public class CommonService {
 
-    public String rnd(String originName, byte[] fileData, String path) throws Exception {
+    public String rnd(byte[] fileData, String path) throws Exception {
 
-//        String extension = originName.substring(originName.lastIndexOf("."), originName.length());
         UUID uuid = UUID.randomUUID();
         String savedName = uuid.toString();
         File target = new File(path, savedName);

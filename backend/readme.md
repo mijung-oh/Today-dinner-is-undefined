@@ -25,6 +25,7 @@
 |  **PUT**   |      특정 게시물 상세 수정       |       `http://localhost:9000/curation/post/{post_id}`        |                                               |                                                              |
 | **DELETE** |         특정 게시물 삭제         |       `http://localhost:9000/curation/post/{post_id}`        |                                               |                                                              |
 |  **POST**  |            댓글 작성             | `http://localhost:9000/curation/post/{post_id}/commentList`  |            email, content, postId             |                                                              |
+|  **GET**   |     특정 게시물 댓글 리스트      |  `http://localhost:9000/curation/post/{postId}/commentList`  |                                               |                                                              |
 |  **GET**   |     특정 댓글 상세 불러오기      | `http://localhost:9000/curation/post/{post_id}/commentList/{comment_id}` |                                               |                                                              |
 |  **PUT**   |        특정 댓글 수정하기        | `http://localhost:9000/curation/post/{post_id}/commentList/{comment_id}` |                                               |                                                              |
 | **DELETE** |        특정 댓글 삭제하기        | `http://localhost:9000/curation/post/{post_id}/commentList/{comment_id}` |                                               |                                                              |

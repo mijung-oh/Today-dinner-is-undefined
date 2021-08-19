@@ -14,7 +14,5 @@ import java.util.List;
 public interface RecipeScrapRepository extends JpaRepository<RecipeScrapEntity, Long> {
     @Transactional
     void deleteByUserEntityAndRecipeEntity(UserEntity userEntity, RecipeEntity recipeEntity);
-//    int countByUserEntityAndRecipeEntity(UserEntity userEntity, RecipeEntity recipeEntity);
     boolean existsByUserEntityAndRecipeEntity(UserEntity userEntity, RecipeEntity recipeEntity);
-    List<RecipeEntity> findAllByUserEntity(UserEntity userEntity);
 }

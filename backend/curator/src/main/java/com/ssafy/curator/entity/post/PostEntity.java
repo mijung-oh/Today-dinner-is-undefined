@@ -21,7 +21,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

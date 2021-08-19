@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostImageEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

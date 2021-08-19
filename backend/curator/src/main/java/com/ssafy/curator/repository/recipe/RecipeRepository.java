@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     List<RecipeEntity> findAllByOrderByScrapCountDesc();
-//    RecipeEntity findByRECIPE_NM_KO(String RECIPE_NM_KO);
 }
