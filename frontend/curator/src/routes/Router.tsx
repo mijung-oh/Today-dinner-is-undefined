@@ -29,15 +29,15 @@ const BRouter: React.FC<BRouterProps> = () => {
   const Email = useSelector((state: RootState) => state.clientLogin.email);
 
   const [isAuth, setAuth] = useState<boolean>(false);
-  const history = useHistory();
+  // const history = useHistory();
   useEffect(() => {
     if (name && Email) {
       setAuth(true);
-      history.push("/articles");
+      // history.push("/articles");
     } else {
       setAuth(false);
     }
-  }, [name, Email, history]);
+  }, [name, Email]);
 
   return (
     <Router>
