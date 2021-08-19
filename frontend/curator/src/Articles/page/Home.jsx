@@ -36,8 +36,11 @@ function timeForToday(value) {
 
 function Media({ article, user }) {
   const classes = useStyles();
+  const config = {
+    withCredentials: true,
+  };
   const onDelete = (id) => {
-    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${id}`);
+    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${id}`), config;
   };
 
   return (

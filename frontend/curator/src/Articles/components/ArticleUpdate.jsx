@@ -54,11 +54,19 @@ function ArticleUpdate({ history, match }) {
     });
 
     try {
-      axios.put(`http://i5c207.p.ssafy.io/curation/post/${post_id}`, formData, {
-        headers: {
-          "Content-Type": `multipart/form-data`,
-        },
-      });
+      const config = {
+        withCredentials: true,
+      };
+      axios.put(
+        `http://i5c207.p.ssafy.io/curation/post/${post_id}`,
+        formData,
+        config,
+        {
+          headers: {
+            "Content-Type": `multipart/form-data`,
+          },
+        }
+      );
     } catch (e) {
       console.log(e);
     }

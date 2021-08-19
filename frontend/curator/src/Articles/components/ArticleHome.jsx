@@ -11,8 +11,12 @@ function ArticleHome() {
   const [user, setUser] = useState(null);
   const [postId, setPostId] = useState("");
   const authLogin = async () => {
+    const config = {
+      withCredentials: true,
+    };
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+      confing
     );
     if (auth.data.nickname === "") {
       loginAlert();
@@ -25,8 +29,12 @@ function ArticleHome() {
         // setError(null);
         setArticles(null);
         setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          "http://i5c207.p.ssafy.io/curation/post/list"
+          "http://i5c207.p.ssafy.io/curation/post/list",
+          config
         );
 
         setArticles(response.data);
@@ -39,8 +47,11 @@ function ArticleHome() {
     authLogin();
   }, []);
   const IdCheck = async () => {
+    const config = {
+      withCredentials: true,
+    };
     const response = axios
-      .get("http://i5c207.p.ssafy.io/curation/post/list")
+      .get("http://i5c207.p.ssafy.io/curation/post/list", config)
       .then((res) => {
         let post_id = res.data[res.data.length - 1].id;
         setPostId(post_id);

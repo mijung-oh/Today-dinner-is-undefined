@@ -23,16 +23,24 @@ function CommentList({ post_id, user }) {
   const classes = useStyles();
   useEffect(() => {
     const authLogin = async () => {
+      const config = {
+        withCredentials: true,
+      };
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+        config
       );
       if (auth.data.nickname === "") {
       }
       setCurrentUser(auth.data.nickname);
     };
     const commentList = async () => {
+      const config = {
+        withCredentials: true,
+      };
       const response = await axios.get(
-        `http://i5c207.p.ssafy.io:9000/curation/post/${post_id}/commentList`
+        `http://i5c207.p.ssafy.io:9000/curation/post/${post_id}/commentList`,
+        config
       );
       setComment(response.data);
     };
@@ -40,8 +48,12 @@ function CommentList({ post_id, user }) {
       try {
         setArticle(null);
         setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/post/${post_id}`
+          `http://i5c207.p.ssafy.io/curation/post/${post_id}`,
+          config
         );
 
         setArticle(response.data);
@@ -81,8 +93,12 @@ function CommentList({ post_id, user }) {
     formData.append("postId", postId);
 
     const authLogin = async () => {
+      const config = {
+        withCredentials: true,
+      };
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/",
+        config
       );
       if (auth.data.nickname === "") {
       }
@@ -90,8 +106,12 @@ function CommentList({ post_id, user }) {
     };
 
     try {
+      const config = {
+        withCredentials: true,
+      };
       axios.post(
         `http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList`,
+        config,
         formData,
         {
           headers: {
@@ -107,8 +127,12 @@ function CommentList({ post_id, user }) {
       try {
         setArticle(null);
         setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/post/${post_id}`
+          `http://i5c207.p.ssafy.io/curation/post/${post_id}`,
+          config
         );
 
         setArticle(response.data);
@@ -125,22 +149,34 @@ function CommentList({ post_id, user }) {
   };
   const onDelete = (comment_id) => {
     const authLogin = async () => {
+      const config = {
+        withCredentials: true,
+      };
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/",
+        config
       );
       if (auth.data.nickname === "") {
       }
       setCurrentUser(auth.data.nickname);
     };
+    const config = {
+      withCredentials: true,
+    };
     axios.delete(
-      ` http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList/${comment_id}`
+      ` http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList/${comment_id}`,
+      config
     );
     const fetchArticle = async () => {
       try {
         setArticle(null);
         setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/post/${post_id}`
+          `http://i5c207.p.ssafy.io/curation/post/${post_id}`,
+          config
         );
 
         setArticle(response.data);

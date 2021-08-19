@@ -14,8 +14,12 @@ function ArticleDetail({ match, history }) {
   const [user, setUser] = useState(null);
   useEffect(() => {
     const authLogin = async () => {
+      const config = {
+        withCredentials: true,
+      };
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+        config
       );
       if (auth.data.nickname === "") {
         loginAlert();
@@ -26,8 +30,12 @@ function ArticleDetail({ match, history }) {
       try {
         setArticle(null);
         setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/post/${post_id}`
+          `http://i5c207.p.ssafy.io/curation/post/${post_id}`,
+          config
         );
 
         setArticle(response.data);
@@ -56,7 +64,10 @@ function ArticleDetail({ match, history }) {
   if (!article) return null;
 
   const onDelete = (post_id) => {
-    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${post_id}`);
+    const config = {
+      withCredentials: true,
+    };
+    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${post_id}`, config);
     history.push("/articles");
   };
   return (
