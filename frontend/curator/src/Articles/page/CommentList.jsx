@@ -82,7 +82,7 @@ function CommentList({ post_id, user }) {
 
     const authLogin = async () => {
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
       );
       if (auth.data.nickname === "") {
       }
@@ -126,7 +126,7 @@ function CommentList({ post_id, user }) {
   const onDelete = (comment_id) => {
     const authLogin = async () => {
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
       );
       if (auth.data.nickname === "") {
       }
