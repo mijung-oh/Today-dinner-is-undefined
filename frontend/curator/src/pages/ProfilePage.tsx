@@ -161,11 +161,13 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
       }
     };
     const currentUser = async () => {
-      const res = await axios.get(`${USER_CHECK_URL}`);
+      const res = await axios.get(`${USER_CHECK_URL}`, {
+        withCredentials: true,
+      });
       const {
         data: { nickname },
       } = res;
-      console.log("res", res);
+      // console.log("res", res);
       setCurrentUserNickname(nickname);
     };
     userInfo();
