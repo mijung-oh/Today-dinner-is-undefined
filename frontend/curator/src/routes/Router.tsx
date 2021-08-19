@@ -4,7 +4,7 @@ import TestPage from "@pages/TestPage";
 import MainPage from "@pages/MainPage";
 import ProfilePage from "@pages/ProfilePage";
 import AuthloginPage from "@pages/AuthloginPage";
-import RecommandPage from "@pages/RecommandPage";
+import RecommendPage from "@pages/RecommendPage";
 import Appbar from "@components/Appbar";
 import BottomNav from "@components/BottomNav";
 import { useSelector } from "react-redux";
@@ -54,7 +54,7 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/articles/create" component={ArticleCreate} />
         <Route path="/articles/detail/:id" component={ArticleDetail} />
         <Route path="/articles" component={ArticleHome} />
-        <Route path="/recommand" component={RecommandPage} />
+        <Route path="/recommend" component={RecommendPage} />
       </Switch>
       {/* {isAuth ? <BottomNav /> : null} */}
       <BottomNav />

@@ -35,3 +35,10 @@ export interface Ingredient {
   korean: string;
   alt?: string; // 헉 대박 .. 콜론 앞에 ? 붙이면 | undefined와 같다
 }
+
+export interface RankFoodProps {
+  ranking: number;
+  score: number;
+  recipeDto: any;
+  recipeName: string;
+}

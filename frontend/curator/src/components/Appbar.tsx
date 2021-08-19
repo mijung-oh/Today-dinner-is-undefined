@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: any) => ({
     [theme.breakpoints.up("lg")]: {
       width: 750,
     },
-    top: "30%",
+    // top: "30%",
     fontSize: "0.785rem",
     minHeight: "300px",
     backgroundColor: theme.palette.background.paper,

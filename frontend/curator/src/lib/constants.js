@@ -28,3 +28,9 @@ export const RECOMMEND_LIST_URL =
 export const LOGOUT_URL = "http://127.0.0.1:9000/curation/user/logout";
 
 export const CHECKOUT_URL = "http://i5c207.p.ssafy.io:9000/curation/checkout";
+
+export const GET_RANK_URL =
+  "http://i5c207.p.ssafy.io:9000/curation/recipe/getRanking";
+
+export const SET_RANK_URL =
+  "http://i5c207.p.ssafy.io:9000/curation/recipe/addRanking/";
