@@ -135,9 +135,9 @@ function DetailPage({ article, onDelete, user, currentUser }) {
           </h1>
           <CardHeader
             avatar={
-              <Avatar aria-label="recipe" className={classes.avatar}>
-                <img src={article.profileImage} style={{ width: "100%" }} />
-              </Avatar>
+              // <Avatar aria-label="recipe" className={classes.avatar}>
+              //   <img src={article.profileImage} style={{ width: "100%" }} />
+              // </Avatar>
             }
             subheader={article.user.nickname}
           />
