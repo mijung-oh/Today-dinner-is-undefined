@@ -41,7 +41,7 @@ const Authlogin: React.FC<RouteComponentProps<paramsProps>> = ({
     const config = {
       withCredentials: true,
     };
-    console.log("login URL", LOGIN_URL);
+
     axios
       .get(LOGIN_URL, config)
       .then(async (res) => {
@@ -60,7 +60,7 @@ const Authlogin: React.FC<RouteComponentProps<paramsProps>> = ({
           `${USER_CHECK_URL}`,
           config
         );
-        console.log("current Login response", response);
+        // console.log("current Login response", response);
         const {
           data: { name, email, nickname },
         } = response;
@@ -68,11 +68,7 @@ const Authlogin: React.FC<RouteComponentProps<paramsProps>> = ({
       });
   }, [history, match.params.socialCompany, dispatch]);
 
-  return (
-    <div>
-      <p>여기가 그곳입니다.</p>
-    </div>
-  );
+  return <div>{/* <p>여기가 그곳입니다.</p> */}</div>;
 };
 
 export default Authlogin;

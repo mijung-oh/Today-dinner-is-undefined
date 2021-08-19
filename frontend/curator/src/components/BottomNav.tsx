@@ -28,8 +28,8 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
 }) => {
   useEffect(() => {
     const { pathname } = location;
-    console.log(pathname);
-    if (pathname.includes("test")) {
+    // console.log(pathname);
+    if (pathname.includes("userScrap")) {
       setValue("Favorites");
     } else if (pathname.includes("recommand")) {
       setValue("recommand");
@@ -67,7 +67,7 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
         label="Home"
         icon={<HomeIcon />}
         component={Link}
-        to="/"
+        to="/articles"
         value="Home"
       />
       <BottomNavigationAction

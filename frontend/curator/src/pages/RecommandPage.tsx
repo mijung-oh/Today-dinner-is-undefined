@@ -30,6 +30,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Ingredient } from "@lib/interfaces";
 import { findRecommandFood } from "@lib/helper";
+import axios from "axios";
+import TodayRankModal from "@recommand/components/TodayRankModal";
 
 const imageObject = {
   acorn,
@@ -213,8 +215,6 @@ const RecommandPage: React.FC = () => {
   );
   const [check, setCheck] = useState<Boolean>(false);
 
-  // const history = useHistory();
-
   const toggleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     let checked = event.currentTarget.checked;
     setCheck(checked);
@@ -258,10 +258,18 @@ const RecommandPage: React.FC = () => {
     findRecommandFood(data, config);
   };
 
+  const ontest = async () => {
+    const res = await axios.get(
+      "http://i5c207.p.ssafy.io:9000/curation/recipe/getRanking"
+    );
+    console.log("11", res);
+  };
+
   const classes = useStyles();
   return (
     <Paper className={classes.rootContainer}>
       <h1>우리 집 냉장고에는??</h1>
+      <TodayRankModal />
       <Paper className={classes.container} elevation={3}>
         <section className={classes.ingredientBox}>
           <fieldset className={classes.foodFieldset}>
