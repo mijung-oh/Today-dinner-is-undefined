@@ -110,9 +110,7 @@ function Media({ article, user }) {
                 display="block"
                 variant="caption"
                 color="textSecondary"
-              >
-                {item.channel}
-              </Typography>
+              ></Typography>
               <Typography
                 variant="caption"
                 color="textSecondary"
@@ -121,7 +119,7 @@ function Media({ article, user }) {
                   justifyContent: "center",
                 }}
               >
-                {`"${item.user.nickname}님의 레시피"`}
+                {/* {`"${item.user.nickname}님의 레시피"`} */}
               </Typography>
             </Box>
           ) : (
