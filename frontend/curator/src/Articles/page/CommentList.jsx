@@ -111,8 +111,8 @@ function CommentList({ post_id, user }) {
       };
       axios.post(
         `http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList`,
-        config,
         formData,
+        config,
         {
           headers: {
             "Content-Type": `application/json`,

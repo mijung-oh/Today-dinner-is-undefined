@@ -3,11 +3,11 @@ import axios from "axios";
 import Create from "../page/Create";
 import { loginAlert } from "./Alert";
 function ArticleCreate({ history }) {
+  const config = {
+    withCredentials: true,
+  };
   const prevState = history.location.state;
   const authLogin = async () => {
-    const config = {
-      withCredentials: true,
-    };
     const auth = await axios.get(
       "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
       config
@@ -54,6 +54,7 @@ function ArticleCreate({ history }) {
       [name]: value,
     });
   };
+
   const onCreate = () => {
     let formData = new FormData();
 
@@ -65,15 +66,12 @@ function ArticleCreate({ history }) {
     postfiles?.file.map((eachfile) => {
       formData.append("files", new Blob([eachfile], { type: "image/png" }));
     });
-
     try {
-      const config = {
-        withCredentials: true,
-      };
       axios.post(
         "http://i5c207.p.ssafy.io/curation/post/list",
         formData,
-        confing,
+        config,
+
         {
           headers: {
             "Content-Type": `multipart/form-data`,

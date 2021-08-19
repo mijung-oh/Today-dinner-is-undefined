@@ -40,7 +40,7 @@ function Media({ article, user }) {
     withCredentials: true,
   };
   const onDelete = (id) => {
-    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${id}`), config;
+    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${id}`, config);
   };
 
   return (

@@ -16,7 +16,7 @@ function ArticleHome() {
     };
     const auth = await axios.get(
       "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
-      confing
+      config
     );
     if (auth.data.nickname === "") {
       loginAlert();
