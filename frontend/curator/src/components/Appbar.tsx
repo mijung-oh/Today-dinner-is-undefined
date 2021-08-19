@@ -1,7 +1,6 @@
 import {
   AppBar,
   Fab,
-  alpha,
   makeStyles,
   Toolbar,
   Typography,
@@ -14,12 +13,10 @@ import { useSelector } from "react-redux";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-// import SearchIcon from "@material-ui/icons/Search";
 import CreateIcon from "@material-ui/icons/Create";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import StyleIcon from "@material-ui/icons/Style";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
@@ -34,6 +31,7 @@ import { CHECKOUT_URL } from "@lib/constants";
 import { v4 as uuidv4 } from "uuid";
 import nyanCat from "@static/images/cat-nyan-cat.gif";
 import omijungClear from "@static/images/omijung-clear.png";
+import { LOGOUT_URL } from "@lib/constants";
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -125,12 +123,10 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   const [userNickname, setUserNickname] = useState<string | undefined>("");
   const [postId, setPostId] = useState("");
   const IdCheck = async () => {
-    const response = axios
-      .get("http://i5c207.p.ssafy.io/curation/post/list")
-      .then((res) => {
-        let post_id = res.data[res.data.length - 1].id;
-        setPostId(post_id);
-      });
+    axios.get("http://i5c207.p.ssafy.io/curation/post/list").then((res) => {
+      let post_id = res.data[res.data.length - 1].id;
+      setPostId(post_id);
+    });
   };
   IdCheck();
   const handleOpen = () => {
@@ -183,8 +179,12 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   const pushRecipe = (event: any) => {
     history.push("/recipe");
   };
+  const logout = async () => {
+    await axios.get(LOGOUT_URL);
+    history.push("/");
+  };
 
-  const test = (userNickname: any, target: any) => {
+  const clearAlertOnClick = (userNickname: any, target: any) => {
     const data = {
       user: userNickname,
       target: target,
@@ -219,14 +219,14 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
           <IconButton color="inherit">
             <CreateIcon />
           </IconButton>
-          <p>Messages</p>
+          <p>게시글 작성</p>
         </MenuItem>
       </Link>
       <MenuItem>
         <IconButton color="inherit" onClick={pushRecipe}>
           <StyleIcon />
         </IconButton>
-        <p>Recipes</p>
+        <p>전체 레시피</p>
       </MenuItem>
       <MenuItem onClick={handleOpen}>
         <IconButton color="inherit">
@@ -234,7 +234,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>알림</p>
       </MenuItem>
       <MenuItem onClick={pushProfile}>
         <IconButton
@@ -245,13 +245,13 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
         >
           <AccountCircleIcon />
         </IconButton>
-        <p>Profile</p>
+        <p>내 프로필</p>
       </MenuItem>
       <MenuItem>
-        <IconButton color="inherit">
+        <IconButton color="inherit" onClick={logout}>
           <ExitToAppIcon />
         </IconButton>
-        <p>Log out</p>
+        <p>로그아웃</p>
       </MenuItem>
     </Menu>
   );
@@ -274,7 +274,10 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
           {alertCount.length > 0 ? (
             alertCount.map((data) => {
               return (
-                <p onClick={() => test(userNickname, data)} key={uuidv4()}>
+                <p
+                  onClick={() => clearAlertOnClick(userNickname, data)}
+                  key={uuidv4()}
+                >
                   {data}님이 팔로우 중!
                 </p>
               );
@@ -297,9 +300,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
       </Modal>
       <AppBar className={classes.bar}>
         <Toolbar>
-          {/* <Typography className={classes.title} variant="h6" noWrap>
-            <Link to="/">프로젝트</Link>
-          </Typography> */}
           <div className={classes.title}>
             <div
               style={{ display: "flex", alignItems: "center", height: "60px" }}
@@ -314,7 +314,6 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
               </div>
             </div>
           </div>
-          <Link to="/test">테스트 페이지</Link>
 
           <div className={classes.sectionDesktop}>
             <Link
@@ -342,7 +341,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
             <IconButton onClick={pushProfile} color="inherit">
               <AccountCircleIcon />
             </IconButton>
-            <IconButton color="inherit">
+            <IconButton color="inherit" onClick={logout}>
               <ExitToAppIcon />
             </IconButton>
           </div>

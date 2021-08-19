@@ -30,7 +30,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Ingredient } from "@lib/interfaces";
 import { findRecommendFood } from "@lib/helper";
-import axios from "axios";
 import TodayRankModal from "@recommend/components/TodayRankModal";
 
 const imageObject = {
@@ -218,7 +217,6 @@ const RecommendPage: React.FC = () => {
   const toggleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     let checked = event.currentTarget.checked;
     setCheck(checked);
-    console.log(check);
   };
 
   const toggleMainIngredient = (event: MouseEvent) => {
@@ -256,13 +254,6 @@ const RecommendPage: React.FC = () => {
       withCredentials: true,
     };
     findRecommendFood(data, config);
-  };
-
-  const ontest = async () => {
-    const res = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/recipe/getRanking"
-    );
-    console.log("11", res);
   };
 
   const classes = useStyles();

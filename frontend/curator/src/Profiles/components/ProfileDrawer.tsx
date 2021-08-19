@@ -12,6 +12,8 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import { NICKNAME_CHECK_URL } from "@lib/constants";
+import defaultProfileImage from "@static/images/default-profile.jpg";
+import defaultBG from "@static/images/default-bg.png";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -153,11 +155,10 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
 
     const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
     try {
-      const res = await axios.put(PUT_URL, formData, {
+      await axios.put(PUT_URL, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
-      // console.log(res);
     } catch (error) {
       console.log(error.response);
     }
@@ -251,11 +252,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       <div className={classes.imgContainer}>
         <img
           style={{ borderRadius: "50%" }}
-          src={
-            profileImg
-              ? profileImg
-              : "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
-          }
+          src={profileImg ? profileImg : defaultProfileImage}
           alt=""
         />
       </div>
@@ -269,14 +266,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         프로필 사진 변경
       </Typography>
       <div className={classes.backgroundImgContainer}>
-        <img
-          src={
-            bgImg
-              ? bgImg
-              : "https://patoliyainfotech.com/wp-content/uploads/2019/10/one-year-of-react-native.png"
-          }
-          alt=""
-        />
+        <img src={bgImg ? bgImg : defaultBG} alt="" />
       </div>
       <Typography
         variant="subtitle1"
