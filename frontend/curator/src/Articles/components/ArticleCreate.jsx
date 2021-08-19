@@ -6,7 +6,7 @@ function ArticleCreate({ history }) {
   const prevState = history.location.state;
   const authLogin = async () => {
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
     );
     if (auth.data.nickname === "") {
       loginAlert();
@@ -17,7 +17,6 @@ function ArticleCreate({ history }) {
     file: [],
     previewURL: "",
   });
-  const [postId, setPostId] = useState([]);
   const uploadFile = (e) => {
     e.stopPropagation();
     let reader = new FileReader();
@@ -59,7 +58,10 @@ function ArticleCreate({ history }) {
     formData.append("nickname", nickname);
 
     postfiles?.file.map((eachfile) => {
-      formData.append("files", new Blob([eachfile], { type: "image/png" }));
+      return formData.append(
+        "files",
+        new Blob([eachfile], { type: "image/png" })
+      );
     });
 
     try {
