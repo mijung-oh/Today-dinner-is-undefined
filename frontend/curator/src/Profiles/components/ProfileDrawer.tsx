@@ -197,7 +197,8 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       if (adjustedProfile !== undefined) {
         const reader = new FileReader();
         reader.onloadend = (event: any) => {
-          const readData = event.currentTarget.result as string;
+          // const readData = event.currentTarget.result as string;
+          const readData = event.target?.files?.[0];
           setProfileImg(readData);
           // console.log("ad", profileImg); // 정상적으로 들어는 가는데 왜  console.log로는 출력이 안될까?
         };

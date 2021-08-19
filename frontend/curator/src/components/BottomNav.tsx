@@ -51,6 +51,9 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
     const fetchUserNickName = async () => {
       const nickname = await getUserNickname();
       setUserNickName(nickname);
+      if (nickname === false) {
+        window.location.href = "/";
+      }
     };
     fetchUserNickName();
   }, []);

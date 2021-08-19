@@ -20,9 +20,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   imgContainer: {
     position: "relative",
     width: "100%",
+    height: "100%",
   },
   backgroundImg: {
     // borderRadius: "7% 7% 0 0",
+    [theme.breakpoints.between("xs", "sm")]: {
+      height: "200px",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      height: "400px",
+    },
+    [theme.breakpoints.between("md", "lg")]: {
+      height: "450px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      height: "500px",
+    },
+    objectFit: "cover",
   },
   profileImg: {
     position: "absolute",

@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   container: {
     textAlign: "center",
     padding: "10% 10%",
+    marginBottom: "5%",
   },
   imgContainer: {
     maxWidth: "300px",
