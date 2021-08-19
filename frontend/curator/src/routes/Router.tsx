@@ -39,8 +39,8 @@ const BRouter: React.FC<BRouterProps> = () => {
 
   return (
     <Router>
-      {/* {isAuth ? <Appbar /> : null} */}
-      <Appbar />
+      {isAuth ? <Appbar /> : null}
+      {/* <Appbar /> */}
       <Switch>
         <Route path="/" exact component={MainPage} />
         <Route path="/profile/:nickname" component={ProfilePage} />
@@ -56,8 +56,8 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/recommend" component={RecommendPage} />
         <Route path="/*" component={NotFoundPage} />
       </Switch>
-      {/* {isAuth ? <BottomNav /> : null} */}
-      <BottomNav />
+      {isAuth ? <BottomNav /> : null}
+      {/* <BottomNav /> */}
     </Router>
   );
 };

@@ -51,7 +51,7 @@ const Authlogin: React.FC<RouteComponentProps<paramsProps>> = ({
         if (!nickname) {
           await nicknameCheck(name, email); // 여기서 문제...만약에 새로운 api 생기면 여기 이후에 떄리고, dispatch
         } else {
-          history.push("/");
+          history.push("/articles");
         }
       })
       .then(async () => {
