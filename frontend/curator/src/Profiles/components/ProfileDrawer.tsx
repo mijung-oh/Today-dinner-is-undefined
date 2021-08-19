@@ -197,9 +197,9 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       if (adjustedProfile !== undefined) {
         const reader = new FileReader();
         reader.onloadend = (event: any) => {
-          // const readData = event.currentTarget.result as string;
+          const readData = event.currentTarget.result as string;
           // const readData = event.target?.files?.[0];
-          const readData = event.target.profileImg[0];
+          // const readData = event.target.profileImg[0];
           console.log("eventTarget", event.target);
           console.log("readData", readData);
           setProfileImg(readData);
