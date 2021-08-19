@@ -125,7 +125,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface paramsProps {
   nickname: string;
 }
-//TODO : 이메일 출력
 const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
   const nickname = match.params.nickname;
   const PROFILE_URL = `http://i5c207.p.ssafy.io:9000/curation/userInfo/${nickname}`;
@@ -153,7 +152,6 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
     const userInfo = async () => {
       try {
         const res = await axios.get(PROFILE_URL);
-        // console.log("fectched data", res.data);
         const {
           bgImg,
           followers,
@@ -170,7 +168,6 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           myPagePostDtos,
           profileImg,
         });
-        // console.log(fetchedUserData);
         setIsFollowing(Boolean(followers.includes(nickname)));
       } catch (err) {
         console.log(err.response); // 여기에 이상한 사용자 있으면 404 페이지로 보내는 로직을
@@ -183,19 +180,13 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
       const {
         data: { nickname },
       } = res;
-      // console.log("res", res);
+
       setCurrentUserNickname(nickname);
     };
     userInfo();
     currentUser();
   }, [PROFILE_URL, nickname]); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
-  // console.log("fectimage", fetchedUserData.profileImg);
-  // console.log("nickname", nickname);
-  // console.log("currentUserNickname", currentUserNickname);
-  // console.log("in profileImg", fetchedUserData.profileImg);
-  // console.log("type in profileImg", typeof fetchedUserData.profileImg);
-  // console.log("in bgImg", fetchedUserData.bgImg);
-  // console.log("type in bgImg", typeof fetchedUserData.bgImg);
+
   console.log("fetchedUserData", fetchedUserData);
   const onClickFollow = (e: MouseEvent) => {
     const data = {};
@@ -258,9 +249,6 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           </div>
         </div>
         <div className={classes.buttonArea}>
-          {/* TODO: 팔로우 버튼 등장 조건 .. 프로필 유저 !== 로그인 유저
-          프로필 유저 === 로그인 유저 프로필 편집 
-          */}
           {currentUserNickname === nickname ? (
             <ProfileDrawer
               nickname={nickname}

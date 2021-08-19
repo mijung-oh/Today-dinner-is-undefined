@@ -173,7 +173,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
 
     const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
     try {
-      const res = await axios.put(PUT_URL, formData, {
+      await axios.put(PUT_URL, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           accept: "application/json",
@@ -184,6 +184,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     } catch (error) {
       console.log(error.response);
     }
+    toggleDrawer(false);
   };
 
   const onClickProfileInput = (e: MouseEvent) => {
@@ -201,12 +202,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         const reader = new FileReader();
         reader.onloadend = (event: any) => {
           const readData = event.currentTarget.result as string;
-          // const readData = event.target?.files?.[0];
-          // const readData = event.target.profileImg[0];
-          console.log("eventTarget", event.target);
-          console.log("readData", readData);
           setProfileImg(readData);
-          // console.log("ad", profileImg); // 정상적으로 들어는 가는데 왜  console.log로는 출력이 안될까?
         };
         reader.readAsDataURL(adjustedProfile);
       }
