@@ -8,6 +8,9 @@ import KitchenIcon from "@material-ui/icons/Kitchen";
 import { withRouter, Link } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
 import { getUserNickname } from "@lib/helper";
+import { useSelector } from "react-redux";
+
+import { RootState } from "modules";
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +29,9 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
   location,
   match,
 }) => {
+  const name = useSelector((state: RootState) => state.clientLogin.name);
+  const Email = useSelector((state: RootState) => state.clientLogin.email);
+
   useEffect(() => {
     const { pathname } = location;
     // console.log(pathname);
@@ -36,7 +42,10 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
     } else {
       setValue("Home");
     }
-  }, [location]);
+    if (name && Email === false) {
+      history.push("/");
+    }
+  }, [location, Email, name, history]);
 
   useEffect(() => {
     const fetchUserNickName = async () => {
