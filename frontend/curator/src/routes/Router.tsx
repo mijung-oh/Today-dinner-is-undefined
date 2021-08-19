@@ -33,7 +33,7 @@ const BRouter: React.FC<BRouterProps> = () => {
     if (name && Email) {
       setAuth(true);
       // history.push("/articles");
-      window.location.href = "/articles";
+      // window.location.href = "/articles";
     } else {
       setAuth(false);
       // window.location.href = "/";
