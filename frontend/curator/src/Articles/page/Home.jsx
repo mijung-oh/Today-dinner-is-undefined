@@ -34,7 +34,7 @@ function timeForToday(value) {
   return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
 
-function Media({ article, users }) {
+function Media({ article, user }) {
   const classes = useStyles();
   const config = {
     withCredentials: true,
@@ -62,7 +62,7 @@ function Media({ article, users }) {
               to={{
                 pathname: `/articles/detail/${item.id}`,
                 state: {
-                  nickname: users,
+                  nickname: user,
                 },
               }}
             >
@@ -121,7 +121,9 @@ function Media({ article, users }) {
                   justifyContent: "center",
                 }}
               >
-                {`"${item.user.nickname}님의 레시피"`}
+                {item.user !== null
+                  ? `"${item.user.nickname}님의 레시피!"`
+                  : null}
               </Typography>
             </Box>
           ) : (
