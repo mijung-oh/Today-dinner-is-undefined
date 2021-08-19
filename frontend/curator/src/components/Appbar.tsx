@@ -230,7 +230,10 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
       </MenuItem>
       <MenuItem onClick={handleOpen}>
         <IconButton color="inherit">
-          <Badge badgeContent={alertCount.length} color="primary">
+          <Badge
+            badgeContent={alertCount ? alertCount.length : 0}
+            color="primary"
+          >
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -271,30 +274,34 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
           <h2>미확인 알람들 </h2>
           <hr />
 
-          {alertCount.length > 0 ? (
-            alertCount.map((data) => {
-              return (
-                <p
-                  onClick={() => clearAlertOnClick(userNickname, data)}
-                  key={uuidv4()}
+          {alertCount ? (
+            alertCount.length > 0 ? (
+              alertCount.map((data) => {
+                return (
+                  <p
+                    onClick={() => clearAlertOnClick(userNickname, data)}
+                    key={uuidv4()}
+                  >
+                    {data}님이 팔로우 중!
+                  </p>
+                );
+              })
+            ) : (
+              <div style={{ background: "#2c", borderRadius: "15px" }}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <img src={nyanCat} alt="nyancat gif" />
+                </div>
+                <Typography
+                  align="center"
+                  variant="h5"
+                  style={{ color: "white" }}
                 >
-                  {data}님이 팔로우 중!
-                </p>
-              );
-            })
-          ) : (
-            <div style={{ background: "#2c", borderRadius: "15px" }}>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <img src={nyanCat} alt="nyancat gif" />
+                  새로운 알림이 없어요
+                </Typography>
               </div>
-              <Typography
-                align="center"
-                variant="h5"
-                style={{ color: "white" }}
-              >
-                새로운 알림이 없어요
-              </Typography>
-            </div>
+            )
+          ) : (
+            <div></div>
           )}
         </div>
       </Modal>
@@ -310,7 +317,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
                 alt="오미정 로고"
               ></img>
               <div style={{ marginLeft: "10px", display: "inline-block" }}>
-                오늘의 저녁은 미정
+                오늘 저녁은 미정
               </div>
             </div>
           </div>
@@ -334,7 +341,10 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
               <StyleIcon />
             </IconButton>
             <IconButton color="inherit" onClick={handleOpen}>
-              <Badge badgeContent={alertCount.length} color="primary">
+              <Badge
+                badgeContent={alertCount ? alertCount.length : 0}
+                color="primary"
+              >
                 <NotificationsIcon />
               </Badge>
             </IconButton>
