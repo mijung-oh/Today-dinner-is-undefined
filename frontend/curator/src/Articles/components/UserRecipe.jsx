@@ -13,8 +13,12 @@ function UserRecipe({ match }) {
       try {
         setArticle(null);
         setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${recipe_id}`
+          `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${recipe_id}`,
+          config
         );
 
         setArticle(response.data);

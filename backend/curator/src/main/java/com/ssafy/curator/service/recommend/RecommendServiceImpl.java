@@ -29,10 +29,10 @@ public class RecommendServiceImpl implements RecommendService {
 
         HashMap<CharSequence, Double> leftmap = new HashMap();
         for (String s : requestIngredient.getMainIngredients()) {
-            leftmap.put(s, 3.0);
+            leftmap.put(s, 10.0);
         }
         for (String s : requestIngredient.getSubIngredients()) {
-            leftmap.put(s, 1.5);
+            leftmap.put(s, 5.0);
         }
 
         List<String> defaultSource = new ArrayList<>();
@@ -45,12 +45,9 @@ public class RecommendServiceImpl implements RecommendService {
         // 기본 양념이 있는 경우
         if (requestIngredient.isCheck()) {
             for (String s : defaultSource) {
-                leftmap.put(s, 0.5);
+                leftmap.put(s, 3.0);
             }
-        } else{
-            for (String s : defaultSource) {
-            leftmap.put(s, 0.0);
-        }}
+        }
 
 
         for (RecipeEntity o : recipeRepository.findAll()) {
@@ -58,10 +55,14 @@ public class RecommendServiceImpl implements RecommendService {
             HashMap<CharSequence, Double> rightmap = new HashMap();
             for (RecipeIngredientEntity recipeIngredientEntity : recipeIngredientEntities) {
                 String name = recipeIngredientEntity.getIRDNT_NM();
-                if (!leftmap.containsKey(name)) {
-                    rightmap.put(name, 0.0);
+                if (requestIngredient.getMainIngredients().contains(name)) {
+                    rightmap.put(name, 10.0);
+                } else if (requestIngredient.getSubIngredients().contains(name)) {
+                    rightmap.put(name, 5.0);
+                } else if (defaultSource.contains(name)) {
+                    rightmap.put(name, 3.0);
                 } else {
-                    rightmap.put(name, 2.0);
+                    rightmap.put(name, 1.0);
                 }
             }
             sorted.add(new Double[]{cosineSimilarity(leftmap, rightmap), Double.valueOf(o.getRECIPE_ID())});

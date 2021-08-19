@@ -3,10 +3,14 @@ import axios from "axios";
 import Create from "../page/Create";
 import { loginAlert } from "./Alert";
 function ArticleCreate({ history }) {
+  const config = {
+    withCredentials: true,
+  };
   const prevState = history.location.state;
   const authLogin = async () => {
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+      config
     );
     if (auth.data.nickname === "") {
       loginAlert();
@@ -50,6 +54,7 @@ function ArticleCreate({ history }) {
       [name]: value,
     });
   };
+
   const onCreate = () => {
     let formData = new FormData();
 
@@ -61,13 +66,18 @@ function ArticleCreate({ history }) {
     postfiles?.file.map((eachfile) => {
       formData.append("files", new Blob([eachfile], { type: "image/png" }));
     });
-
     try {
-      axios.post("http://i5c207.p.ssafy.io/curation/post/list", formData, {
-        headers: {
-          "Content-Type": `multipart/form-data`,
-        },
-      });
+      axios.post(
+        "http://i5c207.p.ssafy.io/curation/post/list",
+        formData,
+        config,
+
+        {
+          headers: {
+            "Content-Type": `multipart/form-data`,
+          },
+        }
+      );
     } catch (e) {
       console.log(e);
     }

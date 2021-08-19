@@ -146,7 +146,7 @@ public class UserPageServiceImpl implements UserPageService{
 
 
     @Override
-    public String updateUserInfo(String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2) throws Exception {
+    public String updateUserInfo(String nickName, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
         UserEntity userEntity = userRepository.findByNickname(nickName);
         if (userEntity == null) {
             return "유저가 존재하지 않습니다.";
@@ -166,44 +166,31 @@ public class UserPageServiceImpl implements UserPageService{
             userPageEntity.setIntroduction(introduction);
         }
 
+        MultipartFile multipartFile1 = multipartHttpServletRequest.getFile("profileImg");
         if (!multipartFile1.isEmpty()) {
             if (userPageEntity.getProfileImg() != null) {
                 File pre = new File(userPageEntity.getProfileImg());
                 pre.delete();
             }
-//            String path = "src/main/resources/static/images/";
-            String path = "/usr/local/images/";
+            String path = "src/main/resources/static/images/";
+//            String path = "/usr/local/images/";
             String newFileName = commonService.rnd(multipartFile1.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setProfileImg(newPath);
-            File dest = new File(newPath);
-            try {
-                multipartFile1.transferTo(dest);
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
         }
 
+        MultipartFile multipartFile2 = multipartHttpServletRequest.getFile("bgImg");
         if (!multipartFile2.isEmpty()) {
             if (userPageEntity.getBgImg() != null) {
                 File pre = new File(userPageEntity.getBgImg());
                 pre.delete();
             }
-//            String path = "src/main/resources/static/images/";
-            String path = "/usr/local/images/";
+            String path = "src/main/resources/static/images/";
+//            String path = "/usr/local/images/";
             String newFileName = commonService.rnd(multipartFile2.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setBgImg(newPath);
-            File dest = new File(newPath);
-            try {
-                multipartFile2.transferTo(dest);
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         userPageRepository.save(userPageEntity);

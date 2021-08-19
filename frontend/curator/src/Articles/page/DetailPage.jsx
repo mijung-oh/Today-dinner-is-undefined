@@ -89,8 +89,12 @@ function DetailPage({ article, onDelete, user, currentUser }) {
   };
 
   const userCheck = async () => {
+    const config = {
+      withCredentials: true,
+    };
     const response = await axios.get(
-      `http://i5c207.p.ssafy.io/curation/like/${article.id}/list`
+      `http://i5c207.p.ssafy.io/curation/like/${article.id}/list`,
+      config
     );
     const users = user;
 
@@ -102,8 +106,12 @@ function DetailPage({ article, onDelete, user, currentUser }) {
   };
   userCheck();
   const userLike = async () => {
+    const config = {
+      withCredentials: true,
+    };
     const response = await axios.post(
-      `http://i5c207.p.ssafy.io/curation/like/${article.id}/?userNickname=${user}`
+      `http://i5c207.p.ssafy.io/curation/like/${article.id}/?userNickname=${user}`,
+      config
     );
     userCheck();
     setCheck(!check);
@@ -134,11 +142,11 @@ function DetailPage({ article, onDelete, user, currentUser }) {
             🥨{article.title}🥨
           </h1>
           <CardHeader
-            avatar={
-              <Avatar aria-label="recipe" className={classes.avatar}>
-                <img src={article.profileImage} style={{ width: "100%" }} />
-              </Avatar>
-            }
+            //avatar={
+            // <Avatar aria-label="recipe" className={classes.avatar}>
+            //   <img src={article.profileImage} style={{ width: "100%" }} />
+            // </Avatar>
+            // }
             subheader={article.user.nickname}
           />
           <div>
