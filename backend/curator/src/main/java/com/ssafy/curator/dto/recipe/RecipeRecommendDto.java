@@ -3,10 +3,11 @@ package com.ssafy.curator.dto.recipe;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class RecipeRecommendDto {
+public class RecipeRecommendDto implements Serializable {
     private Long RECIPE_ID;
     private String RECIPE_NM_KO;
     private String IMG_URL;

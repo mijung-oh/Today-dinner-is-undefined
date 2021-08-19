@@ -17,7 +17,7 @@ public class RecipeScheduler {
     @Resource(name = "redisRankingTemplate")
     RedisTemplate<String, String> redisTemplate;
 
-    @Scheduled(cron = "0 0 12 * * *")
+    @Scheduled(cron = "0 0 23 * * *")
     public void resetRanking(){
         log.info("> > > > > > > > 스케쥴러 실행");
         log.info("> > > > > > > > 일일 랭킹 삭제 시작");

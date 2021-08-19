@@ -15,7 +15,9 @@ import com.ssafy.curator.vo.recipe.ResponseRanking;
 import com.ssafy.curator.vo.recipe.ResponseRecipeDetail;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,9 @@ public class RecipeServiceImpl implements RecipeService{
     @Resource(name = "redisRankingTemplate")
     RedisTemplate<String, String> redisTemplate;
     ZSetOperations<String, String> zSetOperations;
+
+    @Resource(name = "redisCacheTemplate")
+    RedisTemplate<String, RecipeDto> redisCacheTemplate;
 
     ModelMapper mapper;
 
@@ -91,8 +96,11 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
+    @Cacheable(value = "recipe", key = "#id", cacheManager = "cacheManager")
     public RecipeDto getRecipe(Long id) {
-        return getOneRecipe(id);
+        RecipeDto oneRecipe = getOneRecipe(id);
+        setData(String.format("%s",id), oneRecipe);
+        return oneRecipe;
     }
 
     public List<RecipeIngredientDto> getIngredientListFromRecipe(Long id){
@@ -154,6 +162,11 @@ public class RecipeServiceImpl implements RecipeService{
     public RecipeDto getOneRecipe(Long id){
         Optional<RecipeEntity> recipe = recipeRepository.findById(id);
         return new ModelMapper().map(recipe.orElseThrow(RuntimeException::new), RecipeDto.class);
+    }
+
+    public void setData(String key, RecipeDto value){
+        ValueOperations<String,RecipeDto> valueOperations = redisCacheTemplate.opsForValue();
+        valueOperations.set(key,value);
     }
 
 }

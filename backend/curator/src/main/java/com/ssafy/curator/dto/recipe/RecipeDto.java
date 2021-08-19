@@ -2,13 +2,15 @@ package com.ssafy.curator.dto.recipe;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.io.Serializable;
 
 @Getter
 @Setter
 public class RecipeDto implements Serializable {
-    private Long RECIPE_ID;
+    private String RECIPE_ID;
     private String RECIPE_NM_KO;
     private String SUMRY;
     private String NATION_CODE;
