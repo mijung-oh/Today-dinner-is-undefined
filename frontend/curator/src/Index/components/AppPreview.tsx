@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import cellphone from "@static/images/cellphone.png";
-import castle from "@static/images/castle.jpg";
 import numberone from "@Index/static/image/numberone.png";
 import numbertwo from "@Index/static/image/numbertwo.png";
 import numberthree from "@Index/static/image/numberthree.png";

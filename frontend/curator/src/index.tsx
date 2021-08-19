@@ -9,7 +9,6 @@ import TestCompo from "@components/TestCompo";
 import configureStore from "./modules/index";
 
 const { store, persistor } = configureStore();
-
 const Root = () => (
   <Provider store={store}>
     <PersistGate loading={<TestCompo />} persistor={persistor}>

@@ -28,11 +28,11 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
 }) => {
   useEffect(() => {
     const { pathname } = location;
-    console.log(pathname);
-    if (pathname.includes("test")) {
+    // console.log(pathname);
+    if (pathname.includes("userscrap")) {
       setValue("Favorites");
-    } else if (pathname.includes("recommand")) {
-      setValue("recommand");
+    } else if (pathname.includes("recommend")) {
+      setValue("recommend");
     } else {
       setValue("Home");
     }
@@ -59,30 +59,26 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
       }}
       className={classes.root}
     >
-      {/* home == Aticle board 메인으로 
-       favorites == 나중에 추가될 좋아요 눌렀던 게시글 모은 곳으로
-       foodies == 식약청 API 사이트로
-      */}
       <BottomNavigationAction
-        label="Home"
+        label="홈"
         icon={<HomeIcon />}
         component={Link}
-        to="/"
+        to="/articles"
         value="Home"
       />
       <BottomNavigationAction
-        label="Favorites"
+        label="나만의 레시피"
         icon={<FavoriteIcon />}
         component={Link}
-        to={{ pathname: "userScrap", state: { user: `${userNickName}` } }}
+        to={{ pathname: "userscrap", state: { user: `${userNickName}` } }}
         value="Favorites"
       />
       <BottomNavigationAction
-        label="Foodies"
+        label="메뉴 추천"
         icon={<KitchenIcon />}
         component={Link}
-        to="/recommand"
-        value="recommand"
+        to="/recommend"
+        value="recommend"
       />
     </BottomNavigation>
   );

@@ -6,9 +6,8 @@ export const KAKAO_URL =
   // "https://kauth.kakao.com/oauth/authorize?client_id=4f445ad5411d2c6c022fbd8101999e07&redirect_uri=http://127.0.0.1:3000/oauth/kakao&response_type=code";
   "https://kauth.kakao.com/oauth/authorize?client_id=4f445ad5411d2c6c022fbd8101999e07&redirect_uri=http://I5C207.p.ssafy.io/oauth/kakao&response_type=code";
 
-export const USER_CHECK_URL =
-  //// `http://i5c207.p.ssafy.io:9000/curation/currentLogin`, <-- 개발 끝나고 이걸로 바꿀것
-  "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test";
+export const USER_CHECK_URL = `http://i5c207.p.ssafy.io:9000/curation/currentLogin`;
+// "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test";
 
 export const NICKNAME_CHECK_URL = (nickname) => {
   return `http://i5c207.p.ssafy.io:9000/curation/user/userNicknameCheck?nickname=${nickname}`;
@@ -25,6 +24,12 @@ export const UNFOLLOW_URL = (nickname) => {
 export const RECOMMEND_LIST_URL =
   "http://i5c207.p.ssafy.io:9000/curation/getRecommendList";
 
-export const LOGOUT_URL = "http://127.0.0.1:9000/curation/user/logout";
+export const LOGOUT_URL = "http://i5c207.p.ssafy.io:9000/curation/user/logout";
 
 export const CHECKOUT_URL = "http://i5c207.p.ssafy.io:9000/curation/checkout";
+
+export const GET_RANK_URL =
+  "http://i5c207.p.ssafy.io:9000/curation/recipe/getRanking";
+
+export const SET_RANK_URL =
+  "http://i5c207.p.ssafy.io:9000/curation/recipe/addRanking/";

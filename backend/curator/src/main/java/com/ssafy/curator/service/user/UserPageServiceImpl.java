@@ -173,7 +173,7 @@ public class UserPageServiceImpl implements UserPageService{
             }
 //            String path = "src/main/resources/static/images/";
             String path = "/usr/local/images/";
-            String newFileName = commonService.rnd(multipartFile1.getOriginalFilename(), multipartFile1.getBytes(), path);
+            String newFileName = commonService.rnd(multipartFile1.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setProfileImg(newPath);
             File dest = new File(newPath);
@@ -193,7 +193,7 @@ public class UserPageServiceImpl implements UserPageService{
             }
 //            String path = "src/main/resources/static/images/";
             String path = "/usr/local/images/";
-            String newFileName = commonService.rnd(multipartFile2.getOriginalFilename(), multipartFile2.getBytes(), path);
+            String newFileName = commonService.rnd(multipartFile2.getBytes(), path);
             String newPath = path+newFileName;
             userPageEntity.setBgImg(newPath);
             File dest = new File(newPath);

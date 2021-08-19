@@ -2,34 +2,35 @@ import React, { MouseEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
-import acorn from "@recommand/static/image/acorn.svg";
-import beef from "@recommand/static/image/beef.svg";
-import carrot from "@recommand/static/image/carrot.svg";
-import chickenBreast from "@recommand/static/image/chickenBreast.svg";
-import chicken from "@recommand/static/image/chicken.svg";
-import chives from "@recommand/static/image/chives.svg";
-import eggs from "@recommand/static/image/eggs.svg";
-import greenOnion from "@recommand/static/image/greenOnion.svg";
-import hairtail from "@recommand/static/image/hairtail.svg";
-import jelly from "@recommand/static/image/jelly.svg";
-import mackerel from "@recommand/static/image/mackerel.svg";
-import noodles from "@recommand/static/image/noodles.svg";
-import nori from "@recommand/static/image/nori.svg";
-import octopus from "@recommand/static/image/octopus.svg";
-import paprika from "@recommand/static/image/paprika.svg";
-import pork from "@recommand/static/image/pork.svg";
-import potato from "@recommand/static/image/potato.svg";
-import pumpkin from "@recommand/static/image/pumpkin.svg";
-import ramen from "@recommand/static/image/ramen.svg";
-import riceCake from "@recommand/static/image/riceCake.png";
-import sesameLeaf from "@recommand/static/image/sesameLeaf.svg";
-import vegetables from "@recommand/static/image/vegetables.svg";
-import wheat from "@recommand/static/image/wheat.svg";
+import acorn from "@recommend/static/image/acorn.svg";
+import beef from "@recommend/static/image/beef.svg";
+import carrot from "@recommend/static/image/carrot.svg";
+import chickenBreast from "@recommend/static/image/chickenBreast.svg";
+import chicken from "@recommend/static/image/chicken.svg";
+import chives from "@recommend/static/image/chives.svg";
+import eggs from "@recommend/static/image/eggs.svg";
+import greenOnion from "@recommend/static/image/greenOnion.svg";
+import hairtail from "@recommend/static/image/hairtail.svg";
+import jelly from "@recommend/static/image/jelly.svg";
+import mackerel from "@recommend/static/image/mackerel.svg";
+import noodles from "@recommend/static/image/noodles.svg";
+import nori from "@recommend/static/image/nori.svg";
+import octopus from "@recommend/static/image/octopus.svg";
+import paprika from "@recommend/static/image/paprika.svg";
+import pork from "@recommend/static/image/pork.svg";
+import potato from "@recommend/static/image/potato.svg";
+import pumpkin from "@recommend/static/image/pumpkin.svg";
+import ramen from "@recommend/static/image/ramen.svg";
+import riceCake from "@recommend/static/image/riceCake.png";
+import sesameLeaf from "@recommend/static/image/sesameLeaf.svg";
+import vegetables from "@recommend/static/image/vegetables.svg";
+import wheat from "@recommend/static/image/wheat.svg";
 import { Paper, Avatar, Button } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Ingredient } from "@lib/interfaces";
-import { findRecommandFood } from "@lib/helper";
+import { findRecommendFood } from "@lib/helper";
+import TodayRankModal from "@recommend/components/TodayRankModal";
 
 const imageObject = {
   acorn,
@@ -204,7 +205,7 @@ const subIngredientMappingList: Ingredient[] = [
   },
 ];
 
-const RecommandPage: React.FC = () => {
+const RecommendPage: React.FC = () => {
   const [mainIngredients, setMainIngredients] = useState<Array<string | null>>(
     []
   );
@@ -213,12 +214,9 @@ const RecommandPage: React.FC = () => {
   );
   const [check, setCheck] = useState<Boolean>(false);
 
-  // const history = useHistory();
-
   const toggleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     let checked = event.currentTarget.checked;
     setCheck(checked);
-    console.log(check);
   };
 
   const toggleMainIngredient = (event: MouseEvent) => {
@@ -255,13 +253,14 @@ const RecommandPage: React.FC = () => {
     const config = {
       withCredentials: true,
     };
-    findRecommandFood(data, config);
+    findRecommendFood(data, config);
   };
 
   const classes = useStyles();
   return (
     <Paper className={classes.rootContainer}>
       <h1>우리 집 냉장고에는??</h1>
+      <TodayRankModal />
       <Paper className={classes.container} elevation={3}>
         <section className={classes.ingredientBox}>
           <fieldset className={classes.foodFieldset}>
@@ -329,4 +328,4 @@ const RecommandPage: React.FC = () => {
   );
 };
 
-export default RecommandPage;
+export default RecommendPage;

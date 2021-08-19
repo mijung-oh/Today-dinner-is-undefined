@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import TestPage from "@pages/TestPage";
 import MainPage from "@pages/MainPage";
 import ProfilePage from "@pages/ProfilePage";
 import AuthloginPage from "@pages/AuthloginPage";
-import RecommandPage from "@pages/RecommandPage";
+import RecommendPage from "@pages/RecommendPage";
+import NotFoundPage from "@pages/NotFoundPage";
 import Appbar from "@components/Appbar";
 import BottomNav from "@components/BottomNav";
 import { useSelector } from "react-redux";
 
 import { RootState } from "modules";
-import Articles from "../Articles/route/Articles";
+
 import RecoRecipe from "../Articles/components/RecoRecipe";
 import UserScrap from "../Articles/page/UserScrap";
 import RecipeList from "../Articles/components/RecipeList";
@@ -39,25 +39,25 @@ const BRouter: React.FC<BRouterProps> = () => {
 
   return (
     <Router>
-      {/* {isAuth ? <Appbar /> : null} */}
-      <Appbar />
+      {isAuth ? <Appbar /> : null}
+      {/* <Appbar /> */}
       <Switch>
         <Route path="/" exact component={MainPage} />
-        <Route path="/test" exact component={TestPage} />
         <Route path="/profile/:nickname" component={ProfilePage} />
         <Route path="/oauth/:socialCompany" component={AuthloginPage} />
-        <Route path="/RecoRecipe/detail/:id" component={RecoRecipe} />
-        <Route path="/userScrap" component={UserScrap} />
+        <Route path="/recorecipe/detail/:id" component={RecoRecipe} />
+        <Route path="/userscrap" component={UserScrap} />
         <Route path="/recipe" component={RecipeList} />
         <Route path="/update/:id" component={ArticleUpdate} />
-        <Route path="/userRecipe/detail/:id" component={UserRecipe} />
+        <Route path="/userrecipe/detail/:id" component={UserRecipe} />
         <Route path="/articles/create" component={ArticleCreate} />
         <Route path="/articles/detail/:id" component={ArticleDetail} />
         <Route path="/articles" component={ArticleHome} />
-        <Route path="/recommand" component={RecommandPage} />
+        <Route path="/recommend" component={RecommendPage} />
+        <Route path="/*" component={NotFoundPage} />
       </Switch>
-      {/* {isAuth ? <BottomNav /> : null} */}
-      <BottomNav />
+      {isAuth ? <BottomNav /> : null}
+      {/* <BottomNav /> */}
     </Router>
   );
 };

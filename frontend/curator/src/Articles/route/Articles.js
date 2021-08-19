@@ -13,11 +13,11 @@ import UserScrap from "../page/UserScrap";
 function Articles() {
   return (
     <Switch>
-      <Route path="/RecoRecipe/detail/:id" component={RecoRecipe} />
-      <Route path="/userScrap" component={UserScrap} />
+      <Route path="/recorecipe/detail/:id" component={RecoRecipe} />
+      <Route path="/userscrap" component={UserScrap} />
       <Route path="/recipe" component={RecipeList} />
       <Route path="/update/:id" component={ArticleUpdate} />
-      <Route path="/userRecipe/detail/:id" component={UserRecipe} />
+      <Route path="/userrecipe/detail/:id" component={UserRecipe} />
       <Route path="/articles/create" component={ArticleCreate} />
       <Route path="/articles/detail/:id" component={ArticleDetail} />
       <Route path="/articles" component={ArticleHome} />

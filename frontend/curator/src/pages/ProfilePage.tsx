@@ -161,17 +161,21 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
       }
     };
     const currentUser = async () => {
-      const res = await axios.get(`${USER_CHECK_URL}`);
+      const res = await axios.get(`${USER_CHECK_URL}`, {
+        withCredentials: true,
+      });
       const {
         data: { nickname },
       } = res;
+      // console.log("res", res);
       setCurrentUserNickname(nickname);
     };
     userInfo();
     currentUser();
-  }, [PROFILE_URL, fetchedUserData, nickname]); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
+  }, [PROFILE_URL, nickname]); // 여기 deps 수정 필요. 이상하게 fetchedUserData 넣으면 사잔 있는 경우, 계속 반복해서 네트워크 요청이 보내진다
   // console.log("fectimage", fetchedUserData.profileImg);
-
+  console.log("nickname", nickname);
+  console.log("currentUserNickname", currentUserNickname);
   const onClickFollow = (e: MouseEvent) => {
     const data = {};
     const config = {

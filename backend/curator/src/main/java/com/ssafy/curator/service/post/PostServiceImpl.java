@@ -124,7 +124,7 @@ public class PostServiceImpl implements PostService {
 //            String path = "src/main/resources/static/images/";
             String path = "/usr/local/images/";
 
-            String newFileName = commonService.rnd(originalName, f.getBytes(), path);
+            String newFileName = commonService.rnd(f.getBytes(), path);
             String newPath = path+newFileName;
 
             pi.setFilename(newFileName);
@@ -176,7 +176,7 @@ public class PostServiceImpl implements PostService {
         return postWithImageDto;
     }
 
-    public PostEntity updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception {
+    public PostWithImageDto updatePost(@PathVariable("id") Long postId, PostEntity postDetails, MultipartHttpServletRequest mtfRequest) throws Exception {
         Long p = Long.parseLong(String.valueOf(postId));
 
         PostEntity post = postRepository.findById(p);
@@ -210,7 +210,7 @@ public class PostServiceImpl implements PostService {
 //                String path = "src/main/resources/static/images/";
                 String path = "/usr/local/images/";
 
-                String newFileName = commonService.rnd(originalName, f.getBytes(), path);
+                String newFileName = commonService.rnd(f.getBytes(), path);
                 String newPath = path+newFileName;
 
                 pi.setFilename(newFileName);
@@ -222,7 +222,9 @@ public class PostServiceImpl implements PostService {
         }
 
         PostEntity updatePost = postRepository.save(post);
-        return updatePost;
+        PostWithImageDto postWithImageDto = new ModelMapper().map(post, PostWithImageDto.class);
+
+        return postWithImageDto;
     }
 
     public ResponseEntity deletePost(@PathVariable("post_id") Long postId) {

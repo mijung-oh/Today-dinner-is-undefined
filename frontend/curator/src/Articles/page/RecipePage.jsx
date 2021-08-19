@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
-import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
+      textAlign: "center",
     },
   },
   modal: {
@@ -68,14 +65,14 @@ const useStyles = makeStyles((theme) => ({
   rootss: {
     display: "flex",
     flexWrap: "wrap",
-    minWidth: 300,
+    minWidth: 100,
     width: "100%",
   },
   image: {
     position: "relative",
     height: 200,
     [theme.breakpoints.down("xs")]: {
-      width: "100% !important", // Overrides inline-style
+      width: "100% !important",
       height: 100,
     },
     "&:hover, &$focusVisible": {
@@ -111,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: 0,
     backgroundSize: "cover",
     backgroundPosition: "center 40%",
+    textAlign: "center",
   },
   imageBackdrop: {
     position: "absolute",
@@ -121,6 +119,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.black,
     opacity: 0.4,
     transition: theme.transitions.create("opacity"),
+    textAlign: "center",
   },
   imageTitle: {
     position: "relative",
@@ -154,7 +153,7 @@ function RecipePage({ allRecipe }) {
   const [user, setUser] = useState("");
   const authLogin = async () => {
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
     );
     if (auth.data.nickname === "") {
     }
@@ -205,7 +204,7 @@ function RecipePage({ allRecipe }) {
     fetchRecipe();
     authLogin();
     return () => setLoading(false);
-  }, []);
+  }, [allRecipe.recipe_ID]);
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!recipe) return null;
@@ -214,7 +213,7 @@ function RecipePage({ allRecipe }) {
 
     formData.append("nickname", user);
 
-    const response = await axios.post(
+    await axios.post(
       `http://i5c207.p.ssafy.io/curation/scrap/${allRecipe.recipe_ID}`,
       formData,
       {
@@ -236,9 +235,10 @@ function RecipePage({ allRecipe }) {
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
           style={{
-            width: "400px",
-            height: "250px",
-            margin: "10px",
+            width: "450px",
+            height: "300px",
+            margin: "7px",
+            textAlign: "center !important",
           }}
         >
           <span
@@ -311,7 +311,7 @@ function RecipePage({ allRecipe }) {
                       onClick={onToScrap}
                       aria-label="add to favorites"
                     >
-                      {check ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+                      {check ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                     </IconButton>
                   </div>
                   <div>

@@ -10,7 +10,11 @@ const persistConfig = {
   whitelist: ["clientLogin"], // required인지 모르겠당..
 };
 
-export const rootReducer = combineReducers({ clientLogin: clientLogin });
+//redux-persist는 combineReducer로 사용할 수 가 없다.
+// 처음 하나의 리듀서만 영구종속됨 --> 공식문서에도 나와있음
+export const rootReducer = combineReducers({
+  clientLogin,
+});
 
 // 타입도 빼줘야한다. <-- 이거 export 해야지 나중에 useSelector 사용할 때 state의 Type을 지정할 수 있다
 export type RootState = ReturnType<typeof rootReducer>;

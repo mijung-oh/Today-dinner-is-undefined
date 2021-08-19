@@ -9,6 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PostLikeRepository extends JpaRepository<PostLikeEntity, Long> {
     @Transactional
     void deleteByUserEntityAndPostEntity(UserEntity userEntity, PostEntity postEntity);
-
     boolean existsByUserEntityAndPostEntity(UserEntity userEntity, PostEntity postEntity);
 }

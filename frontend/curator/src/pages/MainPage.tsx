@@ -5,7 +5,6 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../modules/clientLogin";
 import { codeExtractor } from "@lib/helper";
-// import { url } from "inspector";
 import SocialLogin from "@Index/components/SocialLogin";
 import AppPreview from "@Index/components/AppPreview";
 

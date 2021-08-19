@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import "./translate.css";
 import axios from "axios";
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
   roots: {
@@ -60,11 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RecoRecipePage({ article }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
   const [check, setCheck] = useState(false);
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -72,7 +63,7 @@ function RecoRecipePage({ article }) {
   const [user, setUser] = useState(null);
   const authLogin = async () => {
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
     );
     if (auth.data.nickname === "") {
     }
@@ -89,6 +80,7 @@ function RecoRecipePage({ article }) {
       setCheck(true);
     }
   };
+  userCheck();
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -104,9 +96,9 @@ function RecoRecipePage({ article }) {
       }
       setLoading(false);
     };
+
     fetchRecipe();
-    userCheck();
-  }, []);
+  }, [article.recipe_ID]);
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!recipe) return null;
@@ -117,7 +109,7 @@ function RecoRecipePage({ article }) {
 
     formData.append("nickname", user);
 
-    const response = await axios.post(
+    await axios.post(
       `http://i5c207.p.ssafy.io/curation/scrap/${article.recipe_ID}`,
       formData,
       {
@@ -194,27 +186,31 @@ function RecoRecipePage({ article }) {
                   fontSize: "13px",
                 }}
               >
-                {recipe.ingredients.map((item) => (
-                  <p paragraph> ▪&nbsp;{item.irdnt_NM} &nbsp; </p>
+                {recipe.ingredients.map((item, index) => (
+                  <span key={index} paragraph>
+                    ▪&nbsp;{item.irdnt_NM} &nbsp;{" "}
+                  </span>
                 ))}
               </h3>
               <br />
               <div>
                 <h2>요리 순서</h2>
-                {recipe.process.map((item) => (
+                {recipe.process.map((item, index) => (
                   <Typography
                     style={{
                       fontSize: "14px",
                       maxHeight: "auto",
                       overflow: "auto",
                     }}
+                    key={index}
                   >
                     <h3>Step.{item.cooking_NO}</h3>
                     <img
                       src={item.stre_STEP_IMAGE_URL}
                       style={{ width: "60%" }}
+                      alt=""
                     />
-                    <p>{item.cooking_DC}</p>
+                    <span>{item.cooking_DC}</span>
                   </Typography>
                 ))}
               </div>

@@ -4,7 +4,7 @@ import {
   RECOMMEND_LIST_URL,
   LOGOUT_URL,
   USER_CHECK_URL,
-  CHECKOUT_URL,
+  SET_RANK_URL,
 } from "@lib/constants";
 import { db } from "../fbInstance";
 
@@ -59,7 +59,7 @@ export const nicknameCheck = (username, email) => {
       } else {
         const nicknameCheckURL = `http://i5c207.p.ssafy.io:9000/curation/user/userNicknameCheck?nickname=${nickname}`;
         const isExist = await axios.get(nicknameCheckURL);
-        console.log("isExist", isExist);
+        // console.log("isExist", isExist);
         if (isExist.data) {
           return "이미 존재하는 닉네임입니다.";
         } else {
@@ -86,7 +86,7 @@ export const nicknameCheck = (username, email) => {
   });
 };
 
-export const findRecommandFood = (data, config) => {
+export const findRecommendFood = (data, config) => {
   Swal.fire({
     text: "이 재료들로 메뉴를 추천해드릴까요?",
     confirmButtonText: "네 좋아요",
@@ -98,14 +98,14 @@ export const findRecommandFood = (data, config) => {
           if (response.status !== 200) {
             throw new Error(response.statusText);
           }
-          console.log(response);
+          // console.log(response);
           const foodies = response.data;
-          const recommandedFood = foodies?.[0];
+          const recommendedFood = foodies?.[0];
           const altFoodOne = foodies?.[1];
           const altFoodTwo = foodies?.[2];
           const altFoodThree = foodies?.[3];
           const altFoodFour = foodies?.[4];
-          const { img_URL, recipe_ID, recipe_NM_KO } = recommandedFood;
+          const { img_URL, recipe_ID, recipe_NM_KO } = recommendedFood;
           const {
             img_URL: alt_img_URL1,
             recipe_ID: alt_recipe_ID1,
@@ -137,7 +137,10 @@ export const findRecommandFood = (data, config) => {
             if (result.isConfirmed) {
               // 그리고 여기에 투표 요청 하나 넣어야지
               // history.push(`/RecoRecipe/detail/${recipe_ID}`); // 여기를 레시피 ID로 이동하도록 수정 ( 여기 history 대신에 href 사용 --> 바꿀 수 있음 바꿔라)
-              window.location.href = `/RecoRecipe/detail/${recipe_ID}`;
+              // const config = {withCredentials : true}
+              axios.post(SET_RANK_URL + `${recipe_ID}`);
+              // console.log(SET_RANK_URL + `${recipe_ID}`);
+              window.location.href = `/recorecipe/detail/${recipe_ID}`;
             }
             if (result.isDenied) {
               Swal.fire({
@@ -208,20 +211,18 @@ export const countNewAlert = async () => {
   return res.data.length;
 };
 
-export const listener = async () => {
+export const listener = async (nickname) => {
   db.collection("Follow")
-    .doc("김서방") //2. params 넣은다 음에 실행
+    .doc(nickname) //2. params 넣은다 음에 실행
     .onSnapshot((doc) => {
-      console.log(doc);
-      console.log(doc.data().follower.length);
-      console.log(" data: ", doc.data()); //3. 이떄부터 firebase를 listen중
+      // console.log(doc);
+      // console.log(doc.data().follower.length);
+      // console.log(" data: ", doc.data()); //3. 이떄부터 firebase를 listen중
     });
 };
 
-// 나중에 딜리트 로직 만들면 되겠는데,.... db.collection.doc.delete로
-
 export const getUserNickname = async () => {
-  const res = await axios.get(USER_CHECK_URL);
+  const res = await axios.get(USER_CHECK_URL, { withCredentials: true });
   const { nickname } = res.data;
   return nickname;
 };

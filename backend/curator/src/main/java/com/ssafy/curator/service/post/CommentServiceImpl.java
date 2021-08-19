@@ -2,6 +2,7 @@ package com.ssafy.curator.service.post;
 
 
 import com.ssafy.curator.dto.post.CommentDto;
+import com.ssafy.curator.dto.post.PostWithImageDto;
 import com.ssafy.curator.entity.post.CommentEntity;
 import com.ssafy.curator.entity.post.PostEntity;
 import com.ssafy.curator.entity.user.UserEntity;
@@ -78,13 +79,15 @@ public class CommentServiceImpl implements CommentService{
         return commentDto;
     }
 
-    public CommentEntity updateComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId, CommentEntity commentDetails) throws Exception {
+    public CommentDto updateComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId, CommentEntity commentDetails) throws Exception {
         Long c = Long.parseLong(String.valueOf(commentId));
         CommentEntity comment = commentRepository.findById(c);
         comment.setContent(commentDetails.getContent());
 
         CommentEntity updateComment = commentRepository.save(comment);
-        return updateComment;
+        CommentDto commentDto = new ModelMapper().map(comment, CommentDto.class);
+
+        return commentDto;
     }
 
     public ResponseEntity deleteComment(@PathVariable("post_id") Long postId, @PathVariable("comment_id") Long commentId) throws Exception {

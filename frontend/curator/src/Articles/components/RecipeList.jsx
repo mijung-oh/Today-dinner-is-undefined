@@ -10,11 +10,10 @@ const fakeFetch = (delay = 1000) =>
 
 function RecipeList() {
   const [posts, setPosts] = useState([]);
-  const [check, setCheck] = useState([]);
   useEffect(() => {
     const authLogin = async () => {
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
       );
       if (auth.data.nickname === "") {
         loginAlert();
@@ -36,14 +35,14 @@ function RecipeList() {
     setState((prev) => ({ ...prev, isLoading: true }));
     await fakeFetch();
     setState((prev) => ({
-      itemCount: prev.itemCount + 8,
+      itemCount: prev.itemCount + 6,
       isLoading: false,
     }));
   };
   useEffect(() => {
     fetchItems();
   }, []);
-  const [_, setRef] = useIntersect(async (entry, observer) => {
+  const [a, setRef] = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
     await fetchItems();
     observer.observe(entry.target);
@@ -52,16 +51,16 @@ function RecipeList() {
   if (!itemCount) return null;
 
   return (
-    <div style={{ padding: "50px" }} className="App">
-      {[...Array(itemCount)].map((_, i) => {
+    <div style={{ padding: "50px", textAlign: "center" }} className="App">
+      {[...Array(itemCount)].map((a, i) => {
         return (
           <>
-            <RecipePage key={i} allRecipe={posts[i]} />
+            <RecipePage key={i} mape={a} allRecipe={posts[i]} />
           </>
         );
       })}
       <div ref={setRef} className="Loading">
-        {isLoading && <img src={gif} width="100px" />}
+        {isLoading && <img src={gif} width="100px" alt="" />}
       </div>
     </div>
   );
