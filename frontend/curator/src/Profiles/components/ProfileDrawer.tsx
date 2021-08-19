@@ -178,7 +178,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
         },
         withCredentials: true,
       });
-      console.log(res.data);
+      // console.log(res.data);
     } catch (error) {
       console.log(error.response);
     }
