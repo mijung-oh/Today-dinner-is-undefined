@@ -171,6 +171,10 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     }
   };
   // formdata 넣는건 되는듯?
+  console.log("profileImg", profileImg);
+  console.log("typeof profileImg", typeof profileImg);
+  console.log("bgImg", bgImg);
+  console.log("typeof bgImg", typeof bgImg);
 
   const onClickProfileInput = (e: MouseEvent) => {
     if (profileInput.current !== null) {

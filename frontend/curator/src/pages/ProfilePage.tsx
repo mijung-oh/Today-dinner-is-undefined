@@ -9,6 +9,8 @@ import { USER_CHECK_URL } from "@lib/constants";
 import ProfileDrawer from "@profiles/components/ProfileDrawer";
 import { FOLLOW_URL } from "@lib/constants";
 import { UNFOLLOW_URL } from "@lib/constants";
+import defaultProfileImage from "@static/images/default-profile.jpg";
+import defaultBG from "@static/images/default-bg.png";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -211,7 +213,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
             src={
               fetchedUserData.profileImg
                 ? fetchedUserData.profileImg
-                : "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg"
+                : defaultProfileImage
             }
             alt="profileImg"
           ></img>
@@ -220,11 +222,7 @@ const Profile: React.FC<RouteComponentProps<paramsProps>> = ({ match }) => {
           <img
             className={classes.backgroundImg}
             width="100%"
-            src={
-              fetchedUserData.bgImg
-                ? fetchedUserData.bgImg
-                : "https://patoliyainfotech.com/wp-content/uploads/2019/10/one-year-of-react-native.png"
-            }
+            src={fetchedUserData.bgImg ? fetchedUserData.bgImg : defaultBG}
             alt="backgroundImg"
           ></img>
         </div>
