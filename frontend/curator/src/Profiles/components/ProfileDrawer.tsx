@@ -133,6 +133,8 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
   const [triggerCheck, setTriggerCheck] = useState<Boolean>(false);
   const [isDuplicate, setIsDuplicate] = useState<Boolean>(false);
   const [showButtons, setShowButtons] = useState<Boolean>(true);
+  const [bgImgFile, setBGImgFile] = useState<any>(undefined);
+  const [profileImgFile, setProfileImgFile] = useState<any>(undefined);
 
   console.log("I am props!", props);
   // props로 받은 값들을 상태관리하고자 할 때는 , 컴포넌트가 created 될 때 set 해줘라
@@ -165,9 +167,9 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     formData.append("introduction", introduction);
     formData.append(
       "profileImg",
-      new Blob([profileImg], { type: "image/png" })
+      new Blob([profileImgFile], { type: "image/png" })
     );
-    formData.append("bgImg", new Blob([bgImg], { type: "image/png" }));
+    formData.append("bgImg", new Blob([bgImgFile], { type: "image/png" }));
 
     const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
     try {
@@ -195,6 +197,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
       const adjustedProfile: File | undefined = profileInput.current.files?.[0];
       // console.log("adjustP", adjustedProfile);
       if (adjustedProfile !== undefined) {
+        setProfileImgFile(adjustedProfile);
         const reader = new FileReader();
         reader.onloadend = (event: any) => {
           const readData = event.currentTarget.result as string;
@@ -219,6 +222,7 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     if (bgInput.current !== null) {
       const adjustedBG: File | undefined = bgInput.current.files?.[0];
       if (adjustedBG !== undefined) {
+        setBGImgFile(adjustedBG);
         const reader = new FileReader();
         reader.onloadend = (event: any) => {
           const readData = event.currentTarget.result as string;
