@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./style.css";
 import useIntersect from "./useintersect";
 import RecipePage from "../page/RecipePage";
 import gif from "./images/123.gif";

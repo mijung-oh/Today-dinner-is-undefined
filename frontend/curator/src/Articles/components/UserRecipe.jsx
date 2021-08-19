@@ -4,7 +4,6 @@ import UserRecipeDetail from "../page/UserRecipeDetail";
 
 function UserRecipe({ match }) {
   const recipe_id = match.params.id;
-  console.log(recipe_id);
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

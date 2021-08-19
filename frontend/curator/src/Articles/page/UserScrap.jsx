@@ -37,10 +37,6 @@ function UserScrap({ history }) {
     };
     fetchArticles();
   }, []);
-  console.log(
-    "TES",
-    `http://i5c207.p.ssafy.io/curation/scrap/${user}/recipeList`
-  );
 
   if (loading) return <div>로딩중..</div>;
   if (error) return error.message;

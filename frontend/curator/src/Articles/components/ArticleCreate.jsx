@@ -13,7 +13,6 @@ function ArticleCreate({ history }) {
     }
   };
   authLogin();
-  console.log("preveState", prevState);
   const [postfiles, setPostfiles] = useState({
     file: [],
     previewURL: "",

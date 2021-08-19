@@ -5,16 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import BorderColorRoundedIcon from "@material-ui/icons/BorderColorRounded";
 import IconButton from "@material-ui/core/IconButton";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import "./translate.css";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
       width: "25ch",
     },
-  },
-  font: {
-    fontFamily: "'Poor Story', cursive",
   },
 }));
 
@@ -25,7 +21,6 @@ function CommentList({ post_id, user }) {
   const [error, setError] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const classes = useStyles();
-  console.log("처음유저", user);
   useEffect(() => {
     const authLogin = async () => {
       const auth = await axios.get(
@@ -66,7 +61,6 @@ function CommentList({ post_id, user }) {
     content: "",
     postId: post_id,
   });
-  console.log("testset", text);
   const { nickname, content, postId } = text;
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -169,8 +163,6 @@ function CommentList({ post_id, user }) {
           <div
             key={index}
             style={{
-              // display: "flex",
-              fontFamily: "'Poor Story', cursive",
               margin: "20px",
             }}
           >
