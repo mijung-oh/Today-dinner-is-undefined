@@ -135,7 +135,7 @@ const SocialLogin: React.FC = () => {
           className={`${classes.button} ${classes.GoogleBtn}`}
           variant="outlined"
           name="google"
-          onClick={onClickGoogle}
+          // onClick={onClickGoogle}
           startIcon={<Glogo />}
           size="large"
         >
@@ -146,7 +146,7 @@ const SocialLogin: React.FC = () => {
           className={`${classes.button} ${classes.NaverBtn}`}
           variant="outlined"
           name="naver"
-          onClick={onClickNaver}
+          // onClick={onClickNaver}
           startIcon={<Nlogo />}
           size="large"
         >

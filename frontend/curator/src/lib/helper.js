@@ -211,9 +211,9 @@ export const countNewAlert = async () => {
   return res.data.length;
 };
 
-export const listener = async () => {
+export const listener = async (nickname) => {
   db.collection("Follow")
-    .doc("김서방") //2. params 넣은다 음에 실행
+    .doc(nickname) //2. params 넣은다 음에 실행
     .onSnapshot((doc) => {
       // console.log(doc);
       // console.log(doc.data().follower.length);
