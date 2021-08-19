@@ -10,6 +10,6 @@ import java.io.IOException;
 public interface UserPageService {
     UserPageDto createUserInfo(String nickname, String introduction, MultipartHttpServletRequest multipartHttpServletRequest);
     UserPageDto getUserInfo(String nickname) throws IOException;
-    String updateUserInfo(String nickName, String introduction, MultipartFile multipartFile1, MultipartFile multipartFile2) throws Exception;
+    String updateUserInfo(String nickName, String introduction, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception;
     boolean existsByNickname(String nickname);
 }

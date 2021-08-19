@@ -24,7 +24,7 @@ public class UserPageController {
     // 마이페이지 등록
     @PostMapping("/userInfo")
     UserPageDto createUserInfo(@RequestParam String userNickname,  @RequestParam String introduction
-    , MultipartHttpServletRequest multipartHttpServletRequest) {
+            , MultipartHttpServletRequest multipartHttpServletRequest) {
         return userPageService.createUserInfo(userNickname, introduction, multipartHttpServletRequest);
     }
 
@@ -42,10 +42,8 @@ public class UserPageController {
     // 마이페이지 수정
     @PutMapping ("/userInfo")
     String updateUserInfo(@RequestParam String nickname,
-                          @RequestParam String introduction,
-                          @RequestParam(name = "profileImg") MultipartFile multipartFile1,
-                          @RequestParam(name = "bgImg") MultipartFile multipartFile2) throws Exception {
-        return userPageService.updateUserInfo(nickname, introduction, multipartFile1, multipartFile2);
+                          @RequestParam String introduction, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+        return userPageService.updateUserInfo(nickname, introduction, multipartHttpServletRequest);
     }
 
 }

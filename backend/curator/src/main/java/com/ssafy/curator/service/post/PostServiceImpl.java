@@ -160,8 +160,9 @@ public class PostServiceImpl implements PostService {
         postWithImageDto.setUser(post.getUser());
         postWithImageDto.setCreateDate(post.getCreateDate());
         postWithImageDto.setUpdateDate(post.getUpdateDate());
-        String profileImage = userPageRepository.findByUser(post.getUser()).getProfileImg();
-        postWithImageDto.setProfileImage(commonService.imageEncoding(profileImage));
+//        String profileImage = userPageRepository.findByUser(post.getUser()).getProfileImg();
+//        postWithImageDto.setProfileImage(commonService.imageEncoding(profileImage));
+        postWithImageDto.setProfileImage(null);
 
 
         List<PostImageEntity> Images = postImageRepository.findByPostId(postId);
