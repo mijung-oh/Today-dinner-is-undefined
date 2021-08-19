@@ -223,8 +223,8 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
           <p>게시글 작성</p>
         </MenuItem>
       </Link>
-      <MenuItem>
-        <IconButton color="inherit" onClick={pushRecipe}>
+      <MenuItem onClick={pushRecipe}>
+        <IconButton color="inherit">
           <StyleIcon />
         </IconButton>
         <p>전체 레시피</p>

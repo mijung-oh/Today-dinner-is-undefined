@@ -43,7 +43,7 @@ const BRouter: React.FC<BRouterProps> = () => {
   return (
     <Router>
       {isAuth ? <Appbar /> : null}
-      {/* <Appbar /> */}
+      <Appbar />
       <Switch>
         <Route path="/" exact component={MainPage} />
         <Route path="/profile/:nickname" component={ProfilePage} />
@@ -60,7 +60,7 @@ const BRouter: React.FC<BRouterProps> = () => {
         <Route path="/*" component={NotFoundPage} />
       </Switch>
       {isAuth ? <BottomNav /> : null}
-      {/* <BottomNav /> */}
+      <BottomNav />
     </Router>
   );
 };
