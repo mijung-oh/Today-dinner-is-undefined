@@ -42,10 +42,10 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
     } else {
       setValue("Home");
     }
-    if (name && Email === false) {
-      history.push("/");
-    }
-  }, [location, Email, name, history]);
+    // if (name && Email === false) {
+    //   history.push("/");
+    // }
+  }, [location]);
 
   useEffect(() => {
     const fetchUserNickName = async () => {
