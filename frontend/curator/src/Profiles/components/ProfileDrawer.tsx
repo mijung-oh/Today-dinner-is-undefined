@@ -150,8 +150,11 @@ const ProfileDrawer: React.FC<profileProps> = (props) => {
     const formData = new FormData();
     formData.append("nickname", nickName);
     formData.append("introduction", introduction);
-    formData.append("profileImg", profileImg);
-    formData.append("bgImg", bgImg);
+    formData.append(
+      "profileImg",
+      new Blob([profileImg], { type: "image/png" })
+    );
+    formData.append("bgImg", new Blob([bgImg], { type: "image/png" }));
 
     const PUT_URL = "http://i5c207.p.ssafy.io:9000/curation/userInfo";
     try {
