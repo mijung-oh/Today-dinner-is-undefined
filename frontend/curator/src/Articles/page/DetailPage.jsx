@@ -23,6 +23,7 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
   roots: {
+    // maxWidth: ,
     display: "flex",
     justifyContent: "center",
     maxWidth: "2600px",
@@ -67,7 +68,11 @@ const useStyles = makeStyles((theme) => ({
 function DetailPage({ article, onDelete, user, currentUser }) {
   const [check, setCheck] = useState(false);
   const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = article.imagePath.length;
@@ -97,7 +102,7 @@ function DetailPage({ article, onDelete, user, currentUser }) {
   };
   userCheck();
   const userLike = async () => {
-    await axios.post(
+    const response = await axios.post(
       `http://i5c207.p.ssafy.io/curation/like/${article.id}/?userNickname=${user}`
     );
     userCheck();
@@ -131,11 +136,7 @@ function DetailPage({ article, onDelete, user, currentUser }) {
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                <img
-                  src={article.profileImage}
-                  style={{ width: "100%" }}
-                  alt="#"
-                />
+                <img src={article.profileImage} style={{ width: "100%" }} />
               </Avatar>
             }
             subheader={article.user.nickname}
@@ -149,13 +150,12 @@ function DetailPage({ article, onDelete, user, currentUser }) {
                 enableMouseEvents
               >
                 {article.imagePath.map((step, index) => (
-                  <div key={index}>
+                  <div key={step.label}>
                     {Math.abs(activeStep - index) <= 2 ? (
                       <img
                         className={classes.img}
                         src={step}
                         style={{ margin: "auto" }}
-                        alt="#"
                       />
                     ) : null}
                   </div>
