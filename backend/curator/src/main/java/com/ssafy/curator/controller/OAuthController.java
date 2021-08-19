@@ -136,27 +136,30 @@ public class OAuthController {
         JsonNode properties = jsonNode.path("properties");
         JsonNode kakao_account = jsonNode.path("kakao_account");
 
-        String email = "";
         String name = properties.path("nickname").asText();
+        String email = "";
         try {
             email = kakao_account.path("email").asText();
         }catch (Exception e){
             email = name;
         }
+        finally {
+            UserDto userDto = null;
+            if (userService.existUser(email)) {
+                userDto = userService.getUserByUserEmail(email);
+            } else {
+                userDto = new UserDto();
+                userDto.setName(name);
+                userDto.setEmail(email);
+                userService.createPlatformUser(userDto, "KAKAO");
+            }
+            UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
+            loginSessionService.setSession(sessionDto);
+            ResponseLogin responseLogin = new ResponseLogin(200, "로그인 성공", true, sessionDto);
 
-        UserDto userDto = null;
-        if (userService.existUser(email)) {
-            userDto = userService.getUserByUserEmail(email);
-        } else {
-            userDto = new UserDto();
-            userDto.setName(name);
-            userDto.setEmail(email);
-            userService.createPlatformUser(userDto, "KAKAO");
+            return new ResponseEntity<>(responseLogin, HttpStatus.OK);
         }
-        UserSessionDto sessionDto = new ModelMapper().map(userDto, UserSessionDto.class);
-        loginSessionService.setSession(sessionDto);
-        ResponseLogin responseLogin = new ResponseLogin(200, "로그인 성공", true, sessionDto);
-        return new ResponseEntity<>(responseLogin, HttpStatus.OK);
+
     }
 
     @GetMapping(value = "/naver/auth")
