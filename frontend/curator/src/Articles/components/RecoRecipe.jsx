@@ -14,8 +14,12 @@ function RecoRecipe({ match }) {
       try {
         setArticle(null);
         setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${RecoID}`
+          `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${RecoID}`,
+          config
         );
 
         setArticle(response.data);

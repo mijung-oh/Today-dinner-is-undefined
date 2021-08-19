@@ -13,16 +13,24 @@ function RecipeList() {
   const [check, setCheck] = useState([]);
   useEffect(() => {
     const authLogin = async () => {
+      const config = {
+        withCredentials: true,
+      };
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+        config
       );
       if (auth.data.nickname === "") {
         loginAlert();
       }
     };
     const fetchPosts = async () => {
+      const config = {
+        withCredentials: true,
+      };
       const res = await axios.get(
-        "http://i5c207.p.ssafy.io/curation/scrap/getAllRecipe/orderByScrapCount"
+        "http://i5c207.p.ssafy.io/curation/scrap/getAllRecipe/orderByScrapCount",
+        config
       );
       setPosts(res.data);
     };

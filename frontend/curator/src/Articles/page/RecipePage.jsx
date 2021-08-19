@@ -156,8 +156,12 @@ function RecipePage({ allRecipe }) {
   const [check, setCheck] = useState(false);
   const [user, setUser] = useState("");
   const authLogin = async () => {
+    const config = {
+      withCredentials: true,
+    };
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+      config
     );
     if (auth.data.nickname === "") {
     }
@@ -171,8 +175,12 @@ function RecipePage({ allRecipe }) {
   const handleOpen = () => {
     setOpen(true);
     const scrapStatus = async () => {
+      const config = {
+        withCredentials: true,
+      };
       const scrap = await axios.get(
-        `http://i5c207.p.ssafy.io/curation/scrap/${allRecipe.recipe_ID}/userList`
+        `http://i5c207.p.ssafy.io/curation/scrap/${allRecipe.recipe_ID}/userList`,
+        config
       );
       const nickname = user;
       if (scrap.data.includes(nickname)) {
@@ -195,8 +203,12 @@ function RecipePage({ allRecipe }) {
       try {
         setRecipe(null);
         // setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${allRecipe.recipe_ID}`
+          `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${allRecipe.recipe_ID}`,
+          config
         );
 
         setRecipe(response.data);
@@ -216,10 +228,14 @@ function RecipePage({ allRecipe }) {
     let formData = new FormData();
 
     formData.append("nickname", user);
+    const config = {
+      withCredentials: true,
+    };
 
     const response = await axios.post(
       `http://i5c207.p.ssafy.io/curation/scrap/${allRecipe.recipe_ID}`,
       formData,
+      config,
       {
         headers: {
           "Content-Type": `application/json`,

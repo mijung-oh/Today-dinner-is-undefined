@@ -5,8 +5,12 @@ import { loginAlert } from "./Alert";
 function ArticleCreate({ history }) {
   const prevState = history.location.state;
   const authLogin = async () => {
+    const config = {
+      withCredentials: true,
+    };
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+      config
     );
     if (auth.data.nickname === "") {
       loginAlert();
@@ -63,11 +67,19 @@ function ArticleCreate({ history }) {
     });
 
     try {
-      axios.post("http://i5c207.p.ssafy.io/curation/post/list", formData, {
-        headers: {
-          "Content-Type": `multipart/form-data`,
-        },
-      });
+      const config = {
+        withCredentials: true,
+      };
+      axios.post(
+        "http://i5c207.p.ssafy.io/curation/post/list",
+        formData,
+        confing,
+        {
+          headers: {
+            "Content-Type": `multipart/form-data`,
+          },
+        }
+      );
     } catch (e) {
       console.log(e);
     }

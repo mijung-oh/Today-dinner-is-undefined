@@ -61,8 +61,12 @@ const useStyles = makeStyles((theme) => ({
 function UserRecipeDetail({ article }) {
   const [user, setUser] = useState(null);
   const authLogin = async () => {
+    const config = {
+      withCredentials: true,
+    };
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+      config
     );
     if (auth.data.nickname === "") {
     }
@@ -84,8 +88,12 @@ function UserRecipeDetail({ article }) {
       try {
         setRecipe(null);
         // setLoading(true);
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${article.recipe_ID}`
+          `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${article.recipe_ID}`,
+          config
         );
         setRecipe(response.data);
       } catch (e) {
@@ -103,10 +111,13 @@ function UserRecipeDetail({ article }) {
     let formData = new FormData();
 
     formData.append("nickname", user);
-
+    const config = {
+      withCredentials: true,
+    };
     const response = await axios.post(
       `http://i5c207.p.ssafy.io/curation/scrap/${article.recipe_ID}`,
       formData,
+      config,
       {
         headers: {
           "Content-Type": `application/json`,

@@ -12,8 +12,12 @@ function UserScrap({ history }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const authLogin = async () => {
+    const config = {
+      withCredentials: true,
+    };
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin",
+      config
     );
     if (auth.data.nickname === "") {
     }
@@ -24,9 +28,12 @@ function UserScrap({ history }) {
     const fetchArticles = async () => {
       try {
         setLoading(true);
-
+        const config = {
+          withCredentials: true,
+        };
         const response = await axios.get(
-          `http://i5c207.p.ssafy.io/curation/scrap/${prevState.user}/recipeList`
+          `http://i5c207.p.ssafy.io/curation/scrap/${prevState.user}/recipeList`,
+          config
         );
         setScrap(response.data);
         authLogin();
