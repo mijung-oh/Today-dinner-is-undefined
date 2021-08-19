@@ -113,9 +113,9 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   }, []);
 
   const classes = useStyles();
-  const nickname = useSelector(
-    (state: RootState) => state.clientLogin.nickname
-  );
+  // const nickname = useSelector(
+  //   (state: RootState) => state.clientLogin.nickname
+  // );
   const [alertCount, setalertCount] = useState<Array<string | undefined>>([]);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<any>(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -173,7 +173,8 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
     );
   }
 
-  const pushProfile = (event: any) => {
+  const pushProfile = async (event: any) => {
+    const nickname = await getUserNickname();
     history.push(`/profile/${nickname}`);
   };
   const pushRecipe = (event: any) => {

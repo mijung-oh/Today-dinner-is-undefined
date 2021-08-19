@@ -19,8 +19,7 @@ import UserRecipe from "../Articles/components/UserRecipe";
 import ArticleCreate from "../Articles/components/ArticleCreate";
 import ArticleDetail from "../Articles/components/ArticleDetail";
 import ArticleHome from "../Articles/components/ArticleHome";
-//App.tsx에서 내려주는 props들의 타입 여기서 지정
-import { useHistory } from "react-router-dom";
+
 interface BRouterProps {}
 
 const BRouter: React.FC<BRouterProps> = () => {
@@ -34,8 +33,10 @@ const BRouter: React.FC<BRouterProps> = () => {
     if (name && Email) {
       setAuth(true);
       // history.push("/articles");
+      window.location.href = "/articles";
     } else {
       setAuth(false);
+      // window.location.href = "/";
     }
   }, [name, Email]);
 
