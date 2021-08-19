@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import gif from "./images/123.gif";
 import Media from "../page/Home";
 import { loginAlert } from "./Alert";
@@ -8,9 +9,10 @@ function ArticleHome() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
+  const [postId, setPostId] = useState("");
   const authLogin = async () => {
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
     );
     if (auth.data.nickname === "") {
       loginAlert();
@@ -36,7 +38,15 @@ function ArticleHome() {
     fetchArticles();
     authLogin();
   }, []);
-
+  const IdCheck = async () => {
+    const response = axios
+      .get("http://i5c207.p.ssafy.io/curation/post/list")
+      .then((res) => {
+        let post_id = res.data[res.data.length - 1].id;
+        setPostId(post_id);
+      });
+  };
+  IdCheck();
   if (loading)
     return (
       <div
@@ -46,7 +56,7 @@ function ArticleHome() {
           marginTop: "300px",
         }}
       >
-        <img src={gif} width="100px" alt="#" />
+        <img src={gif} width="100px" />
       </div>
     );
   if (error) return <div>에러가 발생했습니다</div>;
