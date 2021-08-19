@@ -87,7 +87,7 @@ export const nicknameCheck = (username, email) => {
   });
 };
 
-export const findRecommandFood = (data, config) => {
+export const findRecommendFood = (data, config) => {
   Swal.fire({
     text: "이 재료들로 메뉴를 추천해드릴까요?",
     confirmButtonText: "네 좋아요",
@@ -101,12 +101,12 @@ export const findRecommandFood = (data, config) => {
           }
           // console.log(response);
           const foodies = response.data;
-          const recommandedFood = foodies?.[0];
+          const recommendedFood = foodies?.[0];
           const altFoodOne = foodies?.[1];
           const altFoodTwo = foodies?.[2];
           const altFoodThree = foodies?.[3];
           const altFoodFour = foodies?.[4];
-          const { img_URL, recipe_ID, recipe_NM_KO } = recommandedFood;
+          const { img_URL, recipe_ID, recipe_NM_KO } = recommendedFood;
           const {
             img_URL: alt_img_URL1,
             recipe_ID: alt_recipe_ID1,
