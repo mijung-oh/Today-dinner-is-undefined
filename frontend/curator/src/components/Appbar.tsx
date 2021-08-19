@@ -319,7 +319,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
           <div className={classes.sectionDesktop}>
             <Link
               to={{
-                pathname: "articles/create",
+                pathname: "/articles/create",
                 state: {
                   postId: postId,
                   nickname: userNickname,

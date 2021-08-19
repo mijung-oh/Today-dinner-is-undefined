@@ -141,7 +141,7 @@ export const findRecommendFood = (data, config) => {
               // const config = {withCredentials : true}
               axios.post(SET_RANK_URL + `${recipe_ID}`);
               // console.log(SET_RANK_URL + `${recipe_ID}`);
-              window.location.href = `/RecoRecipe/detail/${recipe_ID}`;
+              window.location.href = `/recorecipe/detail/${recipe_ID}`;
             }
             if (result.isDenied) {
               Swal.fire({

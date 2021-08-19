@@ -36,7 +36,7 @@ function RecipeList() {
     setState((prev) => ({ ...prev, isLoading: true }));
     await fakeFetch();
     setState((prev) => ({
-      itemCount: prev.itemCount + 8,
+      itemCount: prev.itemCount + 5,
       isLoading: false,
     }));
   };
@@ -52,7 +52,7 @@ function RecipeList() {
   if (!itemCount) return null;
 
   return (
-    <div style={{ padding: "50px" }} className="App">
+    <div style={{ padding: "50px", textAlign: "center" }} className="App">
       {[...Array(itemCount)].map((_, i) => {
         return (
           <>

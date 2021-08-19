@@ -15,10 +15,10 @@ import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import EditIcon from "@material-ui/icons/Edit";
 import axios from "axios";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { Typography } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
@@ -129,12 +129,7 @@ function DetailPage({ article, onDelete, user, currentUser }) {
         }}
       ></div>
       <div className={classes.roots}>
-        <Card
-          style={{
-            width: "70%",
-            padding: "0",
-          }}
-        >
+        <Card style={{ width: "70%", padding: "0" }}>
           <h1 style={{ display: "flex", justifyContent: "center" }}>
             🥨{article.title}🥨
           </h1>
@@ -148,7 +143,7 @@ function DetailPage({ article, onDelete, user, currentUser }) {
           />
           <div>
             <div className={classes.root} style={{ margin: "auto" }}>
-              <div
+              <AutoPlaySwipeableViews
                 axis={theme.direction === "rtl" ? "x-reverse" : "x"}
                 index={activeStep}
                 onChangeIndex={handleStepChange}
@@ -165,7 +160,7 @@ function DetailPage({ article, onDelete, user, currentUser }) {
                     ) : null}
                   </div>
                 ))}
-              </div>
+              </AutoPlaySwipeableViews>
               <MobileStepper
                 steps={maxSteps}
                 position="static"
@@ -202,10 +197,11 @@ function DetailPage({ article, onDelete, user, currentUser }) {
               />
             </div>
           </div>
+
           <CardActions disableSpacing>
-            {article.user.nickname === user ? (
+            {user ? (
               <IconButton aria-label="add to favorites" onClick={userLike}>
-                {check ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {check ? <ThumbUpAltIcon /> : <ThumbUpOutlinedIcon />}
               </IconButton>
             ) : null}
             <Link
@@ -223,10 +219,7 @@ function DetailPage({ article, onDelete, user, currentUser }) {
                 {article.user.nickname === user ? <EditIcon /> : null}
               </IconButton>
             </Link>
-            <IconButton
-              aria-label="delete"
-              onClick={() => onDelete(article.id)}
-            >
+            <IconButton aria-label="delete" onClick={onDelete}>
               {article.user.nickname === user ? <DeleteForeverIcon /> : null}
             </IconButton>
           </CardActions>

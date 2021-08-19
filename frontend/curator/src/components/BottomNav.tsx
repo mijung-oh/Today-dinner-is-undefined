@@ -74,7 +74,7 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
         label="Favorites"
         icon={<FavoriteIcon />}
         component={Link}
-        to={{ pathname: "userScrap", state: { user: `${userNickName}` } }}
+        to={{ pathname: "userscrap", state: { user: `${userNickName}` } }}
         value="Favorites"
       />
       <BottomNavigationAction
