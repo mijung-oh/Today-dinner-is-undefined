@@ -34,7 +34,6 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
 
   useEffect(() => {
     const { pathname } = location;
-    // console.log(pathname);
     if (pathname.includes("userscrap")) {
       setValue("Favorites");
     } else if (pathname.includes("recommend")) {
@@ -60,8 +59,6 @@ const BottomNav: React.FC<RouteComponentProps<paramsProps>> = ({
   const classes = useStyles();
   const [value, setValue] = React.useState<string>("Home");
   const [userNickName, setUserNickName] = React.useState<string>("");
-  //TODO : 서버 복구 되면 각 기능과 연결하기
-  // console.log("location in bottomNav", location);
 
   return (
     <BottomNavigation
