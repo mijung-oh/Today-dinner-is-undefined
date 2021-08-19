@@ -17,7 +17,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
