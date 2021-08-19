@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
+
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import axios from "axios";
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles((theme) => ({
   roots: {
-    // maxWidth: ,
     display: "flex",
     justifyContent: "center",
   },
@@ -62,18 +57,13 @@ function UserRecipeDetail({ article }) {
   const [user, setUser] = useState(null);
   const authLogin = async () => {
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
     );
     if (auth.data.nickname === "") {
     }
     setUser(auth.data.nickname);
   };
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -83,7 +73,6 @@ function UserRecipeDetail({ article }) {
     const fetchRecipe = async () => {
       try {
         setRecipe(null);
-        // setLoading(true);
         const response = await axios.get(
           `http://i5c207.p.ssafy.io/curation/recipe/getRecipeDetail/${article.recipe_ID}`
         );
@@ -95,7 +84,7 @@ function UserRecipeDetail({ article }) {
     };
     authLogin();
     fetchRecipe();
-  }, []);
+  }, [article.recipe_ID]);
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!recipe) return null;
@@ -167,7 +156,7 @@ function UserRecipeDetail({ article }) {
           />
 
           <CardActions disableSpacing>
-            <a href="/userScrap">
+            <a href="/recipe">
               <IconButton onClick={onToScrap} aria-label="add to favorites">
                 <DeleteForeverIcon />
               </IconButton>
@@ -184,27 +173,33 @@ function UserRecipeDetail({ article }) {
                   fontSize: "13px",
                 }}
               >
-                {recipe.ingredients.map((item) => (
-                  <p paragraph> ▪&nbsp;{item.irdnt_NM} &nbsp; </p>
+                {recipe.ingredients.map((item, index) => (
+                  <span key={index} paragraph>
+                    {" "}
+                    ▪&nbsp;{item.irdnt_NM} &nbsp;{" "}
+                  </span>
                 ))}
               </h3>
               <br />
               <div>
                 <h2>요리 순서</h2>
-                {recipe.process.map((item) => (
+                {recipe.process.map((item, index) => (
                   <Typography
                     style={{
                       fontSize: "14px",
                       maxHeight: "auto",
                       overflow: "auto",
                     }}
+                    key={index}
                   >
                     <h3>Step.{item.cooking_NO}</h3>
                     <img
                       src={item.stre_STEP_IMAGE_URL}
                       style={{ width: "60%" }}
+                      alt=""
+                      width="50%"
                     />
-                    <p>{item.cooking_DC}</p>
+                    <span>{item.cooking_DC}</span>
                   </Typography>
                 ))}
               </div>

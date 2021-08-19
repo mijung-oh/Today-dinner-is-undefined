@@ -15,27 +15,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CommentList({ post_id, user }) {
-  const [comment, setComment] = useState(null);
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
   const classes = useStyles();
   useEffect(() => {
-    const authLogin = async () => {
-      const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
-      );
-      if (auth.data.nickname === "") {
-      }
-      setCurrentUser(auth.data.nickname);
-    };
-    const commentList = async () => {
-      const response = await axios.get(
-        `http://i5c207.p.ssafy.io:9000/curation/post/${post_id}/commentList`
-      );
-      setComment(response.data);
-    };
     const fetchArticle = async () => {
       try {
         setArticle(null);
@@ -51,10 +35,8 @@ function CommentList({ post_id, user }) {
 
       setLoading(false);
     };
-    commentList();
-    authLogin();
     fetchArticle();
-  }, []);
+  }, [post_id]);
 
   const [text, setText] = useState({
     nickname: user,
@@ -79,15 +61,6 @@ function CommentList({ post_id, user }) {
     formData.append("nickname", nickname);
     formData.append("content", content);
     formData.append("postId", postId);
-
-    const authLogin = async () => {
-      const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
-      );
-      if (auth.data.nickname === "") {
-      }
-      setCurrentUser(auth.data.nickname);
-    };
 
     try {
       axios.post(
@@ -118,20 +91,11 @@ function CommentList({ post_id, user }) {
 
       setLoading(false);
     };
-    authLogin();
     fetchArticle();
 
     window.scrollTo = window.scrollY;
   };
   const onDelete = (comment_id) => {
-    const authLogin = async () => {
-      const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
-      );
-      if (auth.data.nickname === "") {
-      }
-      setCurrentUser(auth.data.nickname);
-    };
     axios.delete(
       ` http://i5c207.p.ssafy.io/curation/post/${post_id}/commentList/${comment_id}`
     );
@@ -144,7 +108,6 @@ function CommentList({ post_id, user }) {
         );
 
         setArticle(response.data);
-        authLogin();
       } catch (e) {
         setError(e);
       }

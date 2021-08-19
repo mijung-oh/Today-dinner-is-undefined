@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
@@ -157,7 +153,7 @@ function RecipePage({ allRecipe }) {
   const [user, setUser] = useState("");
   const authLogin = async () => {
     const auth = await axios.get(
-      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/test"
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
     );
     if (auth.data.nickname === "") {
     }
@@ -208,7 +204,7 @@ function RecipePage({ allRecipe }) {
     fetchRecipe();
     authLogin();
     return () => setLoading(false);
-  }, []);
+  }, [allRecipe.recipe_ID]);
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!recipe) return null;
@@ -217,7 +213,7 @@ function RecipePage({ allRecipe }) {
 
     formData.append("nickname", user);
 
-    const response = await axios.post(
+    await axios.post(
       `http://i5c207.p.ssafy.io/curation/scrap/${allRecipe.recipe_ID}`,
       formData,
       {

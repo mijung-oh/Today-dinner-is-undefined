@@ -1,14 +1,10 @@
-import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Avatar } from "@material-ui/core";
-import axios from "axios";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({}));
 function timeForToday(value) {
   const today = new Date();
   const timeValue = new Date(value);
@@ -35,11 +31,6 @@ function timeForToday(value) {
 }
 
 function Media({ article, user }) {
-  const classes = useStyles();
-  const onDelete = (id) => {
-    axios.delete(`http://i5c207.p.ssafy.io/curation/post/${id}`);
-  };
-
   return (
     <Grid
       container
@@ -70,6 +61,7 @@ function Media({ article, user }) {
                   borderRadius: 10,
                 }}
                 src={item.imagePath}
+                alt="#"
               />
             </Link>
           ) : (
