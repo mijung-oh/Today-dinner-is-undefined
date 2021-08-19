@@ -6,6 +6,7 @@ import gif from "./images/123.gif";
 import { loginAlert } from "./Alert";
 function ArticleDetail({ match, history }) {
   const post_id = match.params.id;
+  const prevState = history.location.state;
 
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ function ArticleDetail({ match, history }) {
   useEffect(() => {
     const authLogin = async () => {
       const auth = await axios.get(
-        "http://i5c207.p.ssafy.io:9000/curation/currentLogin/"
+        "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
       );
       if (auth.data.nickname === "") {
         loginAlert();
@@ -38,7 +39,7 @@ function ArticleDetail({ match, history }) {
     };
     authLogin();
     fetchArticle();
-  }, [post_id]);
+  }, []);
   if (loading)
     return (
       <div
@@ -48,7 +49,7 @@ function ArticleDetail({ match, history }) {
           marginTop: "300px",
         }}
       >
-        <img src={gif} width="100px" alt="#" />
+        <img src={gif} width="100px" />
       </div>
     );
   if (error) return <div>에러가 발생했습니다</div>;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Update from "../page/Update";
+import { history } from "react-router-dom";
 
 function ArticleUpdate({ history, match }) {
   const prevState = history.location.state;
@@ -49,10 +50,7 @@ function ArticleUpdate({ history, match }) {
     formData.append("description", description);
 
     postfiles?.file.map((eachfile) => {
-      return formData.append(
-        "files",
-        new Blob([eachfile], { type: "image/png" })
-      );
+      formData.append("files", new Blob([eachfile], { type: "image/png" }));
     });
 
     try {

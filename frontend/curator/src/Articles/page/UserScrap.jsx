@@ -7,11 +7,20 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 function UserScrap({ history }) {
   const prevState = history.location.state;
+  const [user, setUser] = useState("");
   const [scrap, setScrap] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const authLogin = async () => {
+    const auth = await axios.get(
+      "http://i5c207.p.ssafy.io:9000/curation/currentLogin"
+    );
+    if (auth.data.nickname === "") {
+    }
+    setUser(auth.data.nickname);
+  };
   useEffect(() => {
+    authLogin();
     const fetchArticles = async () => {
       try {
         setLoading(true);
@@ -20,13 +29,14 @@ function UserScrap({ history }) {
           `http://i5c207.p.ssafy.io/curation/scrap/${prevState.user}/recipeList`
         );
         setScrap(response.data);
+        authLogin();
       } catch (e) {
         setError(e);
       }
       setLoading(false);
     };
     fetchArticles();
-  }, [prevState.user]);
+  }, []);
 
   if (loading) return <div>로딩중..</div>;
   if (error) return error.message;
@@ -43,9 +53,9 @@ function UserScrap({ history }) {
         width: "100%",
       }}
     >
-      {scrap.map((item, keyindex) => (
+      {scrap.map((item) => (
         <Box
-          key={keyindex}
+          key={item.id}
           width={300}
           marginRight={2}
           my={4}
@@ -53,18 +63,10 @@ function UserScrap({ history }) {
           style={{ marginBottom: "3px" }}
         >
           {item ? (
-            <Link
-              to={{
-                pathname: `/userRecipe/detail/${item.recipe_ID}`,
-                state: {
-                  user: prevState.user,
-                },
-              }}
-            >
+            <Link to={`/userRecipe/detail/${item.recipe_ID}`}>
               <img
                 style={{ width: 300, height: 370, borderRadius: 10 }}
                 src={item.img_URL}
-                alt=""
               />
             </Link>
           ) : (
