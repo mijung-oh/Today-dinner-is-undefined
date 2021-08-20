@@ -104,7 +104,7 @@ function Create({
             </AccordionDetails>
           </Accordion>
         </div>
-        <div>
+        <form onSubmit={() => onCreate()} action={`/articles/detail/${postId}`}>
           <div>
             <TextField
               onChange={onChange}
@@ -148,10 +148,9 @@ function Create({
               required
             />
           </div>
-          <a href={`/articles/detail/${postId}`}>
-            <button onClick={onCreate}>등록</button>
-          </a>
-        </div>
+
+          <button>등록</button>
+        </form>
       </div>
     </div>
   );

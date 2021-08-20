@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import gif from "./images/123.gif";
 import Media from "../page/Home";
+import { loginAlert } from "./Alert";
 function ArticleHome() {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,7 @@ function ArticleHome() {
       config
     );
     if (auth.data.nickname === "") {
+      loginAlert();
     }
     setUser(auth.data.nickname);
   };

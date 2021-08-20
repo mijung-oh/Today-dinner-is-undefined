@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Create from "../page/Create";
+import { loginAlert } from "./Alert";
 function ArticleCreate({ history }) {
   const config = {
     withCredentials: true,
@@ -12,6 +13,7 @@ function ArticleCreate({ history }) {
       config
     );
     if (auth.data.nickname === "") {
+      loginAlert();
     }
   };
   authLogin();
