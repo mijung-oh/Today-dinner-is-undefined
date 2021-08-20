@@ -104,7 +104,7 @@ function Create({
             </AccordionDetails>
           </Accordion>
         </div>
-        <form onSubmit={() => onCreate()} action={`/articles/detail/${postId}`}>
+        <form onSubmit={() => onCreate()} action={`/articles`}>
           <div>
             <TextField
               onChange={onChange}

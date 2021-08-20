@@ -227,7 +227,7 @@ function DetailPage({ article, onDelete, user, currentUser }) {
                 {article.user.nickname === user ? <EditIcon /> : null}
               </IconButton>
             </Link>
-            <IconButton aria-label="delete" onClick={onDelete}>
+            <IconButton aria-label="delete" onClick={() => onDelete(post_id)}>
               {article.user.nickname === user ? <DeleteForeverIcon /> : null}
             </IconButton>
           </CardActions>
