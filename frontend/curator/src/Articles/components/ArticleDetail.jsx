@@ -3,7 +3,6 @@ import axios from "axios";
 import DetailPage from "../page/DetailPage";
 import gif from "./images/123.gif";
 
-import { loginAlert } from "./Alert";
 function ArticleDetail({ match, history }) {
   const post_id = match.params.id;
   const prevState = history.location.state;
@@ -22,7 +21,6 @@ function ArticleDetail({ match, history }) {
         config
       );
       if (auth.data.nickname === "") {
-        loginAlert();
       }
       setUser(auth.data.nickname);
     };

@@ -3,7 +3,6 @@ import axios from "axios";
 import useIntersect from "./useintersect";
 import RecipePage from "../page/RecipePage";
 import gif from "./images/123.gif";
-import { loginAlert } from "./Alert";
 
 const fakeFetch = (delay = 1000) =>
   new Promise((res) => setTimeout(res, delay));
@@ -21,7 +20,6 @@ function RecipeList() {
         config
       );
       if (auth.data.nickname === "") {
-        loginAlert();
       }
     };
     const fetchPosts = async () => {
@@ -44,7 +42,7 @@ function RecipeList() {
     setState((prev) => ({ ...prev, isLoading: true }));
     await fakeFetch();
     setState((prev) => ({
-      itemCount: prev.itemCount + 6,
+      itemCount: prev.itemCount + 5,
       isLoading: false,
     }));
   };
