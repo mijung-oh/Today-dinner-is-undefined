@@ -8,7 +8,9 @@
 
 ![오미정-removebg-preview](./ReadmeImage/오미정-removebg-preview.png)
 
-** 이 위치에 움짤이 들어갈 예정입니다 **
+
+
+![main](./ReadmeImage/main.gif)
 
 
 
@@ -41,7 +43,7 @@
 
 ## Gitflow 규칙
 
-![image](/uploads/89fd30a98ed1ecef071a8c7bcf6f6690/image.png)
+![image](./ReadmeImage/rules.png)
 
 
 
@@ -87,7 +89,6 @@
 - __Database__ : MySQL / MariaDB
 - __담당자__ : 김수혁 / 류지우 / 오미정
   <br>
-  
 #### DevOps
 
 - __Tool__ : Jenkins, Docker, Git
@@ -114,9 +115,9 @@ __자체 제작 산출물__ (필요시 이미지 또는 설명 첨부)
 
 
 
-| 스토리보드                   | 웹툰                                                         | UCC  |
-| ---------------------------- | ------------------------------------------------------------ | ---- |
-| ![](./readmeImage/story.PNG) | <img src="./ReadmeImage/webtoon.jpg" alt="웹툰3" style="zoom:50%;" /> |      |
+| 스토리보드                   | 웹툰                                                         | UCC                                                          |
+| ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![](./readmeImage/story.PNG) | <img src="./ReadmeImage/webtoon.jpg" alt="웹툰3" style="zoom:50%;" /> | <img src="./ReadmeImage/ucc.png" alt="ucc" style="zoom:60%;" /> |
 
 * 담당자 : 이동윤/ 이원종 / 오미정
 
