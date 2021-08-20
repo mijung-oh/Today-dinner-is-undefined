@@ -41,7 +41,7 @@
 
 ## Gitflow 규칙
 
-![image-20210721132452268](image-20210721132452268-1626841494556.png)
+![image](/uploads/89fd30a98ed1ecef071a8c7bcf6f6690/image.png)
 
 
 
