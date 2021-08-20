@@ -87,6 +87,12 @@
 - __Database__ : MySQL / MariaDB
 - __담당자__ : 김수혁 / 류지우 / 오미정
   <br>
+  
+#### DevOps
+
+- __Tool__ : Jenkins, Docker, Git
+- __담당자__ : 김수혁
+  <br>
 
 #### Design
 
