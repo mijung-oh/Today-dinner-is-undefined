@@ -148,7 +148,7 @@ function Create({
               required
             />
           </div>
-          <a href={`/detail/${postId}`}>
+          <a href={`/articles/detail/${postId}`}>
             <button onClick={onCreate}>등록</button>
           </a>
         </div>
