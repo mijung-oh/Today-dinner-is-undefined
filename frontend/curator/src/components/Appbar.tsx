@@ -9,7 +9,8 @@ import {
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserInfo } from "../modules/clientLogin";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -129,6 +130,7 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
     });
   };
   IdCheck();
+  const dispatch = useDispatch();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -182,6 +184,10 @@ const Appbar: React.FC<RouteComponentProps<paramsProps>> = ({
   };
   const logout = async () => {
     await axios.get(LOGOUT_URL);
+    const name = "";
+    const email = "";
+    const nickname = "";
+    dispatch(getUserInfo(name, email, nickname));
     history.push("/");
   };
 
